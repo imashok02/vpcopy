@@ -110,6 +110,12 @@ class Subcategories extends BE_Controller {
 		 */
 		$data = array();
 
+		 // Main Category id
+	    if ( $this->has_data( 'main_cat_id' )) {
+			$data['main_cat_id'] = $this->get_data( 'main_cat_id' );
+
+		}
+
 	    // Category id
 	    if ( $this->has_data( 'cat_id' )) {
 			$data['cat_id'] = $this->get_data( 'cat_id' );
@@ -200,6 +206,17 @@ class Subcategories extends BE_Controller {
 
 		redirect( $this->module_site_url());
 	}
+
+	//get all categories when select main category
+	function get_all_main_categories( $main_cat_id )
+    {
+
+    	$this->db->select('*');
+	    $this->db->from('bs_categories');
+	    $this->db->where('bs_categories.main_cat_id', $main_cat_id);
+	    $query = $this->db->get();       
+		echo json_encode($query->result());
+    }
 	
 /**
 	 * Delete the record

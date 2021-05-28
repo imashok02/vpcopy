@@ -3,6 +3,7 @@
 		<tr>
 			<th><?php echo get_msg('no'); ?></th>
 			<th><?php echo get_msg('subcat_name'); ?></th>
+			<th><?php echo get_msg('main_cat_name'); ?></th>
 			<th><?php echo get_msg('cat_name'); ?></th>
 			
 			<?php if ( $this->ps_auth->has_access( EDIT )): ?>
@@ -34,6 +35,7 @@
 			<tr>
 				<td><?php echo ++$count;?></td>
 				<td><?php echo $subcategory->name;?></td>
+				<td><?php echo $this->Maincategory->get_one( $subcategory->main_cat_id )->main_cat_name; ?></td>
 				<td><?php echo $this->Category->get_one( $subcategory->cat_id )->cat_name; ?></td>
 
 				<?php if ( $this->ps_auth->has_access( EDIT )): ?>

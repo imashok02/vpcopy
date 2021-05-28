@@ -11,14 +11,71 @@
 
 			<form role="form">
         		<div class="card-body">
-					<div class="row">
+					<div class="col-md-5">
+            		<div class="form-group">
+								<label> <span style="font-size: 17px; color: red;">*</span>
+									<?php echo get_msg('Prd_search_main_cat')?>
+								</label>
+
+								<?php
+									$options=array();
+									$options[0]=get_msg('Prd_search_main_cat');
+									$categories = $this->Maincategory->get_all();
+										foreach($categories->result() as $cat) {
+											$options[$cat->main_cat_id]=$cat->main_cat_name;
+									}
+
+									echo form_dropdown(
+										'main_cat_id',
+										$options,
+										set_value( 'main_cat_id', show_data( @$subcategory->main_cat_id), false ),
+										'class="form-control form-control-sm mr-3" id="main_cat_id"'
+									);
+								?>
+							</div>
+							</div>
+
+
+
+				<div class="col-md-5">
 						<div class="col-md-5">
 							<div class="form-group">
 								<label> <span style="font-size: 17px; color: red;">*</span>
 									<?php echo get_msg('Prd_search_cat')?>
 								</label>
 
-								<?php
+								 <?php
+					                if(isset($item)) {
+					                  $options=array();
+					                  $options[0]=get_msg('Prd_search_subcat');
+					                  $conds['main_cat_id'] = $item->main_cat_id;
+					                  $cat = $this->Category->get_all_by($conds);
+					                  foreach($cat->result() as $subcat) {
+					                    $options[$subcat->cat_id]=$subcat->cat_name;
+					                  }
+					                  echo form_dropdown(
+					                    'cat_id',
+					                    $options,
+					                    set_value( 'cat_id', show_data( @$item->cat_id), false ),
+					                    'class="form-control form-control-sm mr-3" id="cat_id"'
+					                  );
+
+					                } else {
+					                  $conds['main_cat_id'] = $selected_cat_id;
+					                  $options=array();
+					                  $options[0]=get_msg('Prd_search_subcat');
+
+					                  echo form_dropdown(
+					                    'cat_id',
+					                    $options,
+					                    set_value( 'cat_id', show_data( @$item->cat_id), false ),
+					                    'class="form-control form-control-sm mr-3" id="cat_id"'
+					                  );
+					                }
+
+					              ?>
+
+								<!-- <?php
 									$options=array();
 									$options[0]=get_msg('Prd_search_cat');
 									$categories = $this->Category->get_all();
@@ -32,7 +89,7 @@
 										set_value( 'cat_id', show_data( @$subcategory->cat_id), false ),
 										'class="form-control form-control-sm mr-3" id="cat_id"'
 									);
-								?>
+								?> -->
 
 							</div>
 

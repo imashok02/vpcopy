@@ -119,6 +119,12 @@ class Categories extends BE_Controller {
 		 */
 		$data = array();
 
+		 // Main Category id
+	    if ( $this->has_data( 'main_cat_id' )) {
+			$data['main_cat_id'] = $this->get_data( 'main_cat_id' );
+
+		}
+
 		// prepare cat name
 		if ( $this->has_data( 'cat_name' )) {
 			$data['cat_name'] = $this->get_data( 'cat_name' );

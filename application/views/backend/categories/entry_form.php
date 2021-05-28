@@ -11,6 +11,31 @@
         <!-- /.card-header -->
         <div class="card-body">
             <div class="row">
+            	<div class="col-md-6">
+            		<div class="form-group">
+								<label> <span style="font-size: 17px; color: red;">*</span>
+									<?php echo get_msg('Prd_search_main_cat')?>
+								</label>
+
+								<?php
+									$options=array();
+									$options[0]=get_msg('Prd_search_main_cat');
+									$categories = $this->Maincategory->get_all();
+										foreach($categories->result() as $cat) {
+											$options[$cat->main_cat_id]=$cat->main_cat_name;
+									}
+
+									echo form_dropdown(
+										'main_cat_id',
+										$options,
+										set_value( 'main_cat_id', show_data( @$category->main_cat_id), false ),
+										'class="form-control form-control-sm mr-3" id="cat_id"'
+									);
+								?>
+
+							</div>
+
+            	</div>
              	<div class="col-md-6">
             		<div class="form-group">
                    		<label>
@@ -31,6 +56,7 @@
               		</div>
 
               	</div>
+              	
 
                 <div class="col-md-6"  style="padding-left: 50px;">
 	                <?php if ( !isset( $category )): ?>

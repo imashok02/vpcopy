@@ -73,6 +73,17 @@ class Item extends PS_Model {
 			}			
 		}
 
+		// main category id condition
+		if ( isset( $conds['main_cat_id'] )) {
+
+
+			if ($conds['main_cat_id'] != "" || $conds['main_cat_id'] != 0) {
+
+				$this->db->where( 'main_cat_id', $conds['main_cat_id'] );	
+
+			}			
+		}
+
 		//  sub category id condition 
 		if ( isset( $conds['sub_cat_id'] )) {
 			

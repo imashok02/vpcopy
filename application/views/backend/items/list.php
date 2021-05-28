@@ -3,6 +3,7 @@
 		<tr>
 			<th><?php echo get_msg('no'); ?></th>
 			<th><?php echo get_msg('item_name'); ?></th>
+			<th><?php echo get_msg('main_cat_name'); ?></th>
 			<th><?php echo get_msg('cat_name'); ?></th>
 			<th><?php echo get_msg('subcat_name'); ?></th>
 			<th><?php echo get_msg('owner_name'); ?></th>
@@ -38,6 +39,7 @@
 			<tr>
 				<td><?php echo ++$count;?></td>
 				<td><?php echo $item->title;?></td>
+				<td><?php echo $this->Maincategory->get_one( $item->main_cat_id )->main_cat_name; ?></td>
 				<td><?php echo $this->Category->get_one( $item->cat_id )->cat_name; ?></td>
 				<td><?php echo $this->Subcategory->get_one( $item->sub_cat_id )->name; ?></td>
 				<td><?php echo $this->User->get_one( $item->added_user_id )->user_name; ?></td>

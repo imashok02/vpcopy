@@ -27,6 +27,20 @@ class Feed extends PS_Model {
 			$this->db->where( 'status', 1 );
 		}
 
+		// main category id condition
+		if ( isset( $conds['main_cat_id'] )) {
+
+
+			if ($conds['main_cat_id'] != "" || $conds['main_cat_id'] != 0) {
+		// 		echo "<pre>";
+		// print_r($conds['main_cat_id']);
+		// exit();
+
+				$this->db->where( 'main_cat_id', $conds['main_cat_id'] );	
+
+			}			
+		}
+
 		// feed_name condition
 		if ( isset( $conds['name'] )) {
 			$this->db->where( 'name', $conds['name'] );

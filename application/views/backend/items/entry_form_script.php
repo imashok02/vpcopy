@@ -119,6 +119,28 @@
 					}
 				});
 			});
+
+		$('#main_cat_id').on('change', function() {
+
+				var value = $('option:selected', this).text().replace(/Value\s/, '');
+
+				var main_catId = $(this).val();
+
+				$.ajax({
+					url: '<?php echo $module_site_url . '/get_all_main_categories/';?>' + main_catId,
+					method: 'GET',
+					dataType: 'JSON',
+					success:function(data){
+						console.log(data);
+						$('#cat_id').html("");
+						$.each(data, function(i, obj){
+						    $('#cat_id').append('<option value="'+ obj.cat_id +'">' + obj.cat_name+ '</option>');
+						});
+						$('#cat_name').val($('#cat_name').val() + " ").blur();
+						$('#cat_id').trigger('change');
+					}
+				});
+			});
         
 		 $(function() {
 			var selectedClass = "";

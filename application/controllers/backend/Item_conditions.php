@@ -117,6 +117,12 @@ class Item_conditions extends BE_Controller {
 		 */
 		$data = array();
 
+		// Main Category id
+	    if ( $this->has_data( 'main_cat_id' )) {
+			$data['main_cat_id'] = $this->get_data( 'main_cat_id' );
+
+		}
+
 		// prepare cat name
 		if ( $this->has_data( 'name' )) {
 			$data['name'] = $this->get_data( 'name' );
