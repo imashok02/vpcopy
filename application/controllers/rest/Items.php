@@ -44,6 +44,10 @@ class Items extends API_Controller
 				$conds['searchterm']   = $this->post('searchterm');
 			}
 
+			if($this->post('main_cat_id') != "") {
+				$conds['main_cat_id']   = $this->post('main_cat_id');
+			}
+
 			if($this->post('brand_id') != "") {
 				$conds['brand_id']   = $this->post('brand_id');
 			}
