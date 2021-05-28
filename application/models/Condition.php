@@ -31,6 +31,28 @@ class Condition extends PS_Model {
 			$this->db->where( 'id', $conds['id'] );
 		}
 
+		// category id condition
+		if ( isset( $conds['cat_id'] )) {
+
+			if ($conds['cat_id'] != "") {
+				if($conds['cat_id'] != '0'){
+					$this->db->where( 'cat_id', $conds['cat_id'] );	
+				}
+
+			}			
+		}
+
+		// main category id condition
+		if ( isset( $conds['main_cat_id'] )) {
+
+
+			if ($conds['main_cat_id'] != "" || $conds['main_cat_id'] != 0) {
+
+				$this->db->where( 'main_cat_id', $conds['main_cat_id'] );	
+
+			}			
+		}
+
 		// name condition
 		if ( isset( $conds['name'] )) {
 			$this->db->where( 'name', $conds['name'] );
