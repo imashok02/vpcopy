@@ -1,0 +1,43 @@
+ALTER TABLE bs_item_locations add COLUMN `addressLine` varchar(255), add COLUMN `countryName` varchar(255), add COLUMN `countryCode` varchar(255), add COLUMN `featureName` varchar(255), add COLUMN `postalCode` varchar(255), add COLUMN `city` varchar(255), add COLUMN `subLocality` varchar(255), add COLUMN `adminArea` varchar(255),add COLUMN `subAdminArea` varchar(255), add COLUMN `thoroughfare` varchar(255),add COLUMN `subThoroughfare` varchar(255);
+
+
+ALTER TABLE `bs_item_locations` ADD UNIQUE(`lat`);
+ALTER TABLE `bs_item_locations` ADD UNIQUE(`lng`);
+
+server {
+        server_name _;
+
+        root /var/www/html/vpadmin;
+        index index.html index.php;
+
+        # set expiration of assets to MAX for caching
+        location ~* \.(ico|css|js|gif|jpe?g|png)(\?[0-9]+)?$ {
+                expires max;
+                log_not_found off;
+        }
+
+        location / {
+                # Check if a file or directory index file exists, else route it to >
+                try_files $uri $uri/ /index.php;
+        }
+
+        location ~* \.php$ {
+                fastcgi_pass 127.0.0.1:9000;
+                include fastcgi.conf;
+        }
+
+
+        location ~ /\.ht {
+                deny all;
+        }
+}
+
+
+
+sudo apt update
+sudo apt upgrade -y
+sudo apt install nginx -y
+sudo apt install php -y
+sudo apt install mysql-server -y
+
+scp sql file 

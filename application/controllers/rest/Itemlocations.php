@@ -38,6 +38,45 @@ class Itemlocations extends API_Controller
 
 			//$setting = $this->Api->get_one_by( array( 'api_constant' => SEARCH_WALLPAPERS ));
 
+			if ($this->post('curr_location')) {
+				//error_log( $this->post('curr_location'), 3, "/var/www/html/vpadmin/application/logs/ash.log");
+				$json1 = html_entity_decode($this->post('curr_location'));
+				$json = json_decode($json1);
+				error_log( $json->locality, 3, "/var/www/html/vpadmin/application/logs/ash.log");
+
+				$loc = array(
+			  		'name' => $json->locality,
+		        	'ordering' => 1,
+		        	'lat' => $json->coordinates->latitude,
+		        	'lng' => $json->coordinates->longitude,
+		        	'status' => 1,
+		        	'addressLine' => $json->addressLine,
+		        	'countryName' => $json->countryName,
+		        	'countryCode' => $json->countryCode,
+		        	'featureName' => $json->featureName,
+		        	'postalCode' => $json->postalCode,
+		        	'city' => $json->locality,
+		        	'subLocality' => $json->subLocality,
+		        	'adminArea' => $json->adminArea,
+		        	'subAdminArea' => $json->subAdminArea,
+		        	'thoroughfare' => $json->thoroughfare,
+		        	'subThoroughfare' => $json->subThoroughfare
+			  	);
+
+				try {
+					$this->Itemlocation->save($loc);
+				} catch(Exception $e) {
+					echo 'Message: ' .$e->getMessage();
+				}
+
+				$conds['keyword']   = $json->locality;
+				$conds['order_by'] = 1;
+				$conds['order_by_field']    = $this->post('order_by');
+				$conds['order_by_type']     = $this->post('order_type');
+				return $conds;
+
+			}
+			error_log( "location saved", 3, "/var/www/html/vpadmin/application/logs/ash.log");
 			if($this->post('keyword') != "") {
 				$conds['keyword']   = $this->post('keyword');
 			}
@@ -45,12 +84,12 @@ class Itemlocations extends API_Controller
 			$conds['order_by'] = 1;
 			$conds['order_by_field']    = $this->post('order_by');
 			$conds['order_by_type']     = $this->post('order_type');
-				
+
 		}
 
 		return $conds;
 	}
-	
+
 
 	/**
 	 * Convert Object
