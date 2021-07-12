@@ -3,6 +3,10 @@ ALTER TABLE bs_item_locations add COLUMN `addressLine` varchar(255), add COLUMN 
 
 ALTER TABLE `bs_item_locations` ADD UNIQUE(`lat`);
 ALTER TABLE `bs_item_locations` ADD UNIQUE(`lng`);
+ALTER TABLE `bs_items` ADD `payment_type` TINYINT(1) NOT NULL AFTER `dynamic_link`;
+
+ALTER TABLE bs_paid_items_history ADD end_timestamp DOUBLE NOT NULL AFTER start_timestamp;
+
 
 server {
         server_name _;

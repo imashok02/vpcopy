@@ -85,14 +85,29 @@ class Paid_items extends API_Controller
 		$start_timestamp = $this->post('start_timestamp');
 		$date = date("Y-m-d H:i:s");
         $temp_start_date = date("Y-m-d H:i:s", substr($start_timestamp, 0, 10));
+        
+        log_message('error', "start date ==> ".$start_date);
 
         $vardate = explode(' ',$temp_start_date,2);
 
         $convert_start_date = $vardate[0];
+
+        // when day value comes less than 1, we assume the time is in minutes.
+        // So we multiply the time by 1440.(in a day there are 1440 minutes)
+
+        if ($day < 1) {
+        	$day = floor($day * 1440);
+        	$temp_end_date = date('Y-m-d H:i:s', strtotime($temp_start_date. ' + '.$day.' minutes'));
+        } else {
+        	$temp_end_date = date('Y-m-d H:i:s', strtotime($temp_start_date. ' + '.$day.' day'));
+        }
         
-	  	$temp_end_date = date('Y-m-d H:i:s', strtotime($temp_start_date. ' + '.$day.' day'));
+        log_message('error', "temp_end_date ==> ".$temp_end_date);
+
 	  	$varenddate = explode(' ',$temp_end_date,2);
-	  	$end_date = $varenddate[0];
+	  	// $end_date = $varenddate[0];
+	  	
+	  	log_message('error', "end_date ==> ".$end_date);
 	  	//print_r($end_date);die;
 
 	  	$d = DateTime::createFromFormat('Y-m-d H:i:s', $temp_end_date);
@@ -216,9 +231,17 @@ class Paid_items extends API_Controller
 
 			$in_app_purchase_result = 1;
 
+		} else if($this->post( 'payment_method' ) == "ad") {
+
+			//User Using COD 
+			$payment_method = "rewarded_ads";
+
+
+			$ad_watched_result = 1;
+
 		}
 		
-		if( $paypal_result == 1 || $stripe_result == 1  || $razor_result == 1 || $paystack_result == 1 || $in_app_purchase_result == 1 ) {
+		if( $paypal_result == 1 || $stripe_result == 1  || $razor_result == 1 || $paystack_result == 1 || $in_app_purchase_result == 1 || $ad_watched_result) {
 			$item_id = $this->post('item_id');
 			$item_data = array(
 				"is_paid" => "1"
