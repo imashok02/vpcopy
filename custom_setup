@@ -7,6 +7,8 @@ ALTER TABLE `bs_items` ADD `payment_type` TINYINT(1) NOT NULL AFTER `dynamic_lin
 
 ALTER TABLE bs_paid_items_history ADD end_timestamp DOUBLE NOT NULL AFTER start_timestamp;
 
+ALTER TABLE `bs_item_locations` ADD INDEX(`name`);
+
 
 server {
         server_name _;
