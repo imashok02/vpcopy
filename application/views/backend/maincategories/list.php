@@ -2,6 +2,7 @@
 	<table class="table m-0 table-striped">
 		<tr>
 			<th><?php echo get_msg('no'); ?></th>
+			<th><?php echo get_msg('id'); ?></th>
 			<th><?php echo get_msg('cat_name'); ?></th>
 
 			<?php if ( $this->ps_auth->has_access( EDIT )): ?>
@@ -34,6 +35,7 @@
 			<!-- <?php echo "<pre>"; print_r($categories);  ?> -->
 			<tr>
 				<td><?php echo ++$count;?></td>
+				<td><?php echo $category->main_cat_id;?></td>
 				<td ><?php echo $category->main_cat_name;?></td>
 
 				<?php $default_photo = get_default_photo( $category->main_cat_id, 'category-icon' ); ?>	

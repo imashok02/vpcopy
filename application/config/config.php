@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost:8888/multi-store-admin/';
+$config['base_url'] = '';
 
 if ( strlen( substr($_SERVER['REQUEST_URI'], 0, stripos($_SERVER['REQUEST_URI'], "index.php" ))) == 0) {
 	$config['base_url'] = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];

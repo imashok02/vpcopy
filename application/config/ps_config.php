@@ -14,7 +14,7 @@ $config['reset_url'] = "reset_email";
 $config['themes'] = array( 'default', 'green', 'blue', 'orange', 'blue-grey' );
 
 /** System Email */
-$config['version_no'] = "2.5"; 
+$config['version_no'] = "0.1"; 
 
 /** Validation */
 $config['client_side_validation'] = true;

@@ -50,7 +50,7 @@
 <!-- Automatic element centering -->
 <div class="lockscreen-wrapper" style="max-width: 800px;">
   <div class="lockscreen-logo" >
-    <b>404</b> -  Oops!, your requested page not found.</a>
+    <b>404</b> -  Oh!!!! That's not available here.</a>
   </div>
   <!-- User name -->
  <br><br>
@@ -61,9 +61,9 @@
 
 
 
-    <div class="lockscreen-image">
+   <!--  <div class="lockscreen-image">
       <img src="<?php echo img_url( "wp_logo_1.png" ); ?>" alt="User Image">
-    </div>
+    </div> -->
     <!-- /.lockscreen-image -->
 
     <!-- lockscreen credentials (contains the form) -->
@@ -86,7 +86,7 @@
   <!-- /.lockscreen-item -->
   <br><br>
   <div class="lockscreen-footer text-center">
-    Copyright &copy; 2014-2019 <b><a href="http://panacea-soft.com" class="text-black">Panacea-Soft</a></b><br>
+    Copyright &copy; 2021<b><a href="http://vegpuf.com " class="text-black">Vegpuf</a></b><br>
     All rights reserved
   </div>
 </div>
