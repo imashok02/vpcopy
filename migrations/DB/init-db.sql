@@ -5552,6 +5552,11 @@ CREATE TABLE `bs_main_categories` (
   `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+INSERT INTO `bs_main_categories` (`main_cat_id`, `main_cat_name`, `status`, `added_date`) VALUES
+('main_cat58b486f4d5d984923cbce32b6cf7f08f', 'Things', 1, CURRENT_TIMESTAMP()),
+('main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'Property', 1, CURRENT_TIMESTAMP()),
+('main_cate0100cee3c7f4245b103936161f6f6cc', 'Services', 1, CURRENT_TIMESTAMP());
+
 -- --------------------------------------------------------
 
 --
