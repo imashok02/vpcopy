@@ -353,7 +353,6 @@ class API_Controller extends REST_Controller
 		}
 
 		$data = $this->ps_security->clean_output( $data );
-
 		$this->response( $data );
 	}
 
@@ -483,7 +482,7 @@ class API_Controller extends REST_Controller
 		$default_conds = $this->default_conds();
 		$user_conds = $this->get();
 		$conds = array_merge( $default_conds, $user_conds );
-
+		
 		if ( $limit ) {
 			unset( $conds['limit']);
 		}

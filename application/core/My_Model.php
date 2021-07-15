@@ -81,7 +81,7 @@ class PS_Model extends CI_Model {
      * @param      boolean  $id     The identifier
      */
 	function save( &$data, $id = false ) {
-		//print_r($data);die;
+		// print_r($data);die;
 		if ( !$id ) {
 		// if id is not false and id is not yet existed,
 			if ( !empty( $this->primary_key ) && !empty( $this->key_prefix )) {

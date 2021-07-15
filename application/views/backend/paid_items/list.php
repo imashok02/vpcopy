@@ -2,6 +2,7 @@
 	<table class="table m-0 table-striped">
 		<tr>
 			<th><?php echo get_msg('no'); ?></th>
+			<th><?php echo get_msg('id'); ?></th>
 			<th><?php echo get_msg('item_name'); ?></th>
 			<th><?php echo get_msg('cat_name'); ?></th>
 			<th><?php echo get_msg('subcat_name'); ?></th>
@@ -20,9 +21,10 @@
 	<?php if ( !empty( $paid_items ) && count( $paid_items->result()) > 0 ): ?>
 
 		<?php foreach($paid_items->result() as $item): ?>
-			
+
 			<tr>
 				<td><?php echo ++$count;?></td>
+				<td><?php echo $item->id;?></td>
 				<td><?php echo $item->title;?></td>
 				<td><?php echo $this->Category->get_one( $item->cat_id )->cat_name; ?></td>
 				<td><?php echo $this->Subcategory->get_one( $item->sub_cat_id )->name; ?></td>

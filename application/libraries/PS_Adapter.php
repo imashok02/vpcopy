@@ -189,6 +189,16 @@ class PS_Adapter {
 			$obj->sub_category = $tmp_sub_category;
 		}
 
+		// Price Quantity Object
+
+		if ( isset( $obj->price_qty_id )) {
+			$tmp_price_qty = $this->CI->Pricequantity->get_one( $obj->price_qty_id );
+
+			$this->convert_price_quantity( $tmp_price_qty );
+
+			$obj->price_qty = $tmp_price_qty;
+		}
+
 		// Itemtype Object
 		if ( isset( $obj->item_type_id )) {
 
@@ -720,6 +730,17 @@ class PS_Adapter {
 	{
 		// set default photo
 		$obj->default_photo = $this->get_default_photo( $obj->id, 'sub_category' );
+	}
+
+	/**
+	 * Customize request price_quantity object
+	 *
+	 * @param      <type>  $obj    The object
+	 */
+	function convert_price_quantity( &$obj )
+	{
+		// set default photo
+		$obj->default_photo = $this->get_default_photo( $obj->id, 'price_quantity' );
 	}
 
 	/*

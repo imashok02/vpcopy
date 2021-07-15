@@ -2,6 +2,7 @@
 	<table class="table m-0 table-striped">
 		<tr>
 			<th><?php echo get_msg('no'); ?></th>
+			<th><?php echo get_msg('id'); ?></th>
 			<th><?php echo get_msg('currency_short_form'); ?></th>
 			<th><?php echo get_msg('currency_symbol'); ?></th>
 			
@@ -34,6 +35,7 @@
 			
 			<tr>
 				<td><?php echo ++$count;?></td>
+				<td><?php echo $currency->id;?></td>
 				<td ><?php echo $currency->currency_short_form;?></td>
 				<td ><?php echo $currency->currency_symbol;?></td>
 

@@ -2,6 +2,7 @@
 	<table class="table m-0 table-striped">
 		<tr>
 			<th><?php echo get_msg('no'); ?></th>
+			<th><?php echo get_msg('id'); ?></th>
 			<th><?php echo get_msg('type_name'); ?></th>
 			<th><?php echo get_msg('main_cat_name'); ?></th>
 			
@@ -34,6 +35,7 @@
 			
 			<tr>
 				<td><?php echo ++$count;?></td>
+				<td ><?php echo $type->id;?></td>
 				<td ><?php echo $type->name;?></td>
 				<td><?php echo $this->Maincategory->get_one( $type->main_cat_id )->main_cat_name; ?></td>
 

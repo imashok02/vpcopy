@@ -2,9 +2,8 @@
 	<table class="table m-0 table-striped">
 		<tr>
 			<th><?php echo get_msg('no'); ?></th>
-			<th><?php echo get_msg('id'); ?></th>
-			<th><?php echo get_msg('condition_name'); ?></th>
-			<th><?php echo get_msg('main_cat_name'); ?></th>
+			<th><?php echo get_msg('Main_cat_id'); ?></th>
+			<th><?php echo get_msg('price_name'); ?></th>
 			
 			<?php if ( $this->ps_auth->has_access( EDIT )): ?>
 				
@@ -29,20 +28,19 @@
 	
 	<?php $count = $this->uri->segment(4) or $count = 0; ?>
 
-	<?php if ( !empty( $conditions ) && count( $conditions->result()) > 0 ): ?>
+	<?php if ( !empty( $prices ) && count( $prices->result()) > 0 ): ?>
 
-		<?php foreach($conditions->result() as $cond): ?>
+		<?php foreach($prices->result() as $price): ?>
 			
 			<tr>
 				<td><?php echo ++$count;?></td>
-				<td ><?php echo $cond->id;?></td>
-				<td ><?php echo $cond->name;?></td>
-				<td><?php echo $this->Maincategory->get_one( $cond->main_cat_id )->main_cat_name; ?></td>
+				<td ><?php echo $price->main_cat_id;?></td>
+				<td ><?php echo $price->name;?></td>
 
 				<?php if ( $this->ps_auth->has_access( EDIT )): ?>
 			
 					<td>
-						<a href='<?php echo $module_site_url .'/edit/'. $cond->id; ?>'>
+						<a href='<?php echo $module_site_url .'/edit/'. $price->id; ?>'>
 							<i style='font-size: 18px;' class='fa fa-pencil-square-o'></i>
 						</a>
 					</td>
@@ -52,7 +50,7 @@
 				<?php if ( $this->ps_auth->has_access( DEL )): ?>
 					
 					<td>
-						<a herf='#' class='btn-delete' data-toggle="modal" data-target="#myModal" id="<?php echo $cond->id;?>">
+						<a herf='#' class='btn-delete' data-toggle="modal" data-target="#myModal" id="<?php echo $price->id;?>">
 							<i style='font-size: 18px;' class='fa fa-trash-o'></i>
 						</a>
 					</td>
@@ -62,11 +60,11 @@
 				<?php if ( $this->ps_auth->has_access( PUBLISH )): ?>
 					
 					<td>
-						<?php if ( @$cond->status == 1): ?>
-							<button class="btn btn-sm btn-success unpublish" id='<?php echo $cond->id;?>'>
+						<?php if ( @$price->status == 1): ?>
+							<button class="btn btn-sm btn-success unpublish" id='<?php echo $price->id;?>'>
 							<?php echo get_msg( 'btn_yes' ); ?></button>
 						<?php else:?>
-							<button class="btn btn-sm btn-danger publish" id='<?php echo $cond->id;?>'>
+							<button class="btn btn-sm btn-danger publish" id='<?php echo $price->id;?>'>
 							<?php echo get_msg( 'btn_no' ); ?></button><?php endif;?>
 					</td>
 				

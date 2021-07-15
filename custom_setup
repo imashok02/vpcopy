@@ -9,6 +9,18 @@ ALTER TABLE bs_paid_items_history ADD end_timestamp DOUBLE NOT NULL AFTER start_
 
 ALTER TABLE `bs_item_locations` ADD INDEX(`name`);
 
+CREATE TABLE `bs_price_quantities` (
+  `id` varchar(255) NOT NULL,
+  `main_cat_id` varchar(255) NOT NULL,
+  `cat_id` varchar(255) NOT NULL,
+  `sub_cat_id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL, 
+  `status` varchar(255) NOT NULL, 
+  `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE bs_items add COLUMN price_qty_id varchar(255);
+
 
 server {
         server_name _;

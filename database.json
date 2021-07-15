@@ -1,0 +1,33 @@
+{
+  "dev": {
+    "driver": "mysql",
+    "host": "127.0.0.1",
+    "port": "3307",
+    "user": "root",
+    "password": "",
+    "database": "vp_dev",
+    "connectionLimit": 3,
+    "multipleStatements": true
+  },
+  "test": {
+    "driver": "mysql",
+    "host": "127.0.0.1",
+    "port": "3306",
+    "user": "root",
+    "password": "",
+    "database": "vp_test",
+    "connectionLimit": 3,
+    "multipleStatements": true
+  },
+  "production": {
+    "driver": "mysql",
+    "host": "127.0.0.1",
+    "port": "3306",
+    "user": "root",
+    "password": "",
+    "database": "vegpuf",
+    "connectionLimit": 3,
+    "multipleStatements": true
+  }
+}
+

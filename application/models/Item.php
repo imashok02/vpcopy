@@ -119,6 +119,18 @@ class Item extends PS_Model {
 
 			}			
 		}
+
+		// Quantity for the price
+		if ( isset( $conds['price_qty_id'] )) {
+			
+			if ($conds['price_qty_id'] != "") {
+				if($conds['price_qty_id'] != '0'){
+				
+					$this->db->where( 'price_qty_id', $conds['price_qty_id'] );	
+				}
+
+			}			
+		}
 	   
 		// Currency id
 		if ( isset( $conds['item_currency_id'] )) {
