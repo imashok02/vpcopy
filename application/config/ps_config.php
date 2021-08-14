@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+date_default_timezone_set('Asia/Yangon');
 
 /** Home Page Config */
 /* 1) if both frontend and backend folder exist */
@@ -14,7 +15,7 @@ $config['reset_url'] = "reset_email";
 $config['themes'] = array( 'default', 'green', 'blue', 'orange', 'blue-grey' );
 
 /** System Email */
-$config['version_no'] = "0.1"; 
+$config['version_no'] = "2.6"; 
 
 /** Validation */
 $config['client_side_validation'] = true;

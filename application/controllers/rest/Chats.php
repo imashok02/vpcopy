@@ -84,7 +84,8 @@ class Chats extends API_Controller
 		        	"buyer_user_id" => $this->post('buyer_user_id'), 
 		        	"seller_user_id" => $this->post('seller_user_id'),
 		        	"buyer_unread_count" => $buyer_unread_count + 1,
-		        	"added_date" => date("Y-m-d H:i:s")
+		        	"added_date" => date("Y-m-d H:i:s"),
+		        	"offer_status" => 1
 
 		        );
 
@@ -98,7 +99,8 @@ class Chats extends API_Controller
 		        	"buyer_user_id" => $this->post('buyer_user_id'), 
 		        	"seller_user_id" => $this->post('seller_user_id'),
 		        	"seller_unread_count" => $seller_unread_count + 1,
-		        	"added_date" => date("Y-m-d H:i:s")
+		        	"added_date" => date("Y-m-d H:i:s"),
+		        	"offer_status" => 1
 
 		        );
 
@@ -121,6 +123,8 @@ class Chats extends API_Controller
 	    	if ( $type == "to_buyer" ) {
 
 		    	$buyer_unread_count = $chat_history_data->buyer_unread_count;
+		    	$is_accept = $chat_history_data->is_accept;
+		    	$offer_status = $chat_history_data->offer_status;
 		    	
 		    	$chat_data = array(
 
@@ -128,7 +132,9 @@ class Chats extends API_Controller
 		        	"buyer_user_id" => $this->post('buyer_user_id'), 
 		        	"seller_user_id" => $this->post('seller_user_id'),
 		        	"buyer_unread_count" => $buyer_unread_count + 1,
-		        	"added_date" => date("Y-m-d H:i:s")
+		        	"added_date" => date("Y-m-d H:i:s"),
+		        	"offer_status" => $offer_status,
+		        	"is_accept" => $is_accept
 
 		        );
 
@@ -142,7 +148,9 @@ class Chats extends API_Controller
 		        	"buyer_user_id" => $this->post('buyer_user_id'), 
 		        	"seller_user_id" => $this->post('seller_user_id'),
 		        	"seller_unread_count" => $seller_unread_count + 1,
-		        	"added_date" => date("Y-m-d H:i:s")
+		        	"added_date" => date("Y-m-d H:i:s"),
+		        	"offer_status" => $offer_status,
+		        	"is_accept" => $is_accept
 
 		        );
 
@@ -229,8 +237,10 @@ class Chats extends API_Controller
 		    	$price = $this->post('nego_price');
 	       		if ( $price == 0) {
 		    		$data['message'] = "Offer Rejected!";
+		    		$offer_status = 4;
 		    	} else {
 		    		$data['message'] = "Make Offer!";
+		    		$offer_status = 2;
 		    	}
 		    	$data['buyer_user_id'] = $this->post('buyer_user_id');
 		    	$data['seller_user_id'] = $this->post('seller_user_id');
@@ -247,7 +257,9 @@ class Chats extends API_Controller
 		        	"seller_user_id" => $this->post('seller_user_id'),
 		        	"buyer_unread_count" => $buyer_unread_count + 1,
 		        	"added_date" => date("Y-m-d H:i:s"),
-		        	"nego_price" => $this->post('nego_price')
+		        	"nego_price" => $this->post('nego_price'),
+		        	"offer_status" => $offer_status,
+		        	"is_accept" => 0
 
 		        );
 
@@ -277,8 +289,10 @@ class Chats extends API_Controller
 		    	$price = $this->post('nego_price');
 	       		if ( $price == 0) {
 		    		$data['message'] = "Offer Rejected!";
+		    		$offer_status = 4;
 		    	} else {
 		    		$data['message'] = "Make Offer!";
+		    		$offer_status = 2;
 		    	}
 		    	$data['buyer_user_id'] = $this->post('buyer_user_id');
 		    	$data['seller_user_id'] = $this->post('seller_user_id');
@@ -294,7 +308,9 @@ class Chats extends API_Controller
 		        	"seller_user_id" => $this->post('seller_user_id'),
 		        	"seller_unread_count" => $seller_unread_count + 1,
 		        	"added_date" => date("Y-m-d H:i:s"),
-		        	"nego_price" => $this->post('nego_price')
+		        	"nego_price" => $this->post('nego_price'),
+		        	"offer_status" => $offer_status,
+		        	"is_accept" => 0
 
 		        );
 
@@ -335,8 +351,10 @@ class Chats extends API_Controller
 		    	$price = $this->post('nego_price');
 	       		if ( $price == 0) {
 		    		$data['message'] = "Offer Rejected!";
+		    		$offer_status = 4;
 		    	} else {
 		    		$data['message'] = "Make Offer!";
+		    		$offer_status = 2;
 		    	}
 		    	$data['buyer_user_id'] = $this->post('buyer_user_id');
 		    	$data['seller_user_id'] = $this->post('seller_user_id');
@@ -353,7 +371,9 @@ class Chats extends API_Controller
 		        	"seller_user_id" => $this->post('seller_user_id'),
 		        	"buyer_unread_count" => $buyer_unread_count + 1,
 		        	"added_date" => date("Y-m-d H:i:s"),
-		        	"nego_price" => $this->post('nego_price')
+		        	"nego_price" => $this->post('nego_price'),
+		        	"offer_status" => $offer_status,
+		        	"is_accept" => 0
 
 		        );
 
@@ -380,8 +400,10 @@ class Chats extends API_Controller
 		    	$price = $this->post('nego_price');
 	       		if ( $price == 0) {
 		    		$data['message'] = "Offer Rejected!";
+		    		$offer_status = 4;
 		    	} else {
 		    		$data['message'] = "Make Offer!";
+		    		$offer_status = 2;
 		    	}
 		    	$data['buyer_user_id'] = $this->post('buyer_user_id');
 		    	$data['seller_user_id'] = $this->post('seller_user_id');
@@ -397,7 +419,9 @@ class Chats extends API_Controller
 		        	"seller_user_id" => $this->post('seller_user_id'),
 		        	"seller_unread_count" => $seller_unread_count + 1,
 		        	"added_date" => date("Y-m-d H:i:s"),
-		        	"nego_price" => $this->post('nego_price')
+		        	"nego_price" => $this->post('nego_price'),
+		        	"offer_status" => $offer_status,
+		        	"is_accept" => 0
 
 		        );
 
@@ -623,7 +647,8 @@ class Chats extends API_Controller
 			        	"buyer_unread_count" => $buyer_unread_count + 1,
 			        	"added_date" => date("Y-m-d H:i:s"),
 			        	"nego_price" => $this->post('nego_price'),
-			        	"is_accept" => 1
+			        	"is_accept" => 1,
+			        	"offer_status" => 3
 
 			        );
 
@@ -663,7 +688,8 @@ class Chats extends API_Controller
 			        	"seller_unread_count" => $seller_unread_count + 1,
 			        	"added_date" => date("Y-m-d H:i:s"),
 			        	"nego_price" => $this->post('nego_price'),
-			        	"is_accept" => 1
+			        	"is_accept" => 1,
+			        	"offer_status" => 3
 
 
 			        );
@@ -747,7 +773,8 @@ class Chats extends API_Controller
 			        	"buyer_unread_count" => $buyer_unread_count + 1,
 			        	"added_date" => date("Y-m-d H:i:s"),
 			        	"nego_price" => $this->post('nego_price'),
-			        	"is_accept"	 => 1	
+			        	"is_accept"	 => 1,
+			        	"offer_status" => 3	
 
 			        );
 
@@ -788,7 +815,8 @@ class Chats extends API_Controller
 			        	"seller_unread_count" => $seller_unread_count + 1,
 			        	"added_date" => date("Y-m-d H:i:s"),
 			        	"nego_price" => $this->post('nego_price'),
-			        	"is_accept"	 => 1
+			        	"is_accept"	 => 1,
+			        	"offer_status" => 3
 
 			        );
 

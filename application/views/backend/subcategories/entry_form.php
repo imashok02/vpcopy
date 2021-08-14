@@ -38,7 +38,7 @@
 
 
 				<div class="col-md-5">
-						<div class="col-md-5">
+					<div class="col-md-5">
 							<div class="form-group">
 								<label> <span style="font-size: 17px; color: red;">*</span>
 									<?php echo get_msg('Prd_search_cat')?>
@@ -76,7 +76,7 @@
 					              ?>
 
 								<!-- <?php
-									$options=array();
+								$options=array();
 									$options[0]=get_msg('Prd_search_cat');
 									$categories = $this->Category->get_all();
 										foreach($categories->result() as $cat) {

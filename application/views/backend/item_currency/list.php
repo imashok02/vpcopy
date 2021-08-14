@@ -2,7 +2,6 @@
 	<table class="table m-0 table-striped">
 		<tr>
 			<th><?php echo get_msg('no'); ?></th>
-			<th><?php echo get_msg('id'); ?></th>
 			<th><?php echo get_msg('currency_short_form'); ?></th>
 			<th><?php echo get_msg('currency_symbol'); ?></th>
 			
@@ -24,6 +23,8 @@
 			
 			<?php endif; ?>
 
+			<th><?php echo get_msg('is_default'); ?></th>
+
 		</tr>
 		
 	
@@ -35,7 +36,6 @@
 			
 			<tr>
 				<td><?php echo ++$count;?></td>
-				<td><?php echo $currency->id;?></td>
 				<td ><?php echo $currency->currency_short_form;?></td>
 				<td ><?php echo $currency->currency_symbol;?></td>
 
@@ -50,13 +50,19 @@
 				<?php endif; ?>
 				
 				<?php if ( $this->ps_auth->has_access( DEL )): ?>
-					
+					<?php if(@$currency->is_default == 1) { ?>
+					<td>
+						<a herf='#' class='btn-delete' data-toggle="modal" data-target="#currencyModal" id="<?php echo $currency->id;?>">
+							<i style='font-size: 18px;' class='fa fa-trash-o'></i>
+						</a>
+					</td>
+					<?php } else { ?>
 					<td>
 						<a herf='#' class='btn-delete' data-toggle="modal" data-target="#myModal" id="<?php echo $currency->id;?>">
 							<i style='font-size: 18px;' class='fa fa-trash-o'></i>
 						</a>
 					</td>
-				
+					<?php } ?>
 				<?php endif; ?>
 				
 				<?php if ( $this->ps_auth->has_access( PUBLISH )): ?>
@@ -67,6 +73,19 @@
 							<?php echo get_msg( 'btn_yes' ); ?></button>
 						<?php else:?>
 							<button class="btn btn-sm btn-danger publish" id='<?php echo $currency->id;?>'>
+							<?php echo get_msg( 'btn_no' ); ?></button><?php endif;?>
+					</td>
+				
+				<?php endif; ?>
+
+				<?php if ( $this->ps_auth->has_access( PUBLISH )): ?>
+					
+					<td>
+						<?php if ( @$currency->is_default == 1): ?>
+							<button class="btn btn-sm btn-success undefault" id='<?php echo $currency->id;?>'>
+							<?php echo get_msg( 'btn_yes' ); ?></button>
+						<?php else:?>
+							<button class="btn btn-sm btn-danger default" id='<?php echo $currency->id;?>'>
 							<?php echo get_msg( 'btn_no' ); ?></button><?php endif;?>
 					</td>
 				

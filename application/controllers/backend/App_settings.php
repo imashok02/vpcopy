@@ -100,6 +100,13 @@ class App_settings extends BE_Controller {
 			$data['is_approval_enabled'] = 0;
 		}
 
+		// if is_sub_location is checked,
+		if ( $this->has_data( 'is_sub_location' )) {
+			$data['is_sub_location'] = 1;
+		} else {
+			$data['is_sub_location'] = 0;
+		}
+
 		if ( ! $this->App_setting->save( $data, $id )) {
 		// if there is an error in inserting user data,	
 

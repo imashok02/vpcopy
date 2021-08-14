@@ -34,6 +34,14 @@ class Subcategories extends API_Controller
 			$conds['order_by_type'] = $setting->order_by_type;
 		}
 
+		if ( $this->is_search ) {
+
+			$conds['order_by'] = 1;
+			$conds['order_by_field']    = $this->post('order_by');
+			$conds['order_by_type']     = $this->post('order_type');
+				
+		}
+
 		return $conds;
 	}
 

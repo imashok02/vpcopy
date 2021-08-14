@@ -125,9 +125,19 @@ class Paid_items extends BE_Controller {
 			if($this->input->post('item_location_id') != ""  || $this->input->post('item_location_id') != '0') {
 				$conds['item_location_id'] = $this->input->post('item_location_id');
 				$this->data['item_location_id'] = $this->input->post('item_location_id');
+				$this->data['selected_location_city_id'] = $this->input->post('item_location_id');
 				$this->session->set_userdata(array("item_location_id" => $this->input->post('item_location_id')));
+				$this->session->set_userdata(array("selected_location_city_id" => $this->input->post('item_location_id')));
 			} else {
 				$this->session->set_userdata(array("item_location_id" => NULL ));
+			}
+
+			if($this->input->post('item_location_township_id') != ""  || $this->input->post('item_location_township_id') != '0') {
+				$conds['item_location_township_id'] = $this->input->post('item_location_township_id');
+				$this->data['item_location_township_id'] = $this->input->post('item_location_township_id');
+				$this->session->set_userdata(array("item_location_township_id" => $this->input->post('item_location_township_id')));
+			} else {
+				$this->session->set_userdata(array("item_location_township_id" => NULL ));
 			}
 
 		} else {
@@ -172,6 +182,13 @@ class Paid_items extends BE_Controller {
 			if($this->session->userdata('item_location_id') != NULL){
 				$conds['item_location_id'] = $this->session->userdata('item_location_id');
 				$this->data['item_location_id'] = $this->session->userdata('item_location_id');
+				$this->data['selected_location_city_id'] = $this->session->userdata('item_location_id');
+			}
+
+			if($this->session->userdata('item_location_township_id') != NULL){
+				$conds['item_location_township_id'] = $this->session->userdata('item_location_township_id');
+				$this->data['item_location_township_id'] = $this->session->userdata('item_location_township_id');
+				$this->data['selected_location_city_id'] = $this->session->userdata('item_location_id');
 			}
 		}
 
@@ -332,6 +349,11 @@ class Paid_items extends BE_Controller {
 		// location id
 	   	if ( $this->has_data( 'item_location_id' )) {
 			$data['item_location_id'] = $this->get_data( 'item_location_id' );
+		}
+
+		// item_location_township_id
+	   	if ( $this->has_data( 'item_location_township_id' )) {
+			$data['item_location_township_id'] = $this->get_data( 'item_location_township_id' );
 		}
 
 		//title

@@ -213,46 +213,57 @@ class Offline_paids extends BE_Controller {
 			
 			return;
 		}
-		// $item_id = $id;
-		// $conds['item_id'] = $item_id;
-		// $conds['payment_method'] = "offline";
-		// $paid_items = $this->Paid_item->get_all_by($conds)->result();
+		$item_id = $id;
+		$conds['item_id'] = $item_id;
+		$conds['payment_method'] = "offline";
+		$paid_items = $this->Paid_item->get_all_by($conds)->result();
 
 
-		// $start_timestamp = $paid_items[0]->start_timestamp;
-		// $end_timestamp = $paid_items[0]->end_timestamp;
-		// $start_date = $paid_items[0]->start_date;
-		// $end_date = $paid_items[0]->end_date;
-		// $paid_id = $paid_items[0]->id;
+		$org_start_date = $paid_items[0]->start_date;
+		$org_end_date = $paid_items[0]->end_date;
+		$paid_id = $paid_items[0]->id;
+
+		$new_start_date = explode(' ', $org_start_date,2);
+		$start_date2 = $new_start_date[1]; // for H:i:s
 
 		// if 'is_paid' is checked,
 		$dates = $this->get_data( 'date' );
 
 		// start date, end date and start timestamp, end timestamp
-
+		// form data
 		$temp_date = explode("-", $dates);
 	  	$tmp_start_date = $temp_date[0];
 	  	$tmp_end_date = $temp_date[1];
 
 	  	$temp_startdate = new DateTime($tmp_start_date);
-		$start_date = $temp_startdate->format('Y-m-d');
+		$start_date1 = $temp_startdate->format('Y-m-d'); //for Y-m-d
+
+		$start_date = $start_date1 . " " . $start_date2; // to save as start_date at table
+
+		/////
 
 		$temp_enddate = new DateTime($tmp_end_date);
-		$end_date = $temp_enddate->format('Y-m-d');
+		$end_date1 = $temp_enddate->format('Y-m-d'); //for Y-m-d
 
-	  	$d = DateTime::createFromFormat('Y-m-d', $start_date);
+
+		$new_end_date = explode(' ', $org_end_date,2);
+		$end_date2 = $new_end_date[1]; // for H:i:s
+
+		$end_date = $end_date1 . " " . $end_date2; // to save as end_date at table
+
+	  	$d = DateTime::createFromFormat('Y-m-d H:i:s', $start_date);
 		$start_timestamp = $d->getTimestamp();
 
-		$d = DateTime::createFromFormat('Y-m-d', $end_date);
+		$d = DateTime::createFromFormat('Y-m-d H:i:s', $end_date);
 		$end_timestamp = $d->getTimestamp();
 
 		// to get paid id
 
-		$item_id = $id;
-		$conds['item_id'] = $item_id;
-		$conds['payment_method'] = "offline";
-		$paid_items = $this->Paid_item->get_all_by($conds)->result();
-		$paid_id = $paid_items[0]->id;
+		// $item_id = $id;
+		// $conds['item_id'] = $item_id;
+		// $conds['payment_method'] = "offline";
+		// $paid_items = $this->Paid_item->get_all_by($conds)->result();
+		// $paid_id = $paid_items[0]->id;
 
 		//print_r($daterange);die;
 	  	$paid_data = array(

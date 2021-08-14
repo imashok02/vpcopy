@@ -56,6 +56,29 @@ class Categories extends BE_Controller {
 		
 		// condition with search term
 		$conds = array( 'searchterm' => $this->searchterm_handler( $this->input->post( 'searchterm' )) );
+
+		if($this->input->post('order_by') == "name_asc") {
+				
+			$conds['order_by_field'] = "cat_name";
+			$conds['order_by_type'] = "asc";
+
+			$this->data['order_by'] = $this->input->post('order_by');
+			$this->session->set_userdata(array("order_by" => $this->input->post('order_by')));
+		
+		}  
+
+		if($this->input->post('order_by') == "name_desc") {
+			
+			$conds['order_by_field'] = "cat_name";
+			$conds['order_by_type'] = "desc";
+
+			$this->data['order_by'] = $this->input->post('order_by');
+			$this->session->set_userdata(array("order_by" => $this->input->post('order_by')));
+
+		
+		}
+
+
 		// no publish filter
 		$conds['no_publish_filter'] = 1;
 
@@ -119,10 +142,9 @@ class Categories extends BE_Controller {
 		 */
 		$data = array();
 
-		 // Main Category id
-	    if ( $this->has_data( 'main_cat_id' )) {
-			$data['main_cat_id'] = $this->get_data( 'main_cat_id' );
-
+		// Main Category id	
+	    if ( $this->has_data( 'main_cat_id' )) {	
+			$data['main_cat_id'] = $this->get_data( 'main_cat_id' );	
 		}
 
 		// prepare cat name

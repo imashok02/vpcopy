@@ -72,24 +72,45 @@
 
 		$('#cat_id').on('change', function() {
 
-				var value = $('option:selected', this).text().replace(/Value\s/, '');
+			var value = $('option:selected', this).text().replace(/Value\s/, '');
 
-				var catId = $(this).val();
-				// alert(catId);
-				$.ajax({
-					url: '<?php echo $module_site_url . '/get_all_sub_categories/';?>' + catId,
-					method: 'GET',
-					dataType: 'JSON',
-					success:function(data){
-						$('#sub_cat_id').html("");
-						$.each(data, function(i, obj){
-						    $('#sub_cat_id').append('<option value="'+ obj.id +'">' + obj.name+ '</option>');
-						});
-						$('#name').val($('#name').val() + " ").blur();
-						$('#sub_cat_id').trigger('change');
-					}
-				});
+			var catId = $(this).val();
+			// alert(catId);
+			$.ajax({
+				url: '<?php echo $module_site_url . '/get_all_sub_categories/';?>' + catId,
+				method: 'GET',
+				dataType: 'JSON',
+				success:function(data){
+					$('#sub_cat_id').html("");
+					$.each(data, function(i, obj){
+					    $('#sub_cat_id').append('<option value="'+ obj.id +'">' + obj.name+ '</option>');
+					});
+					$('#name').val($('#name').val() + " ").blur();
+					$('#sub_cat_id').trigger('change');
+				}
 			});
+		});
+
+		$('#item_location_id').on('change', function() {
+
+			var value = $('option:selected', this).text().replace(/Value\s/, '');
+
+			var city_id = $(this).val();
+
+			$.ajax({
+				url: '<?php echo $module_site_url . '/get_all_location_townships/';?>' + city_id,
+				method: 'GET',
+				dataType: 'JSON',
+				success:function(data){
+					$('#item_location_township_id').html("");
+					$.each(data, function(i, obj){
+					    $('#item_location_township_id').append('<option value="'+ obj.id +'">' + obj.township_name+ '</option>');
+					});
+					$('#township_name').val($('#township_name').val() + " ").blur();
+					$('#item_location_township_id').trigger('change');
+				}
+			});
+		});
 
 
 

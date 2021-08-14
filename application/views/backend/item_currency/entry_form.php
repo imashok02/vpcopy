@@ -5,14 +5,15 @@
 ?>
 	
 <section class="content animated fadeInRight">
-	<div class="card card-info">
+	<div class="col-md-6">
+		<div class="card card-info">
 	    <div class="card-header">
 	        <h3 class="card-title"><?php echo get_msg('currency_info')?></h3>
 	    </div>
         <!-- /.card-header -->
         <div class="card-body">
             <div class="row">
-             	<div class="col-md-6">
+             	<div class="col-md-12">
             		<div class="form-group">
                    		<label>
                    			<span style="font-size: 17px; color: red;">*</span>
@@ -33,7 +34,7 @@
 
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-12">
             		<div class="form-group">
                    		<label>
                    			<span style="font-size: 17px; color: red;">*</span>
@@ -51,6 +52,29 @@
 							'id' => 'currency_symbol'
 						)); ?>
               		</div>
+
+              		<?php if ($currency->is_default == 0) { ?>
+              			<div class="form-group" style="padding-top: 30px; padding-right: 5px;">
+			              	<div class="form-check">
+
+				                <label>
+				                
+				                  <?php echo form_checkbox( array(
+				                    'name' => 'is_default',
+				                    'id' => 'is_default',
+				                    'value' => 'accept',
+				                    'checked' => set_checkbox('is_default', 1, ( @$currency->is_default == 1 )? true: false ),
+				                    'class' => 'form-check-input'
+				                  )); ?>
+
+				                  <?php echo get_msg( 'is_default' ); ?>
+				                </label>
+			              	</div>
+		            </div>
+              		
+              		<?php } ?>
+
+              		
 
                 </div>
 
@@ -70,6 +94,7 @@
         </div>
        
     </div>
+	</div>
     <!-- card info -->
 </section>
 				

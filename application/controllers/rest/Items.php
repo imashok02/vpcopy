@@ -82,6 +82,16 @@ class Items extends API_Controller
 				}
 			}
 
+			if($this->post('lat') != "" && $this->post('lng') != "" && $this->post('miles') != "" && $this->post('item_location_township_id') != "") {
+				$conds['item_location_township_id']   = $this->post('item_location_township_id');
+			} if($this->post('lat') != "" && $this->post('lng') != "" && $this->post('miles') != "" && $this->post('item_location_township_id') == "") {
+				$conds['item_location_township_id']   ="";
+			} else {
+				if($this->post('item_location_township_id') != "") {
+					$conds['item_location_township_id']   = $this->post('item_location_township_id');
+				}
+			}
+
 			if($this->post('deal_option_id') != "") {
 				$conds['deal_option_id']   = $this->post('deal_option_id');
 			}
@@ -203,6 +213,7 @@ class Items extends API_Controller
         	"item_currency_id" => $this->post('item_currency_id'), 
         	"condition_of_item_id" => $this->post('condition_of_item_id'),
         	"item_location_id" => $this->post('item_location_id'),
+        	"item_location_township_id" => $this->post('item_location_township_id'),
         	"deal_option_remark" => $this->post('deal_option_remark'),
         	"description" => $this->post('description'),
         	"highlight_info" => $this->post('highlight_info'),

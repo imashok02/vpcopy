@@ -17,6 +17,30 @@
 
 	  	</div>
 
+	  	<div class="form-group">
+			&nbsp;
+			<?php
+				echo get_msg( 'order_by' );
+				//echo $order_by . " #####";
+
+				$options=array();
+				$options[0]=get_msg('select_order');
+
+				foreach ($this->Order->get_all()->result() as $ord) {
+
+					$options[$ord->id]=$ord->name;
+								
+				}
+				echo form_dropdown(
+					'order_by',
+					$options,
+					set_value( 'order_by', show_data( $order_by), false ),
+					'class="form-control form-control-sm mr-3 ml-3" id="order_by"'
+				);
+			?>
+
+	  	</div>
+
 		<div class="form-group">
 		  	<button type="submit" class="btn btn-sm btn-primary">
 		  		<?php echo get_msg( 'btn_search' )?>

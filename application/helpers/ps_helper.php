@@ -58,6 +58,12 @@ if ( ! function_exists( 'ago' ))
 		$now = $CI->db->query('SELECT NOW( ) as now')->row()->now;
 		$now = mysql_to_unix( $now );
 
+		if ( $time > $now ){
+
+			$now = date('Y-m-d H:i:s');
+			$now = mysql_to_unix( $now );
+		}
+
 		$periods = array("second_ago", "minute_ago", "hour_ago", "day_ago", "week_ago", "month_ago", "year_ago", "decade_ago");
 		$lengths = array("60","60","24","7","4.35","12","10");
 

@@ -75,6 +75,24 @@ echo form_open( '', $attributes);
 									</label>
 								</div>
 							</div>
+
+							<div class="form-group">
+								<div class="form-check">
+									<label class="form-check-label">
+									
+									<?php echo form_checkbox( array(
+										'name' => 'is_sub_location',
+										'id' => 'is_sub_location',
+										'value' => 'accept',
+										'checked' => set_checkbox('is_sub_location', 1, ( @$app->is_sub_location == 1 )? true: false ),
+										'class' => 'form-check-input'
+									));	?>
+
+									<?php echo get_msg( 'is_sub_location' ); ?>
+
+									</label>
+								</div>
+							</div>
 					</div>
               	</div>
             </div>

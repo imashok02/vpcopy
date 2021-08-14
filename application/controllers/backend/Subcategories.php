@@ -54,8 +54,29 @@ class Subcategories extends BE_Controller {
 		// condition with search term
 		$conds = array( 'searchterm' => $this->searchterm_handler( $this->input->post( 'searchterm' )));
 
-		$conds['cat_id'] = $this->input->post('cat_id');
 
+		if($this->input->post('order_by') == "name_asc") {
+				
+			$conds['order_by_field'] = "name";
+			$conds['order_by_type'] = "asc";
+
+			$this->data['order_by'] = $this->input->post('order_by');
+			$this->session->set_userdata(array("order_by" => $this->input->post('order_by')));
+		
+		}  
+
+		if($this->input->post('order_by') == "name_desc") {
+			
+			$conds['order_by_field'] = "name";
+			$conds['order_by_type'] = "desc";
+
+			$this->data['order_by'] = $this->input->post('order_by');
+			$this->session->set_userdata(array("order_by" => $this->input->post('order_by')));
+
+		
+		} 
+
+		$conds['cat_id'] = $this->input->post('cat_id');
 
 		// no publish filter
 		$conds['no_publish_filter'] = 1;
@@ -64,7 +85,7 @@ class Subcategories extends BE_Controller {
 			$conds['order_by_field'] = "added_date";
 			$conds['order_by_type'] = "desc";
 		}
-		
+
 		// pagination
 		$this->data['rows_count'] = $this->Subcategory->count_all_by( $conds );
 

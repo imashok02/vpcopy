@@ -156,6 +156,18 @@ class Item extends PS_Model {
 			}			
 		}
 
+		// item_location_township_id
+		if ( isset( $conds['item_location_township_id'] )) {
+			
+			if ($conds['item_location_township_id'] != "") {
+				if($conds['item_location_township_id'] != '0'){
+				
+					$this->db->where( 'item_location_township_id', $conds['item_location_township_id'] );	
+				}
+
+			}			
+		}
+
 		// condition_of_item id condition
 		if ( isset( $conds['condition_of_item_id'] )) {
 			$this->db->where( 'condition_of_item_id', $conds['condition_of_item_id'] );

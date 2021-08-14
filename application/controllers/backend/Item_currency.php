@@ -127,6 +127,13 @@ class Item_currency extends BE_Controller {
 			$data['currency_symbol'] = $this->get_data( 'currency_symbol' );
 		}
 
+		// if 'is_default' is checked,
+		if ( $this->has_data( 'is_default' )) {
+			$data['is_default'] = 1;
+		} else {
+			$data['is_default'] = 0;
+		}
+
 		$data['status'] = 1;
 
 		// save Currency
@@ -141,6 +148,48 @@ class Item_currency extends BE_Controller {
 			
 			return;
 		}
+
+		//print_r($data['is_default']);die;
+
+		// update is_default
+
+		if ($data['is_default'] == 1) {
+			if (empty($id)) {
+
+			//add
+
+			$id = $data['id'];
+			$currency_ids = $this->Currency->get_all_not_in_currency( $id )->result();
+
+			if ($currency_ids != "") {
+				foreach ($currency_ids as $currency) {
+					$currency_id = $currency->id;
+					// prepare data
+					$currency_data = array( 'is_default'=> 0 );
+					$this->Currency->save( $currency_data, $currency_id );
+				}
+			}
+
+
+			}else{
+
+				//edit
+
+				$currency_ids = $this->Currency->get_all_not_in_currency( $id )->result();
+
+				if ($currency_ids != "") {
+					foreach ($currency_ids as $currency) {
+						$currency_id = $currency->id;
+						// prepare data
+						$currency_data = array( 'is_default'=> 0 );
+						$this->Currency->save( $currency_data, $currency_id );
+					}
+				}
+
+			}
+		}
+
+		
 
 		/** 
 		 * Check Transactions 
@@ -314,5 +363,37 @@ class Item_currency extends BE_Controller {
 			echo 'false';
 		}
 	}
+
+	/**
+	 * Publish the record
+	 *
+	 * @param      integer  $Currency_id  The Currency identifier
+	 */
+	function ajx_default( $id = 0 )
+	{
+		// check access
+		$this->check_access( PUBLISH );
+		$curreny_ids = $this->Currency->get_all_not_in_currency( $id )->result();
+		
+		if ($curreny_ids != "") {
+			foreach ($curreny_ids as $currency) {
+				$currency_id = $currency->id;
+				// prepare data
+				$currency_data = array( 'is_default'=> 0 );
+				$this->Currency->save( $currency_data, $currency_id );
+			}
+		}
+
+		// prepare data
+		$data = array( 'is_default'=> 1 );
+			
+		// save data
+		if ( $this->Currency->save( $data, $id )) {
+			echo 'true';
+		} else {
+			echo 'false';
+		}
+	}
+	
 
 }

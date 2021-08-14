@@ -2,7 +2,6 @@
 	<table class="table m-0 table-striped">
 	<tr>
 		<th><?php echo get_msg('no'); ?></th>
-		<th><?php echo get_msg('id'); ?></th>
 		<th><?php echo get_msg('item_name'); ?></th>
 		<th><span class="th-title"><?php echo get_msg('view'); ?></span></th>
 	</tr>
@@ -15,7 +14,6 @@
 			
 			<tr>
 				<td><?php echo ++$count;?></td>
-				<td><?php echo $popularitem->id;?></td>
 				<td><?php echo $popularitem->title;?></td>
 
 				<?php if ( $this->ps_auth->has_access( EDIT )): ?>

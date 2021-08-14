@@ -1,19 +1,19 @@
 <?php
-	$attributes = array( 'id' => 'item-form', 'enctype' => 'multipart/form-data');
-	echo form_open( '', $attributes);
+  $attributes = array( 'id' => 'item-form', 'enctype' => 'multipart/form-data');
+  echo form_open( '', $attributes);
 ?>
 
 <section class="content animated fadeInRight">
-  			
+        
   <div class="card card-info">
-  	<div class="card-header">
-    	<h3 class="card-title"><?php echo get_msg('prd_info')?></h3>
-  	</div>
+    <div class="card-header">
+      <h3 class="card-title"><?php echo get_msg('prd_info')?></h3>
+    </div>
 
     <form role="form">
       <div class="card-body">
-      	<div class="row">
-      		<div class="col-md-6">
+        <div class="row">
+          <div class="col-md-6">
             <div class="form-group">
               <label> <span style="font-size: 17px; color: red;">*</span>
                 <?php echo get_msg('itm_title_label')?>
@@ -151,6 +151,44 @@
                   'class="form-control form-control-sm mr-3" id="item_location_id"'
                 );
               ?>
+            </div>
+
+            <div class="form-group">
+              <label> <span style="font-size: 17px; color: red;">*</span>
+                <?php echo get_msg('itm_select_location_township')?>
+              </label>
+
+              <?php
+                if(isset($item)) {
+                  $options=array();
+                  $options[0]=get_msg('itm_select_location_township');
+                  $conds['city_id'] = $item->item_location_id;
+                  $townships = $this->Item_location_township->get_all_by($conds);
+                  foreach($townships->result() as $township) {
+                    $options[$township->id]=$township->township_name;
+                  }
+                  echo form_dropdown(
+                    'item_location_township_id',
+                    $options,
+                    set_value( 'item_location_township_id', show_data( @$item->item_location_township_id), false ),
+                    'class="form-control form-control-sm mr-3" id="item_location_township_id"'
+                  );
+
+                } else {
+                  $conds['city_id'] = $selected_location_city_id;
+                  $options=array();
+                  $options[0]=get_msg('itm_select_location_township');
+
+                  echo form_dropdown(
+                    'item_location_township_id',
+                    $options,
+                    set_value( 'item_location_township_id', show_data( @$item->item_location_township_id), false ),
+                    'class="form-control form-control-sm mr-3" id="item_location_township_id"'
+                  );
+                }
+
+              ?>
+
             </div>
 
 

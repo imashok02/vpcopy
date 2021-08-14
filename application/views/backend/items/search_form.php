@@ -59,7 +59,6 @@
 						);
 
 					} else {
-
 						$conds['cat_id'] = $selected_cat_id;
 						$options=array();
 						$options[0]=get_msg('Prd_search_subcat');
@@ -163,6 +162,40 @@
 
 		  	</div>
 
+		  	<div class="form-group" style="padding-top: 3px;">
+
+				<?php
+					if($selected_location_city_id != "") {
+						$options=array();
+						$options[0]=get_msg('Prd_search_location_township');
+						$conds['city_id'] = $selected_location_city_id;
+						$townships = $this->Item_location_township->get_all_by($conds);
+						foreach($townships->result() as $township) {
+							$options[$township->id]=$township->township_name;
+						}
+						echo form_dropdown(
+							'item_location_township_id',
+							$options,
+							set_value( 'item_location_township_id', show_data( $item_location_township_id ), false ),
+							'class="form-control form-control-sm mr-2" id="item_location_township_id"'
+						);
+
+					} else {
+						$conds['city_id'] = $selected_location_city_id;
+						$options=array();
+						$options[0]=get_msg('Prd_search_location_township');
+
+						echo form_dropdown(
+							'item_location_township_id',
+							$options,
+							set_value( 'item_location_township_id', show_data( $item_location_township_id ), false ),
+							'class="form-control form-control-sm mr-2" id="item_location_township_id"'
+						);
+					}
+				?>
+
+		  	</div>
+
 		  	<div class="form-group" style="padding-top: 3px;padding-right: 5px;">
 			  	<button type="submit" value="submit" name="submit" class="btn btn-sm btn-primary">
 			  		<?php echo get_msg( 'btn_search' )?>
@@ -199,7 +232,7 @@
 	
 <?php if ( $this->config->item( 'client_side_validation' ) == true ): ?>
 	function jqvalidate() {
-	$('#cat_id').on('change', function() {
+		$('#cat_id').on('change', function() {
 
 			var catId = $(this).val();
 			
@@ -216,6 +249,27 @@
 				}
 			});
 		});
-}
+
+		$('#item_location_id').on('change', function() {
+
+			var value = $('option:selected', this).text().replace(/Value\s/, '');
+
+			var city_id = $(this).val();
+
+			$.ajax({
+				url: '<?php echo $module_site_url . '/get_all_location_townships/';?>' + city_id,
+				method: 'GET',
+				dataType: 'JSON',
+				success:function(data){
+					$('#item_location_township_id').html("");
+					$.each(data, function(i, obj){
+					    $('#item_location_township_id').append('<option value="'+ obj.id +'">' + obj.township_name+ '</option>');
+					});
+					$('#township_name').val($('#township_name').val() + " ").blur();
+					$('#item_location_township_id').trigger('change');
+				}
+			});
+		});
+	}
 	<?php endif; ?>
 </script>

@@ -167,7 +167,7 @@ class PS_Adapter {
 		// photo count
 		$obj->photo_count = $this->CI->Image->count_all_by(array('img_parent_id' => $obj->id));
 		// set default photo
-		$obj->default_photo = $this->get_default_photo( $obj->id, 'item' );
+		$obj->default_photo = $this->get_item_default_photo( $obj->id, 'item' );
 
 		// category object
 		if ( isset( $obj->cat_id )) {
@@ -187,16 +187,6 @@ class PS_Adapter {
 			$this->convert_subcategory( $tmp_sub_category );
 
 			$obj->sub_category = $tmp_sub_category;
-		}
-
-		// Price Quantity Object
-
-		if ( isset( $obj->price_qty_id )) {
-			$tmp_price_qty = $this->CI->Pricequantity->get_one( $obj->price_qty_id );
-
-			$this->convert_price_quantity( $tmp_price_qty );
-
-			$obj->price_qty = $tmp_price_qty;
 		}
 
 		// Itemtype Object
@@ -225,6 +215,14 @@ class PS_Adapter {
 
 			$tmp_item_location= $this->CI->Itemlocation->get_one( $obj->item_location_id );
 			$obj->item_location = $tmp_item_location;
+		}
+
+
+		// Item_location_township Object
+		if ( isset( $obj->item_location_township_id )) {
+
+			$tmp_item_location_township= $this->CI->Item_location_township->get_one( $obj->item_location_township_id );
+			$obj->item_location_township = $tmp_item_location_township;
 		}
 
 		// condition of item id Object
@@ -732,17 +730,6 @@ class PS_Adapter {
 		$obj->default_photo = $this->get_default_photo( $obj->id, 'sub_category' );
 	}
 
-	/**
-	 * Customize request price_quantity object
-	 *
-	 * @param      <type>  $obj    The object
-	 */
-	function convert_price_quantity( &$obj )
-	{
-		// set default photo
-		$obj->default_photo = $this->get_default_photo( $obj->id, 'price_quantity' );
-	}
-
 	/*
 	 * Customize feed object
 	 *
@@ -868,15 +855,27 @@ class PS_Adapter {
 		if ( is_array( $obj )) {
 			for ($i=0; $i < count($obj) ; $i++) { 
 
-				if ( $obj[$i]->nego_price == '0') {
-					$obj[$i]->is_offer = 0;
-					$obj[$i]->offer_amount = 0;
-					
-				} else {
-					$obj[$i]->is_offer = 1;
-					$obj[$i]->offer_amount = $obj[$i]->nego_price;
+				$is_sold_out = $this->CI->Item->get_one( $obj[$i]->item_id )->is_sold_out;
+				//print($is_sold_out);die;
 
+				if ( $obj[$i]->offer_status == '2' || $is_sold_out == '1' ) {
+					//hide
+					$obj[$i]->is_offer = 1;
+				} else {
+					//show
+					$obj[$i]->is_offer = 0;
 				}
+
+				$obj[$i]->offer_amount = $obj[$i]->nego_price;
+				// if ( $obj[$i]->nego_price == '0') {
+				// 	$obj[$i]->is_offer = 0;
+				// 	$obj[$i]->offer_amount = 0;
+					
+				// } else {
+				// 	$obj[$i]->is_offer = 1;
+				// 	$obj[$i]->offer_amount = $obj[$i]->nego_price;
+
+				// }
 				// item object
 				if ( isset( $obj[$i]->item_id )) {
 					$tmp_item = $this->CI->Item->get_one( $obj[$i]->item_id );
@@ -904,16 +903,26 @@ class PS_Adapter {
 			}
 		} else {
 
+			$is_sold_out = $this->CI->Item->get_one( $obj->item_id )->is_sold_out;
 
-			if ( $obj->nego_price == '0') {
-				$obj->is_offer = 0;
-				$obj->offer_amount = 0;
-				
-			} else {
+			if ( $obj->offer_status == '2' || $is_sold_out == '1' ) {
 				$obj->is_offer = 1;
-				$obj->offer_amount = $obj->nego_price;
-
+			} else {
+				$obj->is_offer = 0;
 			}
+			
+			$obj->offer_amount = $obj->nego_price;
+
+
+			// if ( $obj->nego_price == '0') {
+			// 	$obj->is_offer = 0;
+			// 	$obj->offer_amount = 0;
+				
+			// } else {
+			// 	$obj->is_offer = 1;
+			// 	$obj->offer_amount = $obj->nego_price;
+
+			// }
 
 			if ( isset( $obj->item_id )) {
 				$tmp_item = $this->CI->Item->get_one( $obj->item_id );
@@ -1253,6 +1262,8 @@ class PS_Adapter {
 
 	}
 
+	// location township obj
+
 	function convert_township( &$obj )
 	{
 		$conds['city_id'] = $obj->id;
@@ -1266,6 +1277,41 @@ class PS_Adapter {
 			$color_dummy = $this->CI->Item_location_township->get_empty_object();
 			$obj->townships = $color_dummy;
 		}
+	}
+
+	/**
+	 * Gets the default photo for item
+	 *
+	 * @param      <type>  $id     The identifier
+	 * @param      <type>  $type   The type
+	 */
+	function get_item_default_photo( $id, $type )
+	{
+		$default_photo = "";
+
+		// get all images
+		$img = $this->CI->Image->get_all_by( array( 'img_parent_id' => $id, 'img_type' => $type, 'ordering' => 1))->result();
+		//print_r($img);die;
+
+		if (!empty($img)) {
+			$default_photo = $img[0];
+		} else {
+			$img = $this->CI->Image->get_all_by( array( 'img_parent_id' => $id, 'img_type' => $type ))->result();
+
+			if ( count( $img ) > 0 ) {
+			// if there are images for news,
+				
+				$default_photo = $img[0];
+			} else {
+			// if no image, return empty object
+
+				$default_photo = $this->CI->Image->get_empty_object();
+			}
+		}
+
+		
+
+		return $default_photo;
 	}
 			
 

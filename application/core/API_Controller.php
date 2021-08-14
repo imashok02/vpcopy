@@ -353,6 +353,7 @@ class API_Controller extends REST_Controller
 		}
 
 		$data = $this->ps_security->clean_output( $data );
+
 		$this->response( $data );
 	}
 
@@ -482,7 +483,7 @@ class API_Controller extends REST_Controller
 		$default_conds = $this->default_conds();
 		$user_conds = $this->get();
 		$conds = array_merge( $default_conds, $user_conds );
-		
+
 		if ( $limit ) {
 			unset( $conds['limit']);
 		}
@@ -821,7 +822,7 @@ class API_Controller extends REST_Controller
 		$conds = $final_conds;
 		$limit = $this->get( 'limit' );
 		$offset = $this->get( 'offset' );
-		
+
 		if ($conds['item_search']==1) {
 
 			/* For User Block */
@@ -1350,6 +1351,7 @@ class API_Controller extends REST_Controller
 		$version_object->version_need_clear_data      = $this->Version->get_one("1")->version_need_clear_data;
 		$app_object->lat = $this->App_setting->get_one('app1')->lat;
 		$app_object->lng = $this->App_setting->get_one('app1')->lng;
+		$app_object->is_sub_location = $this->App_setting->get_one('app1')->is_sub_location;
 		$is_banned = $this->User->get_one($user_id)->is_banned;
 		$user_object->user_status = $this->User->get_one($user_id)->status;
 
@@ -1400,10 +1402,23 @@ class API_Controller extends REST_Controller
 			}
 				
 		}
+
+		// for default currency
+
+		$conds_cur['is_default'] = 1;
+
+		$currency_object->id = $this->Currency->get_one_by($conds_cur)->id;
+		$currency_object->currency_short_form = $this->Currency->get_one_by($conds_cur)->currency_short_form;
+		$currency_object->currency_symbol = $this->Currency->get_one_by($conds_cur)->currency_symbol;
+		$currency_object->status = $this->Currency->get_one_by($conds_cur)->status;
+		$currency_object->is_default = $this->Currency->get_one_by($conds_cur)->is_default;
+		$currency_object->added_date = $this->Currency->get_one_by($conds_cur)->added_date;
+		
 		
 		$final_data->version = $version_object;
 		$final_data->app_setting = $app_object;
 		$final_data->user_info = $user_object;
+		$final_data->default_currency = $currency_object;
 		$final_data->oneday = $this->Paid_config->get_one("pconfig1")->amount;
 		$final_data->currency_symbol = $this->Paid_config->get_one("pconfig1")->currency_symbol;
 		$final_data->currency_short_form = $this->Paid_config->get_one("pconfig1")->currency_short_form;

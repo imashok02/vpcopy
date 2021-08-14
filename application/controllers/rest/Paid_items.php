@@ -89,7 +89,6 @@ class Paid_items extends API_Controller
         log_message('error', "start date ==> ".$start_date);
 
         $vardate = explode(' ',$temp_start_date,2);
-
         $convert_start_date = $vardate[0];
 
         // when day value comes less than 1, we assume the time is in minutes.
@@ -105,13 +104,13 @@ class Paid_items extends API_Controller
         log_message('error', "temp_end_date ==> ".$temp_end_date);
 
 	  	$varenddate = explode(' ',$temp_end_date,2);
-	  	// $end_date = $varenddate[0];
+	  	$end_date = $varenddate[0];
 	  	
 	  	log_message('error', "end_date ==> ".$end_date);
 	  	//print_r($end_date);die;
 
-	  	$d = DateTime::createFromFormat('Y-m-d H:i:s', $temp_end_date);
-		$end_timestamp = $d->getTimestamp();
+	  	$d = DateTime::createFromFormat('Y-m-d H:i:s', $end_date);
+	$end_timestamp = $d->getTimestamp();
 		//print_r($end_timestamp);die;
 
 	  	$paid_data = array(
@@ -126,6 +125,7 @@ class Paid_items extends API_Controller
 	  		"purchased_id" => $this->post('purchased_id'),
 	  		"added_user_id" => $added_user_id
 	  	);
+
 	  	
 	  	$this->Paid_item->save($paid_data);
 	  	$id = $paid_data['id'];
@@ -171,33 +171,63 @@ class Paid_items extends API_Controller
 			//User using Stripe to submit the transaction
 			$paid_config = $this->Paid_config->get_one('pconfig1');
 
-			try {
+			$payment_method_nonce = explode('_' , $this->post( 'payment_method_nonce' ));
+
+			if ($payment_method_nonce[0] == 'tok') {
 			
-				# set stripe test key
-				\Stripe\Stripe::setApiKey( trim($paid_config->stripe_secret_key) );
+				try {
 				
-				$charge = \Stripe\Charge::create(array(
-			    	"amount" 	  => $this->post( 'amount' ) * 100, // amount in cents, so need to multiply with 100 .. $amount * 100
-			    	"currency"    => trim($paid_config->currency_short_form),
-			    	"source"      => $this->post( 'payment_method_nonce' ),
-			    	"description" => get_msg('order_desc')
-			    ));
-			    
-			    if( $charge->status == "succeeded" )
-			    {
-			    	$stripe_result = 1;
-			    } else {
-			    	$this->error_response( get_msg( 'stripe_transaction_failed' ) );
-			    }
-				
-			} 
+					# set stripe test key
+					\Stripe\Stripe::setApiKey( trim($paid_config->stripe_secret_key) );
+					
+					$charge = \Stripe\Charge::create(array(
+				    	"amount" 	  => $this->post( 'amount' ) * 100, // amount in cents, so need to multiply with 100 .. $amount * 100
+				    	"currency"    => trim($paid_config->currency_short_form),
+				    	"source"      => $this->post( 'payment_method_nonce' ),
+				    	"description" => get_msg('order_desc')
+				    ));
+				    
+				    if( $charge->status == "succeeded" )
+				    {
+				    	$stripe_result = 1;
+				    } else {
+				    	$this->error_response( get_msg( 'stripe_transaction_failed' ) );
+				    }
+					
+				} 
 
-			catch(exception $e) {
-			  	
-			 	$this->error_response( get_msg( 'stripe_transaction_failed' ) );
-			    
-			 }
+				catch(exception $e) {
+				  	
+				 	$this->error_response( get_msg( 'stripe_transaction_failed' ) );
+				    
+				}
+			} else if($payment_method_nonce[0] == 'pm') {
+				try {
+					\Stripe\Stripe::setApiKey( trim($paid_config->stripe_secret_key) );
 
+					$paymentIntent = \Stripe\PaymentIntent::create([
+						'payment_method' => $this->post( 'payment_method_nonce' ),
+						'amount' => $this->post( 'amount' ) * 100, // amount in cents, so need to multiply with 100 .. $amount * 100
+						'currency' => trim($paid_config->currency_short_form),
+						'confirmation_method' => 'manual',
+	                	'confirm' => true,
+					]);
+
+					if( $paymentIntent->status == "succeeded" )
+				    {
+				    	$stripe_result = 1;
+				    } else {
+				    	$this->error_response( get_msg( 'stripe_transaction_failed' ) );
+				    }
+				} 
+
+				catch(exception $e) {
+				  	
+				 	$this->error_response( get_msg( 'stripe_transaction_failed' ) );
+				    
+				}
+
+			}
 
 		} else if($this->post( 'payment_method' ) == "razor") {
           

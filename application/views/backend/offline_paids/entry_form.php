@@ -70,11 +70,25 @@
             <strong><?php echo get_msg('select_status')?></strong>
           </label>
 
-          <select id="is_paid" name="is_paid" class="form-control">
-            <option value="0">Select Payment Status</option>
-            <option value="1">Approved</option>
-            <option value="2">Reject</option>
-          </select>
+          <?php if ($item->is_paid == 0) { ?>
+            <select id="is_paid" name="is_paid" class="form-control">
+              <option value="0" selected>Waiting For Approval</option>
+              <option value="1">Approved</option>
+              <option value="2">Reject</option>
+            </select>
+          <?php } elseif ($item->is_paid == 1) { ?>
+            <select id="is_paid" name="is_paid" class="form-control">
+              <option value="0">Waiting For Approval</option>
+              <option value="1" selected>Approved</option>
+              <option value="2">Reject</option>
+            </select>
+          <?php } else { ?>
+            <select id="is_paid" name="is_paid" class="form-control">
+              <option value="0">Waiting For Approval</option>
+              <option value="1">Approved</option>
+              <option value="2" selected>Reject</option>
+            </select> 
+          <?php } ?>  
         </div>
       </div>
     </div>

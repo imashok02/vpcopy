@@ -28,9 +28,6 @@ class Subcategory extends PS_Model {
 			$this->db->where( 'status', 1 );
 		}
 
-		// echo "<pre>";
-		// print_r($conds);
-		// exit();
 
 		// category id condition
 		if ( isset( $conds['cat_id'] )) {
@@ -52,10 +49,8 @@ class Subcategory extends PS_Model {
 		// exit();
 
 				$this->db->where( 'main_cat_id', $conds['main_cat_id'] );	
-
 			}			
 		}
-
 
 
 		// sub category id condition

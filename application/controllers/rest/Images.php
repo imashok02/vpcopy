@@ -14,6 +14,7 @@ class Images extends API_Controller
 	{
 		parent::__construct( 'Image' );
 		$this->load->library( 'PS_Image' );
+		$this->load->library( 'PS_Delete' );
 	}
 
 	function upload_post()
@@ -106,16 +107,17 @@ class Images extends API_Controller
 	function upload_item_post()
 	{
 
+
 		$item_id = $this->post('item_id');
 		$files = $this->post('file');
 		$img_id = $this->post('img_id');
 
 			if (trim($img_id) == "") {
 
-				
 				$path_parts = pathinfo( $_FILES['file']['name'] );
 
 				if(strtolower($path_parts['extension']) != "jpeg" && strtolower($path_parts['extension']) != "png" && strtolower($path_parts['extension']) != "jpg") {
+
 
 					$uploaddir = 'uploads/';
 					$uploaddir_thumb = 'uploads/thumbnail/';
@@ -137,7 +139,8 @@ class Images extends API_Controller
 								'img_path' => $filename,
 								'img_type' => "item",
 								'img_width'=> 0,
-								'img_height'=> 0
+								'img_height'=> 0,
+								'ordering' => $this->post('ordering')
 						   	);
 						}
 
@@ -147,14 +150,16 @@ class Images extends API_Controller
 					//if image is JPG or PNG (Not heic format)	
 
 					$upload_data = $this->ps_image->upload( $_FILES );
-					
+
+
 					foreach ( $upload_data as $upload ) {
 					   	$item_img_data = array( 
 						   	'img_parent_id'=> $item_id,
 							'img_path' => $upload['file_name'],
 							'img_type' => "item",
 							'img_width'=> $upload['image_width'],
-							'img_height'=> $upload['image_height']
+							'img_height'=> $upload['image_height'],
+							'ordering' => $this->post('ordering')
 					   	);
 					}
 
@@ -162,31 +167,31 @@ class Images extends API_Controller
 				}
 
 
-			   if ( $this->Image->save( $item_img_data) ) {
+				    if ( $this->Image->save( $item_img_data) ) {
 
-				   	//for deeplinking image url update by PP
-					$description = $this->Item->get_one($item_id)->description;
-					$title = $this->Item->get_one($item_id)->title;
-					$conds_img = array( 'img_type' => 'item', 'img_parent_id' => $item_id );
-			        $images = $this->Image->get_all_by( $conds_img )->result();
-					$img = $this->ps_image->upload_url . $images[0]->img_path;
-					$deep_link = deep_linking_shorten_url($description,$title,$img,$item_id);
-					$itm_data = array(
-						'dynamic_link' => $deep_link
-					);
-					$this->Item->save($itm_data,$item_id);
+					   	//for deeplinking image url update by PP
+						$description = $this->Item->get_one($item_id)->description;
+						$title = $this->Item->get_one($item_id)->title;
+						$conds_img = array( 'img_type' => 'item', 'img_parent_id' => $item_id );
+				        $images = $this->Image->get_all_by( $conds_img )->result();
+						$img = $this->ps_image->upload_url . $images[0]->img_path;
+						$deep_link = deep_linking_shorten_url($description,$title,$img,$item_id);
+						$itm_data = array(
+							'dynamic_link' => $deep_link
+						);
+						$this->Item->save($itm_data,$item_id);
 
 
-			   		$conds['img_path'] = $item_img_data['img_path'];
-			   		$img_id = $this->Image->get_one_by($conds)->img_id;
-				   	$image = $this->Image->get_one( $img_id );
+				   		$conds['img_path'] = $item_img_data['img_path'];
+				   		$img_id = $this->Image->get_one_by($conds)->img_id;
+					   	$image = $this->Image->get_one( $img_id );
 
-				   	$this->ps_adapter->convert_image( $image );
-				   	
-				   	$this->custom_response( $image );
-			   } else {
-				   	$this->error_response( get_msg('file_na') );
-			   }
+					   	$this->ps_adapter->convert_image( $image );
+					   	
+					   	$this->custom_response( $image );
+				    } else {
+					   	$this->error_response( get_msg('file_na') );
+				    }
 				
 				   
 			} else {
@@ -215,7 +220,8 @@ class Images extends API_Controller
 								'img_path' => $filename,
 								'img_type' => "item",
 								'img_width'=> 0,
-								'img_height'=> 0
+								'img_height'=> 0,
+								'ordering' => $this->post('ordering')
 						   	);
 						}
 
@@ -232,7 +238,8 @@ class Images extends API_Controller
 						   	'img_parent_id'=> $item_id,
 							'img_path' => $upload['file_name'],
 							'img_width'=> $upload['image_width'],
-							'img_height'=> $upload['image_height']
+							'img_height'=> $upload['image_height'],
+							'ordering' => $this->post('ordering')
 					   	);
 					}
 
@@ -574,6 +581,35 @@ class Images extends API_Controller
 
 		
 	}
+
+	/** Delete Item Image **/
+
+	function delete_item_image_post(){
+
+		$rules = array(
+			array(
+	        	'field' => 'img_id',
+	        	'rules' => 'required'
+	        )
+	    );    
+
+	    // exit if there is an error in validation,
+        if ( !$this->is_valid( $rules )) exit;
+
+        $img_id = $this->post('img_id');
+
+        if ( !$this->ps_delete->delete_images_by( array( 'img_id' => $img_id ))) {
+
+        	$this->error_response( get_msg( 'err_model' ));
+
+        	
+        }else{
+
+        	$this->success_response( get_msg( 'success_img_delete' ));
+
+        }
+
+	}
 	
 	/**
 	 * Convert Object
@@ -706,5 +742,48 @@ class Images extends API_Controller
 		// End
 
 
+	}
+
+
+	/** Get Item Gallery Image */
+
+	function get_item_gallery_get()
+	{
+		// add flag for default query
+		$this->is_get = true;
+
+		// get limit & offset
+		$limit = $this->get( 'limit' );
+		$offset = $this->get( 'offset' );
+
+		// get search criteria
+		$default_conds = $this->default_conds();
+		$user_conds = $this->get();
+		$conds = array_merge( $default_conds, $user_conds );
+		$conds['order_by'] = 1;
+		
+		if ( $limit ) {
+			unset( $conds['limit']);
+		}
+
+		if ( $offset ) {
+			unset( $conds['offset']);
+		}
+
+		if ( !empty( $limit ) && !empty( $offset )) {
+			// if limit & offset is not empty
+
+			$data = $this->model->get_all_by( $conds, $limit, $offset )->result();
+		} else if ( !empty( $limit )) {
+		// if limit is not empty
+
+			$data = $this->model->get_all_by( $conds, $limit )->result();
+		} else {
+		// if both are empty
+
+			$data = $this->model->get_all_by( $conds )->result();
+		}
+
+		$this->custom_response( $data , $offset );
 	}
 }

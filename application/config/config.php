@@ -26,11 +26,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['base_url'] = '';
 
 if ( strlen( substr($_SERVER['REQUEST_URI'], 0, stripos($_SERVER['REQUEST_URI'], "index.php" ))) == 0) {
-	$config['base_url'] = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	$config['base_url'] = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
 } else {
 
-	$config['base_url']	= "https://" . $_SERVER['HTTP_HOST']. substr($_SERVER['REQUEST_URI'],0,stripos($_SERVER['REQUEST_URI'],"index.php"));
+	$config['base_url']	= "http://" . $_SERVER['HTTP_HOST']. substr($_SERVER['REQUEST_URI'],0,stripos($_SERVER['REQUEST_URI'],"index.php"));
 
 }
 
@@ -86,7 +86,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-// $config['language']	= 'english';
+
 
 /*
 |--------------------------------------------------------------------------
@@ -468,7 +468,6 @@ $config['csrf_cookie_name'] = 'csrf_cookie_name';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = FALSE;
 $config['csrf_exclude_uris'] = array(
-	'admin_rest/.*?',
 	'rest/.*?',
 	'admin/fileupload/.*?',
 	'userajax/.*?',
@@ -541,4 +540,6 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
-$config['is_demo'] = 0;
+
+$config['is_demo'] = '0'; 
+

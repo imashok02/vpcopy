@@ -3,7 +3,6 @@
 		<tr>
 			<th><?php echo get_msg('no'); ?></th>
 			<th><?php echo get_msg('blog_name'); ?></th>
-			<th><?php echo get_msg('main_cat_name'); ?></th>
 			
 			<?php if ( $this->ps_auth->has_access( EDIT )): ?>
 				
@@ -35,7 +34,6 @@
 			<tr>
 				<td><?php echo ++$count;?></td>
 				<td><?php echo $blog->name;?></td>
-				<td><?php echo $this->Maincategory->get_one( $blog->main_cat_id )->main_cat_name; ?></td>
 
 				<?php if ( $this->ps_auth->has_access( EDIT )): ?>
 			

@@ -2,7 +2,6 @@
 	<table class="table m-0 table-striped">
 		<tr>
 			<th><?php echo get_msg('no'); ?></th>
-			<th><?php echo get_msg('id'); ?></th>
 			<th><?php echo get_msg('item_name'); ?></th>
 			<th><?php echo get_msg('cat_name'); ?></th>
 			<th><?php echo get_msg('subcat_name'); ?></th>
@@ -31,7 +30,6 @@
 			
 			<tr>
 				<td><?php echo ++$count;?></td>
-				<td><?php echo $reject->id;?></td>
 				<td><?php echo $reject->title;?></td>
 				<td><?php echo $this->Category->get_one( $reject->cat_id )->cat_name; ?></td>
 				<td><?php echo $this->Subcategory->get_one( $reject->sub_cat_id )->name; ?></td>

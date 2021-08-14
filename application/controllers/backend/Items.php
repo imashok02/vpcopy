@@ -114,9 +114,19 @@ class Items extends BE_Controller {
 			if($this->input->post('item_location_id') != ""  || $this->input->post('item_location_id') != '0') {
 				$conds['item_location_id'] = $this->input->post('item_location_id');
 				$this->data['item_location_id'] = $this->input->post('item_location_id');
+				$this->data['selected_location_city_id'] = $this->input->post('item_location_id');
 				$this->session->set_userdata(array("item_location_id" => $this->input->post('item_location_id')));
+				$this->session->set_userdata(array("selected_location_city_id" => $this->input->post('item_location_id')));
 			} else {
 				$this->session->set_userdata(array("item_location_id" => NULL ));
+			}
+
+			if($this->input->post('item_location_township_id') != ""  || $this->input->post('item_location_township_id') != '0') {
+				$conds['item_location_township_id'] = $this->input->post('item_location_township_id');
+				$this->data['item_location_township_id'] = $this->input->post('item_location_township_id');
+				$this->session->set_userdata(array("item_location_township_id" => $this->input->post('item_location_township_id')));
+			} else {
+				$this->session->set_userdata(array("item_location_township_id" => NULL ));
 			}
 
 		} else {
@@ -146,7 +156,15 @@ class Items extends BE_Controller {
 			if($this->session->userdata('item_location_id') != NULL){
 				$conds['item_location_id'] = $this->session->userdata('item_location_id');
 				$this->data['item_location_id'] = $this->session->userdata('item_location_id');
+				$this->data['selected_location_city_id'] = $this->session->userdata('item_location_id');
 			}
+
+			if($this->session->userdata('item_location_township_id') != NULL){
+				$conds['item_location_township_id'] = $this->session->userdata('item_location_township_id');
+				$this->data['item_location_township_id'] = $this->session->userdata('item_location_township_id');
+				$this->data['selected_location_city_id'] = $this->session->userdata('item_location_id');
+			}
+
 
 			if($this->session->userdata('item_type_id') != NULL){
 				$conds['item_type_id'] = $this->session->userdata('item_type_id');
@@ -236,6 +254,11 @@ class Items extends BE_Controller {
 			// location id
 		   	if ( $this->has_data( 'item_location_id' )) {
 				$data['item_location_id'] = $this->get_data( 'item_location_id' );
+			}
+
+			// location township id
+		   	if ( $this->has_data( 'item_location_township_id' )) {
+				$data['item_location_township_id'] = $this->get_data( 'item_location_township_id' );
 			}
 
 			//title
@@ -594,6 +617,7 @@ class Items extends BE_Controller {
 			'item_price_type_id' => $items->item_price_type_id,
 			'item_currency_id' => $items->item_currency_id,
 			'item_location_id' => $items->item_location_id,
+			'item_location_township_id' => $items->item_location_township_id,
 			'title' => 'Copy of '.$items->title,
 			'condition_of_item_id' => $items->condition_of_item_id,
 			'description' => $items->description,

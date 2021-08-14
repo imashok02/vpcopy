@@ -513,7 +513,8 @@ class BE_Controller extends PS_Controller {
 					'img_desc' => "",
 					'img_path' => $upload['file_name'],
 					'img_width'=> "",
-					'img_height'=> ""
+					'img_height'=> "",
+					'ordering' => 1
 				);
 			} else {
 				// prepare image data
@@ -523,7 +524,8 @@ class BE_Controller extends PS_Controller {
 					'img_desc' => "",
 					'img_path' => $upload['file_name'],
 					'img_width'=> $upload['image_width'],
-					'img_height'=> $upload['image_height']
+					'img_height'=> $upload['image_height'],
+					'ordering' => 1
 				);
 			}
 

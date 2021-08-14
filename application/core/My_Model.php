@@ -81,7 +81,7 @@ class PS_Model extends CI_Model {
      * @param      boolean  $id     The identifier
      */
 	function save( &$data, $id = false ) {
-		// print_r($data);die;
+		//print_r($data);die;
 		if ( !$id ) {
 		// if id is not false and id is not yet existed,
 			if ( !empty( $this->primary_key ) && !empty( $this->key_prefix )) {
@@ -103,6 +103,32 @@ class PS_Model extends CI_Model {
 			// update the data
 			return $this->db->update($this->table_name,$data);
 			//print_r($this->db->last_query());die;
+		}
+	}
+
+	function save1( &$data, $id = false ) {
+		//print_r($data);die;
+		if ( !$id ) {
+		// if id is not false and id is not yet existed,
+			if ( !empty( $this->primary_key ) && !empty( $this->key_prefix )) {
+			// if the primary key and key prefix is existed,
+			
+				// generate the unique key
+				$data[ $this->primary_key ] = $this->generate_key();
+			}
+
+			// insert the data as new record
+			return $this->db->insert( $this->table_name, $data );
+
+			  // print_r($this->db->last_query());die;
+		} else {
+		// else
+			// where clause
+			$this->db->where( $this->primary_key, $id);
+
+			// update the data
+			 $this->db->update($this->table_name,$data);
+			print_r($this->db->last_query());die;
 		}
 	}
 
@@ -230,10 +256,18 @@ class PS_Model extends CI_Model {
         $obj = new stdClass();
         
         $fields = $this->db->list_fields( $this->table_name );
+
         foreach ( $fields as $field ) {
             $obj->$field = '';
         }
+
+        //for img ordering 0
+        if ($obj->img_id == "") {
+        	$obj->ordering = 0 ;
+        	
+        }
         $obj->is_empty_object = true;
+
         return $obj;
     }
 
@@ -1351,6 +1385,19 @@ class PS_Model extends CI_Model {
 			}			
 		}
 
+		// township id
+
+		if ( isset( $conds['item_location_township_id'] )) {
+			
+			if ($conds['item_location_township_id'] != "") {
+				if($conds['item_location_township_id'] != '0'){
+				
+					$this->db->where( 'item_location_township_id', $conds['item_location_township_id'] );	
+				}
+
+			}			
+		}
+
 
 		// searchterm
 		if ( isset( $conds['searchterm'] )) {
@@ -1438,6 +1485,18 @@ class PS_Model extends CI_Model {
 			}			
 		}
 
+		// township id
+		if ( isset( $conds['item_location_township_id'] )) {
+			
+			if ($conds['item_location_township_id'] != "") {
+				if($conds['item_location_township_id'] != '0'){
+				
+					$this->db->where( 'item_location_township_id', $conds['item_location_township_id'] );	
+				}
+
+			}			
+		}
+
 		
 		//Start - Modify By PPH @ 12 May 2020
 		if ( isset( $conds['cat_id'] )) {
@@ -1446,6 +1505,87 @@ class PS_Model extends CI_Model {
 				if($conds['cat_id'] != '0'){
 				
 					$this->db->where( 'cat_id', $conds['cat_id'] );	
+				}
+
+			}			
+		}
+
+		if(isset($conds['sub_cat_id'])) {
+
+			if ($conds['sub_cat_id'] != "" || $conds['sub_cat_id'] != 0) {
+					
+					$this->db->where( 'sub_cat_id', $conds['sub_cat_id'] );	
+
+			}
+
+		}
+
+		if(isset($conds['min_price'])) {
+
+			if ($conds['min_price'] != "" || $conds['min_price'] != 0) {
+					
+					$this->db->where( 'price>=', $conds['min_price'] );	
+
+			}
+
+		}
+
+		if(isset($conds['max_price'])) {
+
+			if ($conds['max_price'] != "" || $conds['max_price'] != 0) {
+					
+					$this->db->where( 'price<=', $conds['max_price'] );	
+
+			}
+
+		}
+
+		if(isset($conds['deal_option_id'])) {
+
+			if ($conds['deal_option_id'] != "" || $conds['deal_option_id'] != 0) {
+					
+					$this->db->where( 'deal_option_id', $conds['deal_option_id'] );	
+
+			}
+
+		} 
+
+		// Currency id
+		if ( isset( $conds['item_currency_id'] )) {
+			
+			if ($conds['item_currency_id'] != "") {
+				if($conds['item_currency_id'] != '0'){
+				
+					$this->db->where( 'item_currency_id', $conds['item_currency_id'] );	
+				}
+
+			}			
+		}
+
+		// condition_of_item id condition
+		if ( isset( $conds['condition_of_item_id'] )) {
+			$this->db->where( 'condition_of_item_id', $conds['condition_of_item_id'] );
+		}
+
+		// Type id
+		if ( isset( $conds['item_type_id'] )) {
+			
+			if ($conds['item_type_id'] != "") {
+				if($conds['item_type_id'] != '0'){
+				
+					$this->db->where( 'item_type_id', $conds['item_type_id'] );	
+				}
+
+			}			
+		}
+	  
+		// Price id
+		if ( isset( $conds['item_price_type_id'] )) {
+			
+			if ($conds['item_price_type_id'] != "") {
+				if($conds['item_price_type_id'] != '0'){
+				
+					$this->db->where( 'item_price_type_id', $conds['item_price_type_id'] );	
 				}
 
 			}			
@@ -1604,11 +1744,6 @@ class PS_Model extends CI_Model {
 
 		}
 
-		// id condition
-		if ( isset( $conds['added_user_id'] )) {
-			$this->db->where( 'added_user_id', $conds['added_user_id'] );
-		}
-
 		// Type id
 		if ( isset( $conds['item_type_id'] )) {
 			
@@ -1644,6 +1779,19 @@ class PS_Model extends CI_Model {
 
 			}			
 		}
+
+		// township id
+		if ( isset( $conds['item_location_township_id'] )) {
+			
+			if ($conds['item_location_township_id'] != "") {
+				if($conds['item_location_township_id'] != '0'){
+				
+					$this->db->where( 'item_location_township_id', $conds['item_location_township_id'] );	
+				}
+
+			}			
+		}
+
 	   
 		// Currency id
 		if ( isset( $conds['item_currency_id'] )) {
@@ -1741,10 +1889,8 @@ class PS_Model extends CI_Model {
 
 	    $query = $this->db->query('( '. $query1 . ' ) UNION DISTINCT (' . $query2 .') ');
 	    // print_r('( '. $query1 . ' ) UNION DISTINCT (' . $query2 .') ');die;
-	   
 	 	
 	  	return $query;
-	  	//print_r($this->db->last_query());die;
 	}
 
 	// get name with status 0 or 1
@@ -2022,6 +2168,30 @@ class PS_Model extends CI_Model {
 		return $query;
 
 	} 
+
+	// get all not in currency (for default)
+	function get_all_not_in_currency( $id, $limit = false, $offset = false ) {
+	  // where clause
+	  $this->db->where_not_in('id', $id);
+
+	  // from table
+	  $this->db->from( $this->table_name );
+
+	  if ( $limit ) {
+	  // if there is limit, set the limit
+	   
+	   $this->db->limit($limit);
+	  }
+	  
+	  if ( $offset ) {
+	  // if there is offset, set the offset,
+	   
+	   $this->db->offset($offset);
+	  }
+	  
+	  return $this->db->get();
+	  // print_r($this->db->last_query());die;
+	}
 
 	
 }

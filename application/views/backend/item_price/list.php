@@ -2,7 +2,6 @@
 	<table class="table m-0 table-striped">
 		<tr>
 			<th><?php echo get_msg('no'); ?></th>
-			<th><?php echo get_msg('id'); ?></th>
 			<th><?php echo get_msg('price_name'); ?></th>
 			
 			<?php if ( $this->ps_auth->has_access( EDIT )): ?>
@@ -34,7 +33,6 @@
 			
 			<tr>
 				<td><?php echo ++$count;?></td>
-				<td ><?php echo $price->id;?></td>
 				<td ><?php echo $price->name;?></td>
 
 				<?php if ( $this->ps_auth->has_access( EDIT )): ?>

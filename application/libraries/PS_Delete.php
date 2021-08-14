@@ -58,27 +58,6 @@ class PS_Delete {
 		return true;
 	}
 
-	function delete_maincategory( $id, $enable_trigger = false )
-	{		
-		if ( ! $this->CI->Maincategory->delete( $id )) {
-		// if there is an error in deleting language,
-
-			return false;
-		}
-
-		if ( $enable_trigger ) {
-		// if execute_trigger is enable, trigger to delete language related data
-			if ( ! $this->delete_language_trigger( $id )) {
-			// if error in deleteing language and language related data
-
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-
 	function delete_language( $id, $enable_trigger = false )
 	{		
 		if ( ! $this->CI->Language->delete( $id )) {

@@ -41,6 +41,15 @@ class Image extends PS_Model {
 			$this->db->where( 'img_path', $conds['img_path'] );
 		}
 
-		$this->db->order_by( 'added_date', 'desc' );
+		// ordering condition
+		if ( isset( $conds['ordering'] )) {
+			$this->db->where( 'ordering', $conds['ordering'] );
+		}
+
+		if ( isset( $conds['order_by'] )) {
+			$this->db->order_by( 'ordering', 'asc');
+		} else {
+			$this->db->order_by('added_date', 'desc' );
+		}
 	}
 }

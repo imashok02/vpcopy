@@ -240,6 +240,44 @@
 
             <div class="form-group">
               <label> <span style="font-size: 17px; color: red;">*</span>
+                <?php echo get_msg('itm_select_location_township')?>
+              </label>
+
+              <?php
+                if(isset($item)) {
+                  $options=array();
+                  $options[0]=get_msg('itm_select_location_township');
+                  $conds['city_id'] = $item->item_location_id;
+                  $townships = $this->Item_location_township->get_all_by($conds);
+                  foreach($townships->result() as $township) {
+                    $options[$township->id]=$township->township_name;
+                  }
+                  echo form_dropdown(
+                    'item_location_township_id',
+                    $options,
+                    set_value( 'item_location_township_id', show_data( @$item->item_location_township_id), false ),
+                    'class="form-control form-control-sm mr-3" disabled="disabled" id="item_location_township_id"'
+                  );
+
+                } else {
+                  $conds['city_id'] = $selected_location_city_id;
+                  $options=array();
+                  $options[0]=get_msg('itm_select_location_township');
+
+                  echo form_dropdown(
+                    'item_location_township_id',
+                    $options,
+                    set_value( 'item_location_township_id', show_data( @$item->item_location_township_id), false ),
+                    'class="form-control form-control-sm mr-3" disabled="disabled" id="item_location_township_id"'
+                  );
+                }
+                
+              ?>
+
+            </div>
+
+            <div class="form-group">
+              <label> <span style="font-size: 17px; color: red;">*</span>
                 <?php echo get_msg('condition_of_item')?>
               </label>
 
