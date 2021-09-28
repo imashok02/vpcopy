@@ -1368,5 +1368,149 @@ class Chats extends API_Controller
 
 
     }
+
+    /**
+    is user bought
+    */
+    function is_user_bought_post()
+    {
+    			// validation rules for chat history
+		$rules = array(
+			array(
+	        	'field' => 'item_id',
+	        	'rules' => 'required'
+	        ),
+	        array(
+	        	'field' => 'buyer_user_id',
+	        	'rules' => 'required'
+	        ),
+	        array(
+	        	'field' => 'seller_user_id',
+	        	'rules' => 'required'
+	        )
+
+        );
+
+        $item_id = $this->post('item_id');
+        $seller_user_id = $this->post('seller_user_id');
+        $buyer_user_id = $this->post('buyer_user_id');
+
+		// exit if there is an error in validation,
+        if ( !$this->is_valid( $rules )) exit;
+
+
+
+
+        /** send noti to seller */
+
+        $item_name = $this->Item->get_one($item_id)->title;
+        $buyer_name = $this->User->get_one($buyer_user_id)->user_name;
+        $message = $buyer_name . ' ' . get_msg('bought_your_item') . ' ' . $item_name ;
+
+        $devices = $this->Noti->get_all_device_in($seller_user_id)->result();
+
+		$device_ids = array();
+			if ( count( $devices ) > 0 ) {
+				foreach ( $devices as $device ) {
+					$device_ids[] = $device->device_token;
+				}
+			}
+
+		$status = $this->send_android_fcm( $device_ids, $message );
+
+		/** send noti to buyer */
+
+        $message = get_msg('you_bought') . ' ' . $item_name ;
+
+        $devices = $this->Noti->get_all_device_in($buyer_user_id)->result();
+
+		$device_ids = array();
+			if ( count( $devices ) > 0 ) {
+				foreach ( $devices as $device ) {
+					$device_ids[] = $device->device_token;
+				}
+			}
+
+		$status = $this->send_android_fcm( $device_ids, $message );
+
+		/** save bought data */
+
+        $bought_data = array(
+
+        	"item_id" => $this->post('item_id'), 
+        	"buyer_user_id" => $this->post('buyer_user_id'), 
+        	"seller_user_id" => $this->post('seller_user_id'),
+        	"added_date" => date("Y-m-d H:i:s"),
+
+        );
+
+        if (!$this->User_bought->save($bought_data)) {
+        	$this->success_response( get_msg( 'err_user_bought' ));
+        } else {
+        	$this->success_response( get_msg( 'success_user_bought' ));
+
+        }
+
+
+    }
+
+    /** send noti*/
+	function send_android_fcm( $registatoin_ids, $message) 
+    {
+    	//Google cloud messaging GCM-API url
+    	$url = 'https://fcm.googleapis.com/fcm/send';
+
+    	$noti_arr = array(
+    		'title' => get_msg('site_name'),
+    		'body' => $message,
+    		'sound' => 'default',
+    		'message' => $message,
+    		'flag' => 'bought',
+	    	'click_action' => 'FLUTTER_NOTIFICATION_CLICK'
+    	);
+
+    	$fields = array(
+    		'sound' => 'default',
+    		'notification' => $noti_arr,
+    	    'registration_ids' => $registatoin_ids,
+    	    'data' => array(
+    	    	'message' => $message,
+    	    	'flag' => 'bought',
+    	    	'click_action' => 'FLUTTER_NOTIFICATION_CLICK'
+    	    )
+
+    	);
+    	
+    	// $fields = array(
+    	//     'registration_ids' => $registatoin_ids,
+    	//     'data' => array(
+    	//     'message' => $message
+    	//     )
+    	// );
+
+    	// Update your Google Cloud Messaging API Key
+    	//define("GOOGLE_API_KEY", "AIzaSyCCwa8O4IeMG-r_M9EJI_ZqyybIawbufgg");
+    	$fcm_api_key = $this->Backend_config->get_one('be1')->fcm_api_key;
+    	define("GOOGLE_API_KEY", $fcm_api_key);  	
+    		
+    	$headers = array(
+    	    'Authorization: key=' . GOOGLE_API_KEY,
+    	    'Content-Type: application/json'
+    	);
+    	$ch = curl_init();
+    	curl_setopt($ch, CURLOPT_URL, $url);
+    	curl_setopt($ch, CURLOPT_POST, true);
+    	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);	
+    	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+    	$result = curl_exec($ch);		
+    	if ($result === FALSE) {
+    	    die('Curl failed: ' . curl_error($ch));
+    	}
+    	curl_close($ch);
+    	return $result;
+    }
     
 }

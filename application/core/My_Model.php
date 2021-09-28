@@ -1409,6 +1409,8 @@ class PS_Model extends CI_Model {
 			$this->db->group_end();
 		}
 
+		$this->db->order_by('bs_paid_items_history.start_date' , 'asc');
+
    		return $this->db->get();
    		//print_r($this->db->last_query());die;
 	}

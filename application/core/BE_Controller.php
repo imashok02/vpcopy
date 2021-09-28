@@ -776,6 +776,7 @@ class BE_Controller extends PS_Controller {
 	*/
 	function send_android_fcm( $registatoin_ids, $message) 
     {
+    	echo "aaaaaaa";die;
     	//Google cloud messaging GCM-API url
     	$url = 'https://fcm.googleapis.com/fcm/send';
 

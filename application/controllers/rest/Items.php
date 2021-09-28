@@ -44,14 +44,6 @@ class Items extends API_Controller
 				$conds['searchterm']   = $this->post('searchterm');
 			}
 
-			if($this->post('main_cat_id') != "") {
-				$conds['main_cat_id']   = $this->post('main_cat_id');
-			}
-
-			if($this->post('price_qty_id') != "") {
-				$conds['main_cat_id']   = $this->post('price_qty_id');
-			}
-
 			if($this->post('brand_id') != "") {
 				$conds['brand_id']   = $this->post('brand_id');
 			}
@@ -219,7 +211,6 @@ class Items extends API_Controller
         	"highlight_info" => $this->post('highlight_info'),
         	"price" => $this->post('price'),
         	"deal_option_id" => $this->post('deal_option_id'),
-        	"price_qty_id" => $this->post('price_qty_id'),
         	"brand" => $this->post('brand'),
         	"business_mode" => $this->post('business_mode'),
         	"is_sold_out" => $this->post('is_sold_out'),
@@ -237,8 +228,8 @@ class Items extends API_Controller
 		$id = $item_data['id'];
 		
 		if($id != ""){
-			$status = $this->Item->get_one($id)->status;
-			$item_data['status'] = $status;
+			//$status = $this->Item->get_one($id)->status;
+			$item_data['status'] = 0;
 		 	$this->Item->save($item_data,$id);
 		 	///start deep link update item tb by MN
 			$description = $item_data['description'];

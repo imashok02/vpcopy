@@ -1093,7 +1093,26 @@ class API_Controller extends REST_Controller
 
 			}
 
+			$following_user_name = $this->User->get_one($following_user_id)->user_name;
+			$message = $following_user_name . ' ' . get_msg('followed_you');
+
+
+			$user_ids = $this->post('followed_user_id');
+
+			$devices = $this->Noti->get_all_device_in($user_ids)->result();
+
+			$device_ids = array();
+			if ( count( $devices ) > 0 ) {
+				foreach ( $devices as $device ) {
+					$device_ids[] = $device->device_token;
+				}
+			}
+
+			$status = $this->send_android_fcm( $device_ids, $message );
+
 		}
+
+		
 
 		$obj = new stdClass;
 		$obj->user_id = $followed_user_id;

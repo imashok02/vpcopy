@@ -14,6 +14,8 @@ class PS_Image
 	
 	// photo path for thumbnail
 	protected $upload_thumbnail_path;
+	protected $upload_thumbnail2x_path;
+	protected $upload_thumbnail3x_path;
 
 	// photo url to upload
 	public $upload_url;
@@ -47,12 +49,16 @@ class PS_Image
 		// get upload path config
 		$tmp_upload_path = $this->CI->config->item( 'upload_path' );
 		$tmp_thumbnail_path = $this->CI->config->item( 'upload_thumbnail_path' );
+		$tmp_thumbnail2x_path = $this->CI->config->item( 'upload_thumbnail_2x_path' );
+		$tmp_thumbnail3x_path = $this->CI->config->item( 'upload_thumbnail_3x_path' );
 		
 		// get upload path config
 		$this->upload_path = FCPATH . $tmp_upload_path;
 		
 		// get upload thumbnail config
 		$this->upload_thumbnail_path = FCPATH . $tmp_thumbnail_path;
+		$this->upload_thumbnail2x_path = FCPATH . $tmp_thumbnail2x_path;
+		$this->upload_thumbnail3x_path = FCPATH . $tmp_thumbnail3x_path;
 
 		// get upload path config
 		$this->upload_url = base_url( $tmp_upload_path );
@@ -144,6 +150,13 @@ class PS_Image
 					$thumb_img_portrait_height_config = $this->CI->Backend_config->get_one("be1")->potrait_thumb_height; //setting
 					$thumb_img_square_width_config   = $this->CI->Backend_config->get_one("be1")->square_thumb_height; //setting
 
+					$thumb2x_img_landscape_width = $this->CI->Backend_config->get_one("be1")->landscape_thumb2x_width; //setting
+					$thumb2x_img_portrait_height = $this->CI->Backend_config->get_one("be1")->potrait_thumb2x_height; //setting
+					$thumb2x_img_square_width   = $this->CI->Backend_config->get_one("be1")->square_thumb2x_height; //setting
+
+					$thumb3x_img_landscape_width = $this->CI->Backend_config->get_one("be1")->landscape_thumb3x_width; //setting
+					$thumb3x_img_portrait_height = $this->CI->Backend_config->get_one("be1")->potrait_thumb3x_height; //setting
+					$thumb3x_img_square_width  = $this->CI->Backend_config->get_one("be1")->square_thumb3x_height; //setting
 
 
 					$need_resize = 0; //Flag
@@ -166,8 +179,23 @@ class PS_Image
 							$need_resize = 1;
 							$org_img_ratio = round($org_img_landscape_width_config / $uploaded_data['image_width'],3);
 							$thumb_img_ratio = round($thumb_img_landscape_width_config / $uploaded_data['image_width'],3);
+							$thumb2x_img_ratio = round($thumb2x_img_landscape_width / $uploaded_data['image_width'],3);
+							$thumb3x_img_ratio = round($thumb3x_img_landscape_width / $uploaded_data['image_width'],3);
 
 
+						} else {
+							$thumb1x_img_ratio = round($thumb_img_landscape_width_config / $uploaded_data['image_width'],3);
+							$thumb2x_img_ratio = round($thumb2x_img_landscape_width / $uploaded_data['image_width'],3);
+							$thumb3x_img_ratio = round($thumb3x_img_landscape_width / $uploaded_data['image_width'],3);
+
+							$thumb1x_width = $thumb_img_landscape_width_config;
+							$thumb1x_height = round($uploaded_data['image_height'] * $thumb1x_img_ratio, 0);
+
+							$thumb2x_width = $thumb2x_img_landscape_width;
+							$thumb2x_height = round($uploaded_data['image_height'] * $thumb2x_img_ratio, 0);
+
+							$thumb3x_width = $thumb3x_img_landscape_width;
+							$thumb3x_height = round($uploaded_data['image_height'] * $thumb3x_img_ratio, 0);
 						}
 
 					}
@@ -179,7 +207,22 @@ class PS_Image
 							$need_resize = 1;
 							$org_img_ratio = round($org_img_portrait_height_config / $uploaded_data['image_height'],3);
 							$thumb_img_ratio = round($thumb_img_portrait_height_config / $uploaded_data['image_height'],3);
+							$thumb2x_img_ratio = round($thumb2x_img_portrait_height / $uploaded_data['image_height'],3);
+							$thumb3x_img_ratio = round($thumb3x_img_portrait_height / $uploaded_data['image_height'],3);
 
+						} else {
+							$thumb1x_img_ratio = round($thumb_img_portrait_height_config / $uploaded_data['image_height'],3);
+							$thumb2x_img_ratio = round($thumb2x_img_portrait_height / $uploaded_data['image_height'],3);
+							$thumb3x_img_ratio = round($thumb3x_img_portrait_height / $uploaded_data['image_height'],3);
+
+							$thumb1x_width = round($uploaded_data['image_width'] * $thumb1x_img_ratio, 0);
+							$thumb1x_height = $thumb_img_portrait_height_config;
+
+							$thumb2x_width = round($uploaded_data['image_width'] * $thumb2x_img_ratio, 0);
+							$thumb2x_height = $thumb2x_img_portrait_height;
+
+							$thumb3x_width = round($uploaded_data['image_width'] * $thumb3x_img_ratio, 0);
+							$thumb3x_height = $thumb3x_img_portrait_height;
 						}
 						
 					}
@@ -191,7 +234,22 @@ class PS_Image
 							$need_resize = 1;
 							$org_img_ratio = round($org_img_square_width_config / $uploaded_data['image_width'],3);
 							$thumb_img_ratio = round($thumb_img_square_width_config / $uploaded_data['image_width'],3);
+							$thumb2x_img_ratio = round($thumb2x_img_square_width / $uploaded_data['image_width'],3);
+							$thumb3x_img_ratio = round($thumb3x_img_square_width / $uploaded_data['image_width'],3);
 
+						} else {
+							$thumb1x_img_ratio = round($thumb_img_square_width_config / $uploaded_data['image_width'],3);
+							$thumb2x_img_ratio = round($thumb2x_img_square_width / $uploaded_data['image_width'],3);
+							$thumb3x_img_ratio = round($thumb3x_img_square_width / $uploaded_data['image_width'],3);
+
+							$thumb1x_width = $thumb_img_square_width_config;
+							$thumb1x_height = round($uploaded_data['image_height'] * $thumb1x_img_ratio, 0);
+
+							$thumb2x_width = $thumb2x_img_square_width;
+							$thumb2x_height = round($uploaded_data['image_height'] * $thumb2x_img_ratio, 0);
+
+							$thumb3x_width = $thumb3x_img_square_width;
+							$thumb3x_height = round($uploaded_data['image_height'] * $thumb3x_img_ratio, 0);
 						}
 						
 					}
@@ -212,13 +270,19 @@ class PS_Image
 
 						$this->create_thumbnail( $image_path, $org_img_width, $org_img_height, $this->upload_path );
 						
-						// resize for thumbnail image
+						//resize for 1x,2x,3x thumbnail modified by MN
 						$thumb_img_width  = round($uploaded_data['image_width'] * $thumb_img_ratio, 0);
 						$thumb_img_height = round($uploaded_data['image_height'] * $thumb_img_ratio, 0);
-						
-						
-						$this->create_thumbnail( $image_path, $thumb_img_width, $thumb_img_height );
 
+						$thumb2x_img_width  = round($uploaded_data['image_width'] * $thumb2x_img_ratio, 0);
+						$thumb2x_img_height = round($uploaded_data['image_height'] * $thumb2x_img_ratio, 0);
+
+						$thumb3x_img_width  = round($uploaded_data['image_width'] * $thumb3x_img_ratio, 0);
+						$thumb3x_img_height = round($uploaded_data['image_height'] * $thumb3x_img_ratio, 0);
+
+						$this->create_thumbnail( $image_path, $thumb_img_width, $thumb_img_height );
+						$this->create_thumbnail_2x( $image_path, $thumb2x_img_width, $thumb2x_img_height );
+						$this->create_thumbnail_3x( $image_path, $thumb3x_img_width, $thumb3x_img_height );
 						$uploaded_data_return['file_name']   = $file_name;
 						$uploaded_data_return['image_width']  = $org_img_width;
 						$uploaded_data_return['image_height'] = $org_img_height;
@@ -248,12 +312,17 @@ class PS_Image
 						$this->create_thumbnail( $image_path, $org_width, $org_height, $this->upload_path );
 
 
+						// old code
+						// $thumb_width  =   round($uploaded_data['image_width'] * 0.25, 0);
+						// $thumb_height =   round($uploaded_data['image_height'] * 0.25, 0);
 
-						$thumb_width  =   round($uploaded_data['image_width'] * 0.25, 0);
-						$thumb_height =   round($uploaded_data['image_height'] * 0.25, 0);
 
+						// $this->create_thumbnail( $image_path, $thumb_width, $thumb_height );
 
-						$this->create_thumbnail( $image_path, $thumb_width, $thumb_height );
+						//resize for 1x,2x,3x thumbnail modified by MN
+						$this->create_thumbnail( $image_path, $thumb1x_width, $thumb1x_height );
+						$this->create_thumbnail_2x( $image_path, $thumb2x_width, $thumb2x_height );
+						$this->create_thumbnail_3x( $image_path, $thumb3x_width, $thumb3x_height );
 					}
 
 				} else {
@@ -635,6 +704,61 @@ class PS_Image
 			$new_image_path = $file_location_path;
 		}
 
+		
+		$config = array(
+			'source_image' => $image_path, //$image_data['full_path'],
+			'new_image' => $new_image_path,
+			'maintain_ration' => true,
+			'width' => $width,
+			'height' => $height,
+			'quality' => 50,
+		);
+
+
+		$this->CI->image_lib->initialize($config);
+		$this->CI->image_lib->resize();
+	}
+
+	function create_thumbnail_2x( $image_path, $width = 200, $height = 200, $file_location_path = "" )
+	{
+
+		//echo $this->upload_thumbnail_path; die;
+		// create thumbnail
+		$this->CI->image_lib->clear();
+
+		if( $file_location_path == "" ) {
+			
+			$new_image_path = $this->upload_thumbnail2x_path;
+		} else {
+			$new_image_path = $file_location_path;
+		}
+		
+		$config = array(
+			'source_image' => $image_path, //$image_data['full_path'],
+			'new_image' => $new_image_path,
+			'maintain_ration' => true,
+			'width' => $width,
+			'height' => $height,
+			'quality' => 50,
+		);
+
+		$this->CI->image_lib->initialize($config);
+		$this->CI->image_lib->resize();
+	}
+
+	function create_thumbnail_3x( $image_path, $width = 350, $height = 350, $file_location_path = "" )
+	{
+		
+		//echo $this->upload_thumbnail_path; die;
+		// create thumbnail
+		$this->CI->image_lib->clear();
+
+		if( $file_location_path == "" ) {
+			
+			$new_image_path = $this->upload_thumbnail3x_path;
+		} else {
+			$new_image_path = $file_location_path;
+		}
 		
 		$config = array(
 			'source_image' => $image_path, //$image_data['full_path'],

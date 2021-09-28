@@ -203,4 +203,63 @@ class Userfollows extends API_Controller
 		}
 	}
 
+	function send_android_fcm( $registatoin_ids, $message) 
+    {
+
+    	//Google cloud messaging GCM-API url
+    	$url = 'https://fcm.googleapis.com/fcm/send';
+
+    	$noti_arr = array(
+    		'title' => get_msg('site_name'),
+    		'body' => $message,
+    		'sound' => 'default',
+    		'message' => $message,
+    		'flag' => 'follow',
+	    	'click_action' => 'FLUTTER_NOTIFICATION_CLICK'
+    	);
+
+    	$fields = array(
+    		'sound' => 'default',
+    		'notification' => $noti_arr,
+    	    'registration_ids' => $registatoin_ids,
+    	    'data' => array(
+    	    	'message' => $message,
+    	    	'flag' => 'follow',
+    	    	'click_action' => 'FLUTTER_NOTIFICATION_CLICK'
+    	    )
+
+    	);
+    	
+    	// $fields = array(
+    	//     'registration_ids' => $registatoin_ids,
+    	//     'data' => array(
+    	//     'message' => $message
+    	//     )
+    	// );
+
+    	// Update your Google Cloud Messaging API Key
+    	//define("GOOGLE_API_KEY", "AIzaSyCCwa8O4IeMG-r_M9EJI_ZqyybIawbufgg");
+    	$fcm_api_key = $this->Backend_config->get_one('be1')->fcm_api_key;
+    	define("GOOGLE_API_KEY", $fcm_api_key);  	
+    		
+    	$headers = array(
+    	    'Authorization: key=' . GOOGLE_API_KEY,
+    	    'Content-Type: application/json'
+    	);
+    	$ch = curl_init();
+    	curl_setopt($ch, CURLOPT_URL, $url);
+    	curl_setopt($ch, CURLOPT_POST, true);
+    	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);	
+    	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+    	$result = curl_exec($ch);				
+    	if ($result === FALSE) {
+    	    die('Curl failed: ' . curl_error($ch));
+    	}
+    	curl_close($ch);
+    	return $result;
+    }
+
 }

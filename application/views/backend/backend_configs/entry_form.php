@@ -503,10 +503,65 @@ echo form_open( '', $attributes);
 						?>
 					</div>
 
+					<h5><?php echo get_msg('thumb_2x_label')?></h5>
+		        	<div class="form-group">
+						<label><?php echo get_msg('land_width_label')?>
+							<a href="#" class="tooltip-ps" data-toggle="tooltip" title="<?php echo get_msg('land_height_label')?>">
+								<span class='glyphicon glyphicon-info-sign menu-icon'>
+							</a>
+						</label>
+						<?php 
+							echo form_input( array(
+								'type' => 'text',
+								'name' => 'landscape_thumb2x_width',
+								'id' => 'landscape_thumb2x_width',
+								'class' => 'form-control',
+								'placeholder' => get_msg('land_width_label'),
+								'value' => set_value( 'landscape_thumb2x_width', show_data( @$backend->landscape_thumb2x_width ), false )
+							));
+						?>
+					</div>
+
+					<div class="form-group">
+						<label><?php echo get_msg('potrait_height_label')?>
+							<a href="#" class="tooltip-ps" data-toggle="tooltip" title="<?php echo get_msg('potrait_width_label')?>">
+								<span class='glyphicon glyphicon-info-sign menu-icon'>
+							</a>
+						</label>
+						<?php 
+							echo form_input( array(
+								'type' => 'text',
+								'name' => 'potrait_thumb2x_height',
+								'id' => 'potrait_thumb2x_height',
+								'class' => 'form-control',
+								'placeholder' => get_msg('potrait_width_label'),
+								'value' => set_value( 'potrait_thumb2x_height', show_data( @$backend->potrait_thumb2x_height ), false )
+							));
+						?>
+					</div>
+
+					<div class="form-group">
+						<label><?php echo get_msg('square_label')?>
+							<a href="#" class="tooltip-ps" data-toggle="tooltip" title="<?php echo get_msg('square_label')?>">
+								<span class='glyphicon glyphicon-info-sign menu-icon'>
+							</a>
+						</label>
+						<?php 
+							echo form_input( array(
+								'type' => 'text',
+								'name' => 'square_thumb2x_height',
+								'id' => 'square_thumb2x_height',
+								'class' => 'form-control',
+								'placeholder' => get_msg('square_label'),
+								'value' => set_value( 'square_thumb2x_height', show_data( @$backend->square_thumb2x_height ), false )
+							));
+						?>
+					</div>
+
 		        </div>
 
 		        <div class="col-md-6">
-		        	<h5>Thumbnail Image Size</h5>
+		        	<h5><?php echo get_msg('thumb_1x_label')?></h5>
 		        	<div class="form-group">
 						<label><?php echo get_msg('land_width_label')?>
 							<a href="#" class="tooltip-ps" data-toggle="tooltip" title="<?php echo get_msg('land_height_label')?>">
@@ -560,7 +615,61 @@ echo form_open( '', $attributes);
 							));
 						?>
 					</div>
-					<br><br><br><br>
+					
+					<h5><?php echo get_msg('thumb_3x_label')?></h5>
+		        	<div class="form-group">
+						<label><?php echo get_msg('land_width_label')?>
+							<a href="#" class="tooltip-ps" data-toggle="tooltip" title="<?php echo get_msg('land_height_label')?>">
+								<span class='glyphicon glyphicon-info-sign menu-icon'>
+							</a>
+						</label>
+						<?php 
+							echo form_input( array(
+								'type' => 'text',
+								'name' => 'landscape_thumb3x_width',
+								'id' => 'landscape_thumb3x_width',
+								'class' => 'form-control',
+								'placeholder' => get_msg('land_width_label'),
+								'value' => set_value( 'landscape_thumb3x_width', show_data( @$backend->landscape_thumb3x_width ), false )
+							));
+						?>
+					</div>
+
+					<div class="form-group">
+						<label><?php echo get_msg('potrait_height_label')?>
+							<a href="#" class="tooltip-ps" data-toggle="tooltip" title="<?php echo get_msg('potrait_width_label')?>">
+								<span class='glyphicon glyphicon-info-sign menu-icon'>
+							</a>
+						</label>
+						<?php 
+							echo form_input( array(
+								'type' => 'text',
+								'name' => 'potrait_thumb3x_height',
+								'id' => 'potrait_thumb3x_height',
+								'class' => 'form-control',
+								'placeholder' => get_msg('potrait_width_label'),
+								'value' => set_value( 'potrait_thumb3x_height', show_data( @$backend->potrait_thumb3x_height ), false )
+							));
+						?>
+					</div>
+
+					<div class="form-group">
+						<label><?php echo get_msg('square_label')?>
+							<a href="#" class="tooltip-ps" data-toggle="tooltip" title="<?php echo get_msg('square_label')?>">
+								<span class='glyphicon glyphicon-info-sign menu-icon'>
+							</a>
+						</label>
+						<?php 
+							echo form_input( array(
+								'type' => 'text',
+								'name' => 'square_thumb3x_height',
+								'id' => 'square_thumb3x_height',
+								'class' => 'form-control',
+								'placeholder' => get_msg('square_label'),
+								'value' => set_value( 'square_thumb3x_height', show_data( @$backend->square_thumb3x_height ), false )
+							));
+						?>
+					</div>
 		        </div>
 		        
 		        <legend class="ml-3"><?php echo get_msg('deeplink_section')?></legend>

@@ -173,6 +173,42 @@ class Backend_configs extends BE_Controller {
 			$data['square_thumb_height'] = $this->get_data( 'square_thumb_height' );
 		}
 
+		// landscape_thumb2x_width
+		if ( $this->has_data( 'landscape_thumb2x_width' ) 
+			&& !empty( $this->get_data( 'landscape_thumb2x_width' ))) {
+			$data['landscape_thumb2x_width'] = $this->get_data( 'landscape_thumb2x_width' );
+		}
+
+		// potrait_thumb2x_height
+		if ( $this->has_data( 'potrait_thumb2x_height' ) 
+			&& !empty( $this->get_data( 'potrait_thumb2x_height' ))) {
+			$data['potrait_thumb2x_height'] = $this->get_data( 'potrait_thumb2x_height' );
+		}
+
+		// square_thumb2x_height
+		if ( $this->has_data( 'square_thumb2x_height' ) 
+			&& !empty( $this->get_data( 'square_thumb2x_height' ))) {
+			$data['square_thumb2x_height'] = $this->get_data( 'square_thumb2x_height' );
+		}
+
+		// landscape_thumb3x_width
+		if ( $this->has_data( 'landscape_thumb3x_width' ) 
+			&& !empty( $this->get_data( 'landscape_thumb3x_width' ))) {
+			$data['landscape_thumb3x_width'] = $this->get_data( 'landscape_thumb3x_width' );
+		}
+
+		// potrait_thumb3x_height
+		if ( $this->has_data( 'potrait_thumb3x_height' ) 
+			&& !empty( $this->get_data( 'potrait_thumb3x_height' ))) {
+			$data['potrait_thumb3x_height'] = $this->get_data( 'potrait_thumb3x_height' );
+		}
+
+		// square_thumb3x_height
+		if ( $this->has_data( 'square_thumb3x_height' ) 
+			&& !empty( $this->get_data( 'square_thumb3x_height' ))) {
+			$data['square_thumb3x_height'] = $this->get_data( 'square_thumb3x_height' );
+		}
+
 		// dyn_link_key
 		if ( $this->has_data( 'dyn_link_key' ) 
 			&& !empty( $this->get_data( 'dyn_link_key' ))) {
