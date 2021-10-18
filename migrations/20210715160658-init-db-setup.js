@@ -9,11 +9,11 @@ var fs = require('fs'),
 
     fs.readFile(filePath, {encoding: 'utf-8'}, function (err, data) {
       if (err) {
-        return console.log(err);
+        return console.log("read Error");
       }
       db.runSql(data, function (err) {
         if (err) {
-          return console.log(err);
+          return console.log("error on data ==> ",  JSON.stringify(err).substring(0, 100));
         }
         callback();
       });

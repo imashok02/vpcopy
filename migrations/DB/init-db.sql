@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 04, 2021 at 04:41 PM
+-- Generation Time: Oct 17, 2021 at 04:15 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 5.6.39
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `vp_dev2`
+-- Database: `vp_dev`
 --
 
 -- --------------------------------------------------------
@@ -128,15 +128,16 @@ CREATE TABLE `bs_app_settings` (
   `id` varchar(255) NOT NULL,
   `lat` float(10,6) NOT NULL,
   `lng` float(10,6) NOT NULL,
-  `is_approval_enabled` tinyint(1) NOT NULL DEFAULT '0'
+  `is_approval_enabled` tinyint(1) NOT NULL DEFAULT '0',
+  `is_sub_location` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `bs_app_settings`
 --
 
-INSERT INTO `bs_app_settings` (`id`, `lat`, `lng`, `is_approval_enabled`) VALUES
-('app1', 16.879910, 96.173248, 1);
+INSERT INTO `bs_app_settings` (`id`, `lat`, `lng`, `is_approval_enabled`, `is_sub_location`) VALUES
+('app1', 11.412449, 76.680656, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -165,6 +166,37 @@ CREATE TABLE `bs_categories` (
   `main_cat_id` varchar(255) NOT NULL,
   `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `bs_categories`
+--
+
+INSERT INTO `bs_categories` (`cat_id`, `cat_name`, `cat_ordering`, `status`, `main_cat_id`, `added_date`) VALUES
+('cat0692d84fc596280192101277cbc9353a', 'Home Appliances', 0, 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '2021-10-16 12:34:51'),
+('cat250256f90a1425de6154deed911a6bf3', 'Farming', 0, 1, 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', '2021-10-16 13:22:38'),
+('cat275c8f30db3c7ad6beba374c9ab7c031', 'Gaming', 0, 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '2021-10-16 12:34:32'),
+('cat34c18b69a7ef10244b59357791fee00c', 'Paying Guest (PG)', 0, 1, 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', '2021-10-16 13:23:06'),
+('cat3ab4302f1d9232092470e2d088a29406', 'Pets', 0, 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '2021-10-16 12:35:48'),
+('cat48c0954c232f6065eff464fe4dab59b1', 'Entertainment', 0, 1, 'main_cate0100cee3c7f4245b103936161f6f6cc', '2021-10-17 01:16:29'),
+('cat4ecdecdfb0d950f4a70a222bffebea34', 'Cameras', 0, 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '2021-10-16 12:32:47'),
+('cat5a5c765b9d56677e9fb51a759bf38203', 'Automobiles', 0, 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '2021-10-16 12:36:27'),
+('cat6a03f0461a4541256a0e6c2651f9d1ee', 'Televisons', 0, 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '2021-10-16 12:32:05'),
+('cat758bbb232a3a5cfa74692117bd59999f', 'Sports Kits', 0, 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '2021-10-16 12:36:08'),
+('cat88bd03f2e044a618ce48c6411a15134e', 'Computers', 0, 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '2021-10-16 12:31:16'),
+('cat9126cc7d038da8293e70be988541e55e', 'Farm & Agri', 0, 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '2021-10-16 12:36:45'),
+('cat937c11b28690e47d1949650c407ee8d8', 'Kitchen', 0, 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '2021-10-16 12:35:09'),
+('cat9b08778efc4d46ead220262774ede4a7', 'Audios', 0, 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '2021-10-16 12:33:51'),
+('cat9c2c5e35d677f4c572f2f85739f334a1', 'Furniture', 0, 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '2021-10-16 12:35:27'),
+('cataaab187b4f2a2afd72e94518ee73ddbf', 'Residential', 0, 1, 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', '2021-10-16 13:19:27'),
+('catb507a4125b02ba1a161ac9b8720ba686', 'Automobile Services', 0, 1, 'main_cate0100cee3c7f4245b103936161f6f6cc', '2021-10-17 00:16:04'),
+('catb61b2abf66ec68c6bde40963bf05757a', 'Food', 0, 1, 'main_cate0100cee3c7f4245b103936161f6f6cc', '2021-10-17 00:14:57'),
+('catd144e8ec680ff89caa67d1a0823e7e4c', 'Electronics', 0, 1, 'main_cate0100cee3c7f4245b103936161f6f6cc', '2021-10-17 00:14:09'),
+('catd3bd74ddd4daaa67451dfa108d3ec9be', 'Commercial', 0, 1, 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', '2021-10-16 13:19:14'),
+('catda31b23547fbdb66cfd347d852c2cbf5', 'Home', 0, 1, 'main_cate0100cee3c7f4245b103936161f6f6cc', '2021-10-17 00:14:34'),
+('catdb641ace25a2d62bc06fa888ffe7bc06', 'People', 0, 1, 'main_cate0100cee3c7f4245b103936161f6f6cc', '2021-10-17 00:15:21'),
+('catf0da5f571037350dc4202983ffaa4e2d', 'Farming Services', 0, 1, 'main_cate0100cee3c7f4245b103936161f6f6cc', '2021-10-17 00:16:42'),
+('catfb38abbfe5cd129800978bfb5d4f8e94', 'Mobiles', 0, 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '2021-10-16 12:30:51'),
+('catff7e082160d464a5b8a91a4ad84169ec', 'Personal Tech', 0, 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '2021-10-16 12:39:34');
 
 -- --------------------------------------------------------
 
@@ -196,6 +228,7 @@ CREATE TABLE `bs_chat_history` (
   `buyer_unread_count` int(11) NOT NULL,
   `seller_unread_count` int(11) NOT NULL,
   `is_accept` tinyint(1) NOT NULL DEFAULT '0',
+  `offer_status` tinyint(1) NOT NULL,
   `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -226,6 +259,14 @@ CREATE TABLE `bs_deal_options` (
   `status` tinyint(1) NOT NULL,
   `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `bs_deal_options`
+--
+
+INSERT INTO `bs_deal_options` (`id`, `name`, `status`, `added_date`) VALUES
+('itm_option861e6839332c30eff91f0c9d4144b8be', 'Meet Up', 1, '2021-10-17 01:06:01'),
+('itm_option99be44b2cd6e5bbdce57daa7dff34231', 'Home Delivery', 1, '2021-10-17 01:05:29');
 
 -- --------------------------------------------------------
 
@@ -299,6 +340,7 @@ CREATE TABLE `bs_items` (
   `item_price_type_id` varchar(255) NOT NULL,
   `item_currency_id` varchar(255) NOT NULL,
   `item_location_id` varchar(255) NOT NULL,
+  `item_location_township_id` varchar(255) NOT NULL,
   `condition_of_item_id` varchar(255) NOT NULL,
   `deal_option_remark` text NOT NULL,
   `description` text NOT NULL,
@@ -322,7 +364,8 @@ CREATE TABLE `bs_items` (
   `favourite_count` int(11) NOT NULL,
   `is_paid` tinyint(1) NOT NULL DEFAULT '0',
   `dynamic_link` varchar(255) NOT NULL,
-  `payment_type` tinyint(1) NOT NULL
+  `payment_type` tinyint(1) NOT NULL,
+  `price_qty_id` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -336,6 +379,7 @@ CREATE TABLE `bs_items_currency` (
   `currency_short_form` varchar(255) NOT NULL,
   `currency_symbol` varchar(255) NOT NULL,
   `status` tinyint(1) NOT NULL,
+  `is_default` tinyint(1) NOT NULL,
   `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -343,35 +387,10 @@ CREATE TABLE `bs_items_currency` (
 -- Dumping data for table `bs_items_currency`
 --
 
-INSERT INTO `bs_items_currency` (`id`, `currency_short_form`, `currency_symbol`, `status`, `added_date`) VALUES
-('itm_curency0d6e66664693165a0469cd3d1ba233f4', 'USD', '$', 1, '2019-05-29 23:00:37'),
-('itm_curencye14f08343f2d93328ce5caf1a72a7494', 'GBP', '£', 1, '2019-07-22 04:37:41');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `bs_item_locations`
---
-
-CREATE TABLE `bs_item_locations` (
-  `id` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `ordering` int(10) NOT NULL,
-  `lat` float(10,6) NOT NULL,
-  `lng` float(10,6) NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `bs_item_locations`
---
-
-INSERT INTO `bs_item_locations` (`id`, `name`, `ordering`, `lat`, `lng`, `status`, `added_date`) VALUES
-('itm_loc8735dcafe1a562e418f68f250db2a58d', 'Denver', 6, 39.740009, -104.992020, 1, '2020-07-23 23:36:36'),
-('itm_loc892e3dbe2fbf07ae7b19455a4e75b28c', 'Yangon', 0, 16.865044, 96.203674, 1, '2019-06-06 18:08:44'),
-('itm_loca7b66748e03d457e976ca63a50e1bde0', 'Mandalay', 8, 21.959900, 96.086601, 1, '2019-06-06 18:09:05'),
-('itm_locc91e7fd5ffc739b26951228b0a564569', 'Singapore', 0, 1.354200, 103.819839, 1, '2019-06-06 18:04:36');
+INSERT INTO `bs_items_currency` (`id`, `currency_short_form`, `currency_symbol`, `status`, `is_default`, `added_date`) VALUES
+('itm_curency0d6e66664693165a0469cd3d1ba233f4', 'USD', '$', 1, 0, '2019-05-29 23:00:37'),
+('itm_curency171e8b065e01442bac9b0cbbfda858b4', 'INR', '₹', 1, 1, '2021-10-17 01:21:41'),
+('itm_curencye14f08343f2d93328ce5caf1a72a7494', 'GBP', '£', 1, 0, '2019-07-22 04:37:41');
 
 -- --------------------------------------------------------
 
@@ -385,6 +404,15 @@ CREATE TABLE `bs_items_price` (
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `bs_items_price`
+--
+
+INSERT INTO `bs_items_price` (`id`, `name`, `status`, `added_date`) VALUES
+('itm_price1152888f254e92622e62f906bf20ea31', 'Fixed', 1, '2021-10-17 01:22:58'),
+('itm_price94fe2c774efa82c64ed0bdf6ebed2419', 'Free', 1, '2021-10-17 01:23:46'),
+('itm_price97ea757481c621675f1aeb5304b48c5a', 'Negotiable', 1, '2021-10-17 01:23:12');
 
 -- --------------------------------------------------------
 
@@ -413,6 +441,20 @@ CREATE TABLE `bs_items_types` (
   `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `bs_items_types`
+--
+
+INSERT INTO `bs_items_types` (`id`, `name`, `status`, `main_cat_id`, `added_date`) VALUES
+('itm_type374687583a3b14fcd8f82866e00ff828', 'Buying', 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '2021-10-17 00:40:35'),
+('itm_type3e5b6dad7cd421e825c67431215ff68f', 'For Rent', 1, 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', '2021-10-17 00:41:06'),
+('itm_type3f3a8b500dfe266d121f3b0eb76ab83c', 'I Provide', 1, 'main_cate0100cee3c7f4245b103936161f6f6cc', '2021-10-17 00:46:22'),
+('itm_type714d1a51ac195e1db9d92eff36f872f0', 'I Need', 1, 'main_cate0100cee3c7f4245b103936161f6f6cc', '2021-10-17 00:46:33'),
+('itm_type923cbb5eacdcad0b64462c67a3e03ad8', 'For Sale', 1, 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', '2021-10-17 00:40:56'),
+('itm_typecb739f8a2e84238f4fe05252227bf8de', 'Renting', 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '2021-10-17 00:40:24'),
+('itm_typeef752d600425dd6fb5acefcafbd393f7', 'Selling', 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '2021-10-17 00:40:13'),
+('itm_typefed1ab46e46fea4737a0cd55ba79fb5f', 'To Buy', 1, 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', '2021-10-17 00:41:48');
+
 -- --------------------------------------------------------
 
 --
@@ -427,6 +469,74 @@ CREATE TABLE `bs_item_conditions` (
   `cat_id` varchar(255) NOT NULL,
   `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `bs_item_conditions`
+--
+
+INSERT INTO `bs_item_conditions` (`id`, `name`, `status`, `main_cat_id`, `cat_id`, `added_date`) VALUES
+('itm_cond4e19b2460e46d374f5436f74284f5050', '24x7 Availability', 1, 'main_cate0100cee3c7f4245b103936161f6f6cc', '', '2021-10-17 01:02:56'),
+('itm_cond64ebf897bc38c18146aff99527809896', 'Used', 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '', '2021-10-17 00:47:33'),
+('itm_cond719856b167016850d8902daf0e60bb5a', 'Refurbished', 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '', '2021-10-17 00:48:02'),
+('itm_cond720cf3d75d9ccb89977b46d9e52be7ab', 'Ready to Move', 1, 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', '', '2021-10-17 00:48:36'),
+('itm_cond72874de7050d2cef2858f3da7ee903c1', 'On Construction', 1, 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', '', '2021-10-17 00:48:57'),
+('itm_cond8929b7432af63def8d8c643ecd6179f9', 'Only DayTime', 1, 'main_cate0100cee3c7f4245b103936161f6f6cc', '', '2021-10-17 01:03:17'),
+('itm_cond9d8b463e714b7d5015a0799becc3c82f', 'Only Night', 1, 'main_cate0100cee3c7f4245b103936161f6f6cc', '', '2021-10-17 01:03:33'),
+('itm_condf2ed9ca3e1c7e3a3e96ebd2cd40723ff', 'New', 1, 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '', '2021-10-17 00:47:43');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bs_item_locations`
+--
+
+CREATE TABLE `bs_item_locations` (
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `ordering` int(10) NOT NULL,
+  `lat` float(10,6) NOT NULL,
+  `lng` float(10,6) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `addressLine` varchar(255) DEFAULT NULL,
+  `countryName` varchar(255) DEFAULT NULL,
+  `countryCode` varchar(255) DEFAULT NULL,
+  `featureName` varchar(255) DEFAULT NULL,
+  `postalCode` varchar(255) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `subLocality` varchar(255) DEFAULT NULL,
+  `adminArea` varchar(255) DEFAULT NULL,
+  `subAdminArea` varchar(255) DEFAULT NULL,
+  `thoroughfare` varchar(255) DEFAULT NULL,
+  `subThoroughfare` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `bs_item_locations`
+--
+
+INSERT INTO `bs_item_locations` (`id`, `name`, `ordering`, `lat`, `lng`, `status`, `added_date`, `addressLine`, `countryName`, `countryCode`, `featureName`, `postalCode`, `city`, `subLocality`, `adminArea`, `subAdminArea`, `thoroughfare`, `subThoroughfare`) VALUES
+('itm_loc8735dcafe1a562e418f68f250db2a58d', 'Denver', 6, 39.740009, -104.992020, 1, '2020-07-23 23:36:36', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('itm_loc892e3dbe2fbf07ae7b19455a4e75b28c', 'Yangon', 0, 16.865044, 96.203674, 1, '2019-06-06 18:08:44', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('itm_loca7b66748e03d457e976ca63a50e1bde0', 'Mandalay', 8, 21.959900, 96.086601, 1, '2019-06-06 18:09:05', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('itm_locc91e7fd5ffc739b26951228b0a564569', 'Singapore', 0, 1.354200, 103.819839, 1, '2019-06-06 18:04:36', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bs_item_location_townships`
+--
+
+CREATE TABLE `bs_item_location_townships` (
+  `id` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `city_id` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `township_name` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `ordering` int(10) NOT NULL,
+  `lat` float(10,6) NOT NULL,
+  `lng` float(10,6) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -878,7 +988,7 @@ INSERT INTO `bs_language_string` (`id`, `language_id`, `key`, `value`) VALUES
 ('langstr1f6ac203e587bcd161bf0a5f2f406f78', 'lang0607d119c7f000ef6d96178874c25f36', 'success_location_edit', 'تم تحديث الموقع بنجاح'),
 ('langstr1f7129e0ecee2542e5c47ff211a698e5', 'lang0607d119c7f000ef6d96178874c25f36', 'success_ban_delete', 'تم حذف شعار الصفحة الرئيسية بنجاح'),
 ('langstr1f7a65cd512c0a42b10ac54bce116646', 'lang676b9305204af2d9ccf450928b20e271', 'messages_label', 'Messages'),
-('langstr1f821dc20b98c639bb4e76d674491c3f', 'lang3f432e847a27a27f608189824ccc30fc', 'site_name', 'Flutter Buy & Sell Admin Panel'),
+('langstr1f821dc20b98c639bb4e76d674491c3f', 'lang3f432e847a27a27f608189824ccc30fc', 'site_name', 'Vegpuf Admin Panel'),
 ('langstr1fac88c8177a95af714e5dedb96edda7', 'lang676b9305204af2d9ccf450928b20e271', 'reject_message_2', ')'),
 ('langstr1fbbe8517763821873d40df17b44ccbc', 'lang3f432e847a27a27f608189824ccc30fc', 'btn_ok', 'Okay'),
 ('langstr1fbd9b53fb472a48ec5a0ee372722a44', 'lang777e45c9c2ad0c593c32b179211345f9', 'price_delete_confirm_message', 'Deseja excluir o preço?'),
@@ -1440,6 +1550,7 @@ INSERT INTO `bs_language_string` (`id`, `language_id`, `key`, `value`) VALUES
 ('langstr37fe2ac4955b059743ef073a45717e0b', 'lang777e45c9c2ad0c593c32b179211345f9', 'just_now_label', 'Agora mesmo'),
 ('langstr380a97273284b2af19a935847224cfc7', 'lang0607d119c7f000ef6d96178874c25f36', 'lang_string_value', 'القيمة'),
 ('langstr380f1e56043b2c07659dbd4cd40c0b16', 'lang676b9305204af2d9ccf450928b20e271', 'hi_label', 'Hi'),
+('langstr38133c94b9a21f2610a72bf411fc51be', 'lang676b9305204af2d9ccf450928b20e271', 'main_cat_module', 'Main Categories'),
 ('langstr3815ed394fffbc559e4b123a2b51346e', 'lang676b9305204af2d9ccf450928b20e271', 'shipping_cost', 'Shipping Cost'),
 ('langstr38160d8bb9d2309909bca8c9c63b9894', 'langfcdcc05a33a6edf64250a6ba44a2b8d0', 'itm_select_location_township', 'Sélectionner l\'article Township Lieu'),
 ('langstr381a9f70f5e9e719682022452ee801c5', 'langfcdcc05a33a6edf64250a6ba44a2b8d0', 'purchase_yes_all_message', 'Voulez-vous supprimer dans App'),
@@ -2069,7 +2180,7 @@ INSERT INTO `bs_language_string` (`id`, `language_id`, `key`, `value`) VALUES
 ('langstr55aa29f277c96c5959912d85c98354bb', 'lang3f432e847a27a27f608189824ccc30fc', 'err_price_exist', 'Precio Nombre ya existía en el sistema'),
 ('langstr55b6fa9aec0a38b35c8906f3b9367bd2', 'lang3f432e847a27a27f608189824ccc30fc', 'del_cover_photo', 'Eliminar la foto de portada'),
 ('langstr55bfa80cbb2bae242ff4001ae72dadf9', 'lang3f432e847a27a27f608189824ccc30fc', 'rec_prd_info', 'Los productos añadidos recientemente'),
-('langstr55d1d2a8ee01a32472c1761b84aecaf7', 'lang676b9305204af2d9ccf450928b20e271', 'site_name', 'Flutter Buy & Sell Admin Panel'),
+('langstr55d1d2a8ee01a32472c1761b84aecaf7', 'lang676b9305204af2d9ccf450928b20e271', 'site_name', 'Vegpuf Admin Panel'),
 ('langstr55d1fd736d1582e457158f5c7cf0bff5', 'lang0607d119c7f000ef6d96178874c25f36', 'delete_purchase_label', 'حذف في التطبيق شراؤها؟'),
 ('langstr55da189414250f320ff6513850acdbd5', 'lang676b9305204af2d9ccf450928b20e271', 'lbl_categories', 'Categories'),
 ('langstr55f435f116c9d817a6be495cbea9a2ee', 'lang676b9305204af2d9ccf450928b20e271', 'err_soldout_reset', 'Sorry, you cannot rest for sold out.'),
@@ -2169,6 +2280,7 @@ INSERT INTO `bs_language_string` (`id`, `language_id`, `key`, `value`) VALUES
 ('langstr5952cc2ab6a5ed86463241a26e312cc5', 'lang676b9305204af2d9ccf450928b20e271', 'pls_prd_desc', 'Please Product Description'),
 ('langstr596c2e32c9c1cc7ffd430ea468051311', 'lang0607d119c7f000ef6d96178874c25f36', 'blog_module', 'مدونة'),
 ('langstr59717ec572fa5f1606b421fcf9d113de', 'lang676b9305204af2d9ccf450928b20e271', 'additional_info', 'Additional Info'),
+('langstr5996b6bdbb26475d4e1cf727282d13d6', 'lang676b9305204af2d9ccf450928b20e271', 'price_qty_module', 'Price Quantities'),
 ('langstr599fbdade030e55a877e318bfc2eeb16', 'lang0607d119c7f000ef6d96178874c25f36', 'btn_save', 'حفظ'),
 ('langstr59addb84411c44da0f5365315b9b0c9d', 'lang3f432e847a27a27f608189824ccc30fc', 'offline_edit', 'Editar Desconectado Pago'),
 ('langstr59afad32bbd0a955fd6090cddf6f73cd', 'lang0607d119c7f000ef6d96178874c25f36', 'err_fuel_name', 'يرجى تقديم اسم الوقود'),
@@ -2361,9 +2473,9 @@ INSERT INTO `bs_language_string` (`id`, `language_id`, `key`, `value`) VALUES
 ('langstr635ef20baa692b50b0b8bcd110792edd', 'lang0607d119c7f000ef6d96178874c25f36', 'paid_config_module', 'Configs مدفوعة'),
 ('langstr6371601dfcf81113a6a249718214c4dc', 'lang0607d119c7f000ef6d96178874c25f36', 'noti_info', 'دفع الإخطار'),
 ('langstr63a998b8d6ea4adf600b6dcd3f83059a', 'lang3f432e847a27a27f608189824ccc30fc', 'api_title', 'Ajuste API'),
-('langstr63bbf10fce220e6f879a42e3f74d52f9', 'lang3f432e847a27a27f608189824ccc30fc', 'user_phone', 'Teléfono'),
-('langstr63c3da9f299dd4753636d386041ccac4', 'lang676b9305204af2d9ccf450928b20e271', 'offline_payment', 'Offline Payment Methods');
+('langstr63bbf10fce220e6f879a42e3f74d52f9', 'lang3f432e847a27a27f608189824ccc30fc', 'user_phone', 'Teléfono');
 INSERT INTO `bs_language_string` (`id`, `language_id`, `key`, `value`) VALUES
+('langstr63c3da9f299dd4753636d386041ccac4', 'lang676b9305204af2d9ccf450928b20e271', 'offline_payment', 'Offline Payment Methods'),
 ('langstr63c910105a24457241da8d18e42f38fc', 'lang676b9305204af2d9ccf450928b20e271', 'gcm_message_label', 'Message'),
 ('langstr63ca4bdad0d2282a992bd3c6fc85b632', 'lang676b9305204af2d9ccf450928b20e271', 'delete_trans_label', 'Delete Transaction?'),
 ('langstr63cfdf4db81065d164d3d2fe57425d5a', 'lang3f432e847a27a27f608189824ccc30fc', 'btn_edit', 'Editar'),
@@ -2737,9 +2849,9 @@ INSERT INTO `bs_language_string` (`id`, `language_id`, `key`, `value`) VALUES
 ('langstr73ed6b70df6438a0f1e9fcb4b634e83a', 'lang3f432e847a27a27f608189824ccc30fc', 'btn_replace_icon', 'reemplazar Icono'),
 ('langstr73efa5bd83f56266862ba6826a327414', 'lang0607d119c7f000ef6d96178874c25f36', 'success_currency_delete', 'تم حذف العملة بنجاح'),
 ('langstr74048d3c2e6840f125366fee3f303302', 'lang0607d119c7f000ef6d96178874c25f36', 'contact_delete_confirm_message', 'هل تريد حذف رسالة الاتصال؟'),
-('langstr7404af520a86941498ff902f4e8d4805', 'lang676b9305204af2d9ccf450928b20e271', 'city_location_tooltips', 'Please provide the city location.'),
-('langstr740cab07a90454df7015e29d652e28c3', 'lang676b9305204af2d9ccf450928b20e271', 'subcat_ordering', 'Sub Category Order');
+('langstr7404af520a86941498ff902f4e8d4805', 'lang676b9305204af2d9ccf450928b20e271', 'city_location_tooltips', 'Please provide the city location.');
 INSERT INTO `bs_language_string` (`id`, `language_id`, `key`, `value`) VALUES
+('langstr740cab07a90454df7015e29d652e28c3', 'lang676b9305204af2d9ccf450928b20e271', 'subcat_ordering', 'Sub Category Order'),
 ('langstr744414130e1f92663169dc238c814aee', 'lang777e45c9c2ad0c593c32b179211345f9', 'option_info', 'Informações sobre a opção de oferta do item'),
 ('langstr7450160c1c08be15cb7be032b7dff6ba', 'langfcdcc05a33a6edf64250a6ba44a2b8d0', 'purchase_description_label', 'La description'),
 ('langstr746e2e05959cbc66908d23ffa9aee0d5', 'lang3f432e847a27a27f608189824ccc30fc', 'success_subcat_delete', 'Sub se ha eliminado correctamente'),
@@ -3106,9 +3218,9 @@ INSERT INTO `bs_language_string` (`id`, `language_id`, `key`, `value`) VALUES
 ('langstr849f0ddc85fff05690a9496555f24a54', 'lang3f432e847a27a27f608189824ccc30fc', 'success_prd_add', 'Artículo agregado con éxito'),
 ('langstr84aa5d9daa6f065d0a5085eacbac434d', 'lang0607d119c7f000ef6d96178874c25f36', 'total_likes_count_label', 'إجمالي عدد الإعجابات'),
 ('langstr84cacaf747fdd38e1207e4e4a946be12', 'lang0607d119c7f000ef6d96178874c25f36', 'model_yes_all_message', 'عند حذف هذا النموذج ، سيتم حذف جميع المنتجات ذات الصلة أيضًا. لذا ، هل ما زلت تريد حذفه؟'),
-('langstr84fb9899e779278d4d921d4f9f20e88c', 'langfcdcc05a33a6edf64250a6ba44a2b8d0', 'currency_info', 'Informations sur les devises'),
-('langstr85105fbe7b1ee9f16208e1073b5c68e8', 'langfcdcc05a33a6edf64250a6ba44a2b8d0', 'api_info', 'Informations sur les paramètres de l\'API');
+('langstr84fb9899e779278d4d921d4f9f20e88c', 'langfcdcc05a33a6edf64250a6ba44a2b8d0', 'currency_info', 'Informations sur les devises');
 INSERT INTO `bs_language_string` (`id`, `language_id`, `key`, `value`) VALUES
+('langstr85105fbe7b1ee9f16208e1073b5c68e8', 'langfcdcc05a33a6edf64250a6ba44a2b8d0', 'api_info', 'Informations sur les paramètres de l\'API'),
 ('langstr852c3a1234c589222eda435481738686', 'langfcdcc05a33a6edf64250a6ba44a2b8d0', 'group_add', 'Ajouter un groupe de modules'),
 ('langstr85421bf96c670c86277ef4460f2512a5', 'lang676b9305204af2d9ccf450928b20e271', 'btn_shop_tag', 'Shop Tag'),
 ('langstr855303c5610e2403e445a0242a91a323', 'lang0607d119c7f000ef6d96178874c25f36', 'itm_price_unit_label', 'وحدة السعر'),
@@ -3375,7 +3487,7 @@ INSERT INTO `bs_language_string` (`id`, `language_id`, `key`, `value`) VALUES
 ('langstr90e4a5ce24cd7f7bea24c8678ecc19ae', 'lang777e45c9c2ad0c593c32b179211345f9', 'system_user_module', 'Usuários do sistema'),
 ('langstr90f7885b23aae1c1ff73f4979a5566c7', 'lang676b9305204af2d9ccf450928b20e271', 'att_add', 'Add New Attribute'),
 ('langstr9101eee3e2bfb28b7d20dde61e45dd80', 'langfcdcc05a33a6edf64250a6ba44a2b8d0', 'err_lng', 'S\'il vous plaît fournir Longitude'),
-('langstr9107bf3083c0f6277ee113f4700fd5d3', 'lang777e45c9c2ad0c593c32b179211345f9', 'site_name', 'Flutter Buy & Sell Admin Panel'),
+('langstr9107bf3083c0f6277ee113f4700fd5d3', 'lang777e45c9c2ad0c593c32b179211345f9', 'site_name', 'Vegpuf Admin Panel'),
 ('langstr9107f5303ddfcaa2342bc2abed0ed1d2', 'lang676b9305204af2d9ccf450928b20e271', 'Prd_dis', 'Discount(%)'),
 ('langstr91246dd47b0baf4c80af699b0bbf1972', 'lang0607d119c7f000ef6d96178874c25f36', 'api_key_module', 'ابي كيز'),
 ('langstr912fe73a70c43bb89a06c00555eb520d', 'lang777e45c9c2ad0c593c32b179211345f9', 'success_backend_edit', 'A configuração de back-end foi atualizada com sucesso'),
@@ -4643,7 +4755,7 @@ INSERT INTO `bs_language_string` (`id`, `language_id`, `key`, `value`) VALUES
 ('langstrccf238205d3b55b27eadbad1d38f05f9', 'lang3f432e847a27a27f608189824ccc30fc', 'terms_label', 'Términos y condiciones'),
 ('langstrccfcb7baec735ae0b3ccc53820925764', 'lang777e45c9c2ad0c593c32b179211345f9', 'user_unban', 'Unban'),
 ('langstrcd07a3a32f1e13a55fa3aa6cadebf2fa', 'lang0607d119c7f000ef6d96178874c25f36', 'name_label', 'اسم'),
-('langstrcd102932d8343c481a727004432fbe38', 'langfcdcc05a33a6edf64250a6ba44a2b8d0', 'site_name', 'Flutter Buy & Sell Admin Panel'),
+('langstrcd102932d8343c481a727004432fbe38', 'langfcdcc05a33a6edf64250a6ba44a2b8d0', 'site_name', 'Vegpuf Admin Panel'),
 ('langstrcd1034f8244d87da4c3d097a29c80e70', 'lang3f432e847a27a27f608189824ccc30fc', 'delete_lang_label', 'Eliminar Idioma?'),
 ('langstrcd27600b00fbc6a5f2e776dd8e5e6e8b', 'lang777e45c9c2ad0c593c32b179211345f9', 'user_not_able_delete', 'Desculpe, esta é conta do sistema para que ele não é capaz de desativar.'),
 ('langstrcd336586e5e14c4f917de9585c067e42', 'lang3f432e847a27a27f608189824ccc30fc', 'success_purchase_delete', 'En la aplicación de adquirir ha sido eliminado correctamente.'),
@@ -4762,7 +4874,7 @@ INSERT INTO `bs_language_string` (`id`, `language_id`, `key`, `value`) VALUES
 ('langstrd35628c2d0042ec0424e4824534959c0', 'langfcdcc05a33a6edf64250a6ba44a2b8d0', 'prd_info', 'Informations sur l\'élément'),
 ('langstrd358359060a5aea5ed75d2d7af2cfc47', 'langfcdcc05a33a6edf64250a6ba44a2b8d0', 'thumb_3x_label', 'Taille d\'image 3x Thumbnail 3x'),
 ('langstrd35a635bb42e196620ae104b9a922fb6', 'lang0607d119c7f000ef6d96178874c25f36', 'subcat_info', 'معلومات الفئة الفرعية'),
-('langstrd35a926f6846a7b9e9f045b4e0799e5f', 'lang0607d119c7f000ef6d96178874c25f36', 'site_name', 'Flutter Buy & Sell Admin Panel'),
+('langstrd35a926f6846a7b9e9f045b4e0799e5f', 'lang0607d119c7f000ef6d96178874c25f36', 'site_name', 'Vegpuf Admin Panel'),
 ('langstrd369e22c0dda404b7d7b2e8c848df7c4', 'lang3f432e847a27a27f608189824ccc30fc', 'select_type', 'Seleccione tipo'),
 ('langstrd38c592c9bbcfc81804c4f0717371129', 'lang777e45c9c2ad0c593c32b179211345f9', 'youtube_url', 'URL do YouTube'),
 ('langstrd3958279f777f77e09db5cc9c4669746', 'langfcdcc05a33a6edf64250a6ba44a2b8d0', 'paypal_env_label', 'Environnement Paypal'),
@@ -5706,10 +5818,14 @@ CREATE TABLE `bs_main_categories` (
   `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `bs_main_categories`
+--
+
 INSERT INTO `bs_main_categories` (`main_cat_id`, `main_cat_name`, `status`, `added_date`) VALUES
-('main_cat58b486f4d5d984923cbce32b6cf7f08f', 'Things', 1, CURRENT_TIMESTAMP()),
-('main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'Property', 1, CURRENT_TIMESTAMP()),
-('main_cate0100cee3c7f4245b103936161f6f6cc', 'Services', 1, CURRENT_TIMESTAMP());
+('main_cat58b486f4d5d984923cbce32b6cf7f08f', 'Things', 1, '2021-10-15 15:45:52'),
+('main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'Property', 1, '2021-10-15 15:45:52'),
+('main_cate0100cee3c7f4245b103936161f6f6cc', 'Services', 1, '2021-10-15 15:45:52');
 
 -- --------------------------------------------------------
 
@@ -5754,12 +5870,8 @@ CREATE TABLE `bs_order_by` (
 --
 
 INSERT INTO `bs_order_by` (`id`, `name`) VALUES
-('added_date_asc', 'Added Date Asc'),
-('added_date_desc', 'Added Date Desc'),
-('name_asc', 'Wallpaper Name Asc'),
-('name_desc', 'Wallpaper Name Desc'),
-('point_asc', 'Point Asc'),
-('point_desc', 'Point Desc');
+('name_asc', 'Name Ascending'),
+('name_desc', 'Name Descending');
 
 -- --------------------------------------------------------
 
@@ -5794,7 +5906,7 @@ CREATE TABLE `bs_paid_ads_config` (
 --
 
 INSERT INTO `bs_paid_ads_config` (`id`, `amount`, `currency_short_form`, `currency_symbol`, `paypal_environment`, `paypal_merchant_id`, `paypal_public_key`, `paypal_private_key`, `paypal_enabled`, `stripe_publishable_key`, `stripe_secret_key`, `stripe_enabled`, `razor_key`, `razor_enabled`, `offline_enabled`, `offline_message`, `paystack_key`, `paystack_enabled`, `in_app_purchased_enabled`) VALUES
-('pconfig1', '10', 'USD', '$', 'sandbox', 'h6ggypvjgt4tzz2k', '256y6grqr936tpjf', '0d6aadf4b586a84844ceadc834dc851f', 1, 'pk_test_RjJFXdLkbesQpjm6T2xPddmp', 'sk_test_lxHim6W6aJAjb4jjAtfviY0t', 1, 'rzp_test_Bpvf8XjEecGumH', 1, 1, 'You can make the payment with following payment options :', 'pk_test_ea5593678cc80271640f1929b5a63ac830dd66f8', 1, 1);
+('pconfig1', '10', 'USD', '$', 'sandbox', 'h6ggypvjgt4tzz2k', '256y6grqr936tpjf', '0d6aadf4b586a84844ceadc834dc851f', 1, 'pk_test_RjJFXdLkbesQpjm6T2xPddmp', 'sk_test_lxHim6W6aJAjb4jjAtfviY0t', 1, 'rzp_test_Bpvf8XjEecGumH', 1, 0, 'You can make the payment with following payment options :', 'pk_test_ea5593678cc80271640f1929b5a63ac830dd66f8', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -5807,6 +5919,7 @@ CREATE TABLE `bs_paid_items_history` (
   `item_id` varchar(255) NOT NULL,
   `start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `start_timestamp` double NOT NULL,
+  `end_timestamp` double NOT NULL,
   `end_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `amount` varchar(50) NOT NULL,
   `payment_method` varchar(50) NOT NULL,
@@ -5820,6 +5933,38 @@ CREATE TABLE `bs_paid_items_history` (
   `razor_id` varchar(255) NOT NULL,
   `purchased_id` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bs_price_quantities`
+--
+
+CREATE TABLE `bs_price_quantities` (
+  `id` varchar(255) NOT NULL,
+  `main_cat_id` varchar(255) NOT NULL,
+  `cat_id` varchar(255) NOT NULL,
+  `sub_cat_id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `bs_price_quantities`
+--
+
+INSERT INTO `bs_price_quantities` (`id`, `main_cat_id`, `cat_id`, `sub_cat_id`, `name`, `status`, `added_date`) VALUES
+('price_qtyc6f9d014417093b68386e1b99805c4b7', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '', '', 'Item', '', '2021-10-17 01:06:57'),
+('price_qty5ea188f97db4bd34b96dfaf03ceea47b', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', '', '', 'Kilogram', '', '2021-10-17 01:07:20'),
+('price_qtyd29eaaa30e7f193b00ed2c1b94e5b3c0', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', '', '', 'Sq.feet', '', '2021-10-17 01:07:31'),
+('price_qtyaf3ac4967de045fc9d9563bfe3e2f981', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', '', '', 'Acre', '', '2021-10-17 01:07:49'),
+('price_qty011c1e50e5f0ea3e1bb7b9a2e2817616', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', '', '', 'Cents', '', '2021-10-17 01:08:01'),
+('price_qtye91a62228ec84599d0917cfc6ac806f8', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', '', '', 'Hectre', '', '2021-10-17 01:08:22'),
+('price_qty1293c94a44d24f01aa366f35fe649549', 'main_cate0100cee3c7f4245b103936161f6f6cc', '', '', 'Service', '', '2021-10-17 01:08:43'),
+('price_qty8ee81705baf2d6da9bc83ef0afe1faf5', 'main_cate0100cee3c7f4245b103936161f6f6cc', '', '', 'Pickup', '', '2021-10-17 01:09:00'),
+('price_qtye86b48feedec79e02df9a6c16687a8dc', 'main_cate0100cee3c7f4245b103936161f6f6cc', '', '', 'Point', '', '2021-10-17 01:09:14'),
+('price_qtyee9b95b7027f361687695d24450698ab', 'main_cate0100cee3c7f4245b103936161f6f6cc', '', '', 'Day', '', '2021-10-17 01:10:09');
 
 -- --------------------------------------------------------
 
@@ -5919,6 +6064,125 @@ CREATE TABLE `bs_subcategories` (
   `updated_flag` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `bs_subcategories`
+--
+
+INSERT INTO `bs_subcategories` (`id`, `main_cat_id`, `cat_id`, `name`, `status`, `added_date`, `added_user_id`, `updated_date`, `updated_user_id`, `updated_flag`) VALUES
+('subcat018727c7a9ca786979957e134809c8f1', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat88bd03f2e044a618ce48c6411a15134e', 'Tablets', 1, '2021-10-16 13:42:57', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat04b01c7d4b0b9332347bf372da88fbed', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat9b08778efc4d46ead220262774ede4a7', 'Bluetooth Speakers', 1, '2021-10-16 13:49:04', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat0740572677a2dd9ef61fc9dd0d9f6580', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'cat34c18b69a7ef10244b59357791fee00c', 'Sharing Room (M)', 1, '2021-10-16 14:52:59', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat0a35186289c9419d3970bf1705512d8e', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat9b08778efc4d46ead220262774ede4a7', 'Home Theatre', 1, '2021-10-16 13:48:36', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat0aa7cd89373d72da354307bc8b96072e', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat937c11b28690e47d1949650c407ee8d8', 'Induction', 1, '2021-10-16 14:00:48', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat13823e4c807a73dfed162c202f01b3d7', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catdb641ace25a2d62bc06fa888ffe7bc06', 'Drivers', 1, '2021-10-17 01:35:16', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat16c09f1b3493fba1ec666184297f3c9f', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'cataaab187b4f2a2afd72e94518ee73ddbf', '2 BHK', 1, '2021-10-16 14:49:17', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat175357ee7a5a70a257684addd8803d71', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catb61b2abf66ec68c6bde40963bf05757a', 'Food Collectors', 1, '2021-10-17 01:33:21', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat1a719a13fdc019a44ed8a06462423714', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat9c2c5e35d677f4c572f2f85739f334a1', 'Sofas', 1, '2021-10-16 14:05:42', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat1e97955beb363e1639b1e1bfebf39804', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catda31b23547fbdb66cfd347d852c2cbf5', 'Electrician', 1, '2021-10-17 01:27:22', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat1ef090deb536079461b3a1030967f9fa', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat4ecdecdfb0d950f4a70a222bffebea34', 'Camera Accessories', 1, '2021-10-16 13:49:58', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat1f026960c551ad9978f2f19392b19d3a', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat3ab4302f1d9232092470e2d088a29406', 'Grooming Kits', 1, '2021-10-16 14:09:50', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat2357394e3b4f0dce1ae93a7b69935522', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat0692d84fc596280192101277cbc9353a', 'Room Heaters', 1, '2021-10-16 13:57:04', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat262577c44ec0a61d4ebc16ba0ecdf6e2', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catb61b2abf66ec68c6bde40963bf05757a', 'Catering', 1, '2021-10-17 01:31:41', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat2b58ae1b68f3f994b967fdcdca0d4a55', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catda31b23547fbdb66cfd347d852c2cbf5', 'Painters', 1, '2021-10-17 01:30:28', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat2c46282c6fe51accec148cce096e5ab1', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat937c11b28690e47d1949650c407ee8d8', 'Mixer grinders', 1, '2021-10-16 14:01:15', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat2c4b8051dbfb9b313ab5539234485de4', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat5a5c765b9d56677e9fb51a759bf38203', 'MotorBike Spares', 1, '2021-10-16 14:14:41', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat2e09d2b40718c0075ab5157e4244abe8', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'cat34c18b69a7ef10244b59357791fee00c', 'Induvidual Room (Trans)', 1, '2021-10-16 14:55:50', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat2e9c590e70d678fe8cf224a2074596b6', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'cataaab187b4f2a2afd72e94518ee73ddbf', 'Land', 1, '2021-10-16 14:47:27', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat2fcd1ccfd9dfa81a3e9c866fa1feaf0b', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat758bbb232a3a5cfa74692117bd59999f', 'Kits', 1, '2021-10-16 14:11:58', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat2fd23034e7b77b622e319850f07a3ec4', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat275c8f30db3c7ad6beba374c9ab7c031', 'Video Games', 1, '2021-10-16 13:53:23', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat30ae04620bfbddc6f53819b0bd45e21f', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catda31b23547fbdb66cfd347d852c2cbf5', 'Carpenters', 1, '2021-10-17 01:30:54', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat336399fe2179c8ae5fb8ab62ef284023', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'cataaab187b4f2a2afd72e94518ee73ddbf', 'Houses', 1, '2021-10-16 14:46:03', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat369f627e4d99adb3155fa7f3a43b8098', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat88bd03f2e044a618ce48c6411a15134e', 'Laptops', 1, '2021-10-16 13:42:35', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat3bf9608603bd48f8623079539801df7e', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat0692d84fc596280192101277cbc9353a', 'Fridges', 1, '2021-10-16 13:57:44', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat3ecb22fa35ef52bac6f1b7d9058ab5d4', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catda31b23547fbdb66cfd347d852c2cbf5', 'Plumbing', 1, '2021-10-17 01:27:00', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat3f4ce16a1d4a792df0f275648452d2f7', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'cataaab187b4f2a2afd72e94518ee73ddbf', 'Flats', 1, '2021-10-16 14:46:28', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat41ce168826ad556b7c942e02344f5b74', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'catff7e082160d464a5b8a91a4ad84169ec', 'PowerBanks', 1, '2021-10-16 13:37:47', 'c4ca4238a0b923820dcc509a6f75849b', '2021-10-16 13:39:53', 'c4ca4238a0b923820dcc509a6f75849b', 0),
+('subcat43b7f26e18db70dd14ae82723a6e8971', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat3ab4302f1d9232092470e2d088a29406', 'Tools', 1, '2021-10-16 14:10:14', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat4a11634006874e8dfcfe96c7915c4c15', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat3ab4302f1d9232092470e2d088a29406', 'Pet Food(child)', 1, '2021-10-16 14:11:34', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat4ad5a62da468b93809ecc4ef9b0cee5a', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat4ecdecdfb0d950f4a70a222bffebea34', 'DSLR Cameras', 1, '2021-10-16 13:50:31', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat5831b5d0ea903ec7d40fbaf9b911efa7', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'cat34c18b69a7ef10244b59357791fee00c', 'Sharing Room (F)', 1, '2021-10-16 14:54:12', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat5b942c15ae98e0fad9a79d9eabd3152d', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat275c8f30db3c7ad6beba374c9ab7c031', 'Hand Held Consoles', 1, '2021-10-16 13:52:30', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat693b8d125abbfac69e8c9f180b9ba8f7', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat9126cc7d038da8293e70be988541e55e', 'Farming Tools', 1, '2021-10-16 14:17:31', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat69e8f06c8d9ee1d20a2dde6d7b566f47', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat5a5c765b9d56677e9fb51a759bf38203', 'Tool kits', 1, '2021-10-16 14:16:46', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat6ab5fa17282a2b35726dd6ce9749acf1', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat88bd03f2e044a618ce48c6411a15134e', 'Computer Accessories', 1, '2021-10-16 13:42:00', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat6b335111ea4581cc90507f383f626aea', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat937c11b28690e47d1949650c407ee8d8', 'Gas Stoves', 1, '2021-10-16 14:03:12', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat6d628ea3f20eb0228dc16aeb0123af9b', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catda31b23547fbdb66cfd347d852c2cbf5', 'Pest Control', 1, '2021-10-17 01:29:32', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat72b5bddefbd01811a33d23a64ded8a27', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'catff7e082160d464a5b8a91a4ad84169ec', 'Smart Watches', 1, '2021-10-16 13:41:06', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat72cc2d607124ccfe6bd9062e62b7767a', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'cataaab187b4f2a2afd72e94518ee73ddbf', 'Plot', 1, '2021-10-16 14:48:26', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat77767f41380d02f14a873943b10aa9b0', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat275c8f30db3c7ad6beba374c9ab7c031', 'Gaming Accessoroies', 1, '2021-10-16 13:51:19', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat7aea3805e68dcc2978cb4d10471b5a32', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat5a5c765b9d56677e9fb51a759bf38203', 'Car spares', 1, '2021-10-16 14:13:47', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat7d2e36d30e64925529a01deaeb914f34', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'cataaab187b4f2a2afd72e94518ee73ddbf', '3 BHK', 1, '2021-10-16 14:49:38', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat7d8f752246aba5d12fd75273d9dfd533', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catda31b23547fbdb66cfd347d852c2cbf5', 'Cleaners', 1, '2021-10-17 01:31:14', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat7df43fcd33919b912ffcc13918b068f3', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'catb68004cef3701e0af9fce187a4ee8602', 'Poly Houses', 1, '2021-10-16 14:52:31', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat7e0da0519b468291841fde0a5cd71969', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat5a5c765b9d56677e9fb51a759bf38203', 'MotorBikes', 1, '2021-10-16 14:15:01', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat7ff81f2aea609b7a4783cf655ffab3b2', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat758bbb232a3a5cfa74692117bd59999f', 'Sports Wears', 1, '2021-10-16 14:12:47', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat841b3cb375333f48fa6e58c426d663d3', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'cataaab187b4f2a2afd72e94518ee73ddbf', 'Gated Community', 1, '2021-10-16 14:50:38', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat88631b76ff0f70dddafc798cbe31cfb6', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat9c2c5e35d677f4c572f2f85739f334a1', 'Dining Sets', 1, '2021-10-16 14:06:31', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat89a14a3d3ce17d34ee343ed2fe7ab203', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catf0da5f571037350dc4202983ffaa4e2d', 'Plouging services', 1, '2021-10-17 01:38:39', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat89a7895a4c1cd3c5183d3feeb77ca03f', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat9126cc7d038da8293e70be988541e55e', 'Bags &amp; Containers', 1, '2021-10-16 14:17:59', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat8a2f82b00940b1101bde9daebace89df', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat0692d84fc596280192101277cbc9353a', 'Water Purifiers', 1, '2021-10-16 13:55:06', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat92a940d08f6b7b1cf5e5676c3feff4fb', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat9b08778efc4d46ead220262774ede4a7', 'Earphones', 1, '2021-10-16 13:47:42', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat957257b089dae1eb165bd6c5e1d7f42d', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat937c11b28690e47d1949650c407ee8d8', 'Pressure Cookers', 1, '2021-10-16 14:04:09', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat9649163838da0d4ba49f98a302f3d274', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat0692d84fc596280192101277cbc9353a', 'Vaccum Cleaners', 1, '2021-10-16 13:54:26', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat97b67d3c8e61f93520950bcd9dab3821', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat0692d84fc596280192101277cbc9353a', 'Air purifier', 1, '2021-10-16 13:56:20', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat9807b669303a38ff2a170ba0789a0b40', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat0692d84fc596280192101277cbc9353a', 'Washing Machines', 1, '2021-10-16 13:59:15', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat983cedf1cfa214c2f6b606173690e938', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat937c11b28690e47d1949650c407ee8d8', 'Grinders', 1, '2021-10-16 14:01:54', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat98ea45ed4608c0daf1f061a592bd9988', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat937c11b28690e47d1949650c407ee8d8', 'Kitchen Tools', 1, '2021-10-16 14:04:32', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat9ac968818434b43469bb771864915c25', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat3ab4302f1d9232092470e2d088a29406', 'Pet food (Adult)', 1, '2021-10-16 14:10:42', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat9b2c1c1d37367df88ebe948e21417a61', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat9c2c5e35d677f4c572f2f85739f334a1', 'Beds', 1, '2021-10-16 14:07:48', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat9db32c01aeff17cb917c431fa0d2783d', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat5a5c765b9d56677e9fb51a759bf38203', 'Car Accessories', 1, '2021-10-16 14:14:16', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcat9f18d2ebab8cf7aaff25e36e8182bd27', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catf0da5f571037350dc4202983ffaa4e2d', 'Farm Workers', 1, '2021-10-17 01:37:49', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcata529f1b9417d2775331dd639a418fcc1', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat9b08778efc4d46ead220262774ede4a7', 'Headphones', 1, '2021-10-16 13:47:15', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcata6dccfe9a2c31a548c93950e11d583f8', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat0692d84fc596280192101277cbc9353a', 'Ironboxes', 1, '2021-10-16 13:53:45', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatabc3add0733837d7339cd13096c5600d', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat937c11b28690e47d1949650c407ee8d8', 'Microwave oven', 1, '2021-10-16 14:02:22', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatacb001566509c5f3f7ab079555b17f26', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat0692d84fc596280192101277cbc9353a', 'Air Coolers', 1, '2021-10-16 13:56:41', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatafd2ec320a98c02d0776d693329d6ab7', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat275c8f30db3c7ad6beba374c9ab7c031', 'Home Console', 1, '2021-10-16 13:52:57', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatb0b2d943ce219124fc3ed9796dba42e5', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catda31b23547fbdb66cfd347d852c2cbf5', 'Architects', 1, '2021-10-17 01:29:06', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatb277b736c96a76ff8d6b0f51161ffefa', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catb507a4125b02ba1a161ac9b8720ba686', 'Bike Repairs', 1, '2021-10-17 01:36:01', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatb29607b02577bb44a48ec38bb0d626e3', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'cat34c18b69a7ef10244b59357791fee00c', 'Induvidual Room (M)', 1, '2021-10-16 14:53:26', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatb52e97e0d85cec4a458d5530f135e344', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat6a03f0461a4541256a0e6c2651f9d1ee', 'HD Tv', 1, '2021-10-16 13:45:14', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatb56e625a84b412da5f1f2f2d6d8e2b33', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catda31b23547fbdb66cfd347d852c2cbf5', 'Donaters', 1, '2021-10-17 01:32:31', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatba388676fb747f0bda4618a33e841f80', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat9c2c5e35d677f4c572f2f85739f334a1', 'Recliners', 1, '2021-10-16 14:06:07', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatbc3f0299433e3f89fad15f54a727a572', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat0692d84fc596280192101277cbc9353a', 'Geysers &amp; immersion rods', 1, '2021-10-16 13:54:47', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatbc78a876dccbcc1070fead65e7d2fa01', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat937c11b28690e47d1949650c407ee8d8', 'Utensils', 1, '2021-10-16 14:00:25', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatbef0052d9bad9daa3b7c119f2095838b', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'catd3bd74ddd4daaa67451dfa108d3ec9be', 'Shops', 1, '2021-10-16 14:44:59', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatbf88b3aad357870c231d966eee4f54f8', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat9c2c5e35d677f4c572f2f85739f334a1', 'Chairs', 1, '2021-10-16 14:07:00', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatc08f49c0dbc738e16453ab649aae9ef8', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'cat48c0954c232f6065eff464fe4dab59b1', 'Music &amp; Audios', 1, '2021-10-17 02:17:38', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatc0a7c27c166f42ac654addbfcc84501c', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat937c11b28690e47d1949650c407ee8d8', 'Containers', 1, '2021-10-16 14:04:56', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatc0cf04c4e512e0ee86b8ef5568cfae2a', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat0692d84fc596280192101277cbc9353a', 'Water Heaters', 1, '2021-10-16 13:55:30', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatc10b668af48f22d41002a1c82b62e40b', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catb507a4125b02ba1a161ac9b8720ba686', 'Service Pickup', 1, '2021-10-17 01:36:57', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatc8a7ab3d2c47e4e9b11130f4adb4515e', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat9c2c5e35d677f4c572f2f85739f334a1', 'Matress', 1, '2021-10-16 14:07:29', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatc8c19822b0948cb8ee61efc1943e10d7', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat9b08778efc4d46ead220262774ede4a7', 'HeadSets', 1, '2021-10-16 13:48:06', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatc99a9d8196bf7ac22ca8ea64cebd7eef', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat275c8f30db3c7ad6beba374c9ab7c031', 'Hybrid consoles', 1, '2021-10-16 13:51:46', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatcb08bb2157d14c3674c6b281b6f8b3f8', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'cataaab187b4f2a2afd72e94518ee73ddbf', '1 BHK', 1, '2021-10-16 14:48:56', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatcc443454dc6ecdf8768395f0e9bfdf12', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catdb641ace25a2d62bc06fa888ffe7bc06', 'Maids', 1, '2021-10-17 01:34:50', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatcdf60880fbf62fd0f01b4e0ecc0b4a6d', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat0692d84fc596280192101277cbc9353a', 'Smart Devices', 1, '2021-10-16 13:59:36', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatd004eb8dac9f3b1a1a888b8155544b87', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat5a5c765b9d56677e9fb51a759bf38203', 'MotorBike Accessories', 1, '2021-10-16 14:15:41', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatd04ef97ff6e1921b3ae7c851320fdbb6', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat88bd03f2e044a618ce48c6411a15134e', 'Gaming PCs', 1, '2021-10-16 13:43:42', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatd42fd9b64b70dc623e9acb8091aac20c', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catda31b23547fbdb66cfd347d852c2cbf5', 'Construction', 1, '2021-10-17 01:28:33', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatd451d609d062c9f77b3a4c003546d5d2', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat9c2c5e35d677f4c572f2f85739f334a1', 'Tables', 1, '2021-10-16 14:08:11', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatdbf8bca568e19761417fc54229c4920a', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat758bbb232a3a5cfa74692117bd59999f', 'Equipments', 1, '2021-10-16 14:12:23', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatdc3a6923eccba7c6ada439bb5deb2e4c', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catdb641ace25a2d62bc06fa888ffe7bc06', 'Spa', 1, '2021-10-17 01:34:16', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatdec12c27800167342d4726d8fc6043b1', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catdb641ace25a2d62bc06fa888ffe7bc06', 'Salon', 1, '2021-10-17 01:33:51', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcate067b0095e59b3e75732481649ca30d9', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catd144e8ec680ff89caa67d1a0823e7e4c', 'Repairs', 1, '2021-10-17 01:26:18', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcate2aa398e0469ce6ea84e048f5a7f2f0c', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat5a5c765b9d56677e9fb51a759bf38203', 'Cars', 1, '2021-10-16 14:13:26', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcate2b840cef40c628d14dd88f66e6b79f7', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat0692d84fc596280192101277cbc9353a', 'Fans', 1, '2021-10-16 13:54:05', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcate526653ffb066f2ccec16018c85e5f18', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'cat34c18b69a7ef10244b59357791fee00c', 'Induvidual Room(F)', 1, '2021-10-16 14:54:50', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcate5ba5a788c7ff077778e00217daaec61', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat0692d84fc596280192101277cbc9353a', 'Thermos and Flasks', 1, '2021-10-16 13:55:58', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcate7ec060b4ce9e14b6f8d4a9b8e8ad834', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'cataaab187b4f2a2afd72e94518ee73ddbf', 'Sharing Room (Trans)', 1, '2021-10-16 14:55:25', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcateacd5f70c042a2dfa850229eac713956', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat937c11b28690e47d1949650c407ee8d8', 'Coffee Machine &amp; Toasters', 1, '2021-10-16 14:02:44', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcated72fbc3cfe5e6a092b7482e188efbd6', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'cataaab187b4f2a2afd72e94518ee73ddbf', '4+ BHK', 1, '2021-10-16 14:50:10', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatf35c1bbdc49de1992f02d6f8263ff311', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'cataaab187b4f2a2afd72e94518ee73ddbf', 'Villas', 1, '2021-10-16 14:46:48', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatf6bfa67b02bc490dc02011651fe60866', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat0692d84fc596280192101277cbc9353a', 'Air Conditioners', 1, '2021-10-16 13:57:22', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatf755eb0f045b8a6c2ebe32e4b25757e6', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat4ecdecdfb0d950f4a70a222bffebea34', 'Security Cameras', 1, '2021-10-16 13:50:56', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatf75a50f064386e2efa625c11be5924e7', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat6a03f0461a4541256a0e6c2651f9d1ee', 'Smart Tv', 1, '2021-10-16 13:44:23', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatf847079eee314132ef7ff407376451b2', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat937c11b28690e47d1949650c407ee8d8', 'Cookware Sets', 1, '2021-10-16 14:03:46', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatf9744fcb6af1313e2c89e1a04db8dda7', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'catd3bd74ddd4daaa67451dfa108d3ec9be', 'Super-Market', 1, '2021-10-16 14:45:32', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatfc37a05552e38d39fd3dfd2f4e527bd0', 'main_cate0100cee3c7f4245b103936161f6f6cc', 'catb507a4125b02ba1a161ac9b8720ba686', 'Car Repairs', 1, '2021-10-17 01:36:29', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatfd24aa3dd6d5e74c4ac418f97d74775d', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'cat6a03f0461a4541256a0e6c2651f9d1ee', '4K Tv', 1, '2021-10-16 13:46:09', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatfdca9dd6083f3d6729afdc6bb5996837', 'main_cat5dfae3885eb1e48dadc7a2f2b1c09b86', 'catb68004cef3701e0af9fce187a4ee8602', 'Empty land', 1, '2021-10-16 14:52:05', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0),
+('subcatfe707f3de14102adc8cd4cab05efe53b', 'main_cat58b486f4d5d984923cbce32b6cf7f08f', 'catfb38abbfe5cd129800978bfb5d4f8e94', 'Mobile Accessories', 1, '2021-10-16 13:37:24', 'c4ca4238a0b923820dcc509a6f75849b', '0000-00-00 00:00:00', '', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -5931,6 +6195,20 @@ CREATE TABLE `bs_touches` (
   `user_id` varchar(255) NOT NULL,
   `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bs_user_bought`
+--
+
+CREATE TABLE `bs_user_bought` (
+  `id` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `item_id` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `buyer_user_id` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `seller_user_id` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -5989,7 +6267,7 @@ CREATE TABLE `core_about` (
 --
 
 INSERT INTO `core_about` (`about_id`, `about_title`, `about_description`, `about_email`, `about_phone`, `about_website`, `ads_on`, `ads_client`, `ads_slot`, `analyt_on`, `analyt_track_id`, `facebook`, `google_plus`, `instagram`, `youtube`, `pinterest`, `twitter`, `GDPR`, `upload_point`, `safety_tips`) VALUES
-('abt1', 'Nice Product Powered By Panacea-Soft', 'Panacea-Soft is a software development team that focuses on helping your business with mobile and web technology.We tried our best to delivery quality product on time according clientâ€™s requirements and exceptions. We are technology oriented team so before we code, we analyse for your requirements and brain storm then start for development. We donâ€™t over promise to client and trying our best to deliver awesome product package. Thanks for reaching out to us. We are happy to listen your world and enjoy to solve the problem using technology.', 'teamps.is.cool@gmail.com', '+9592540942**', 'http://www.panacea-soft.com', 1, 'ca-pub-7127831079008160', '6882887537', 1, 'UA-79164209-2', 'http://www.facebook.com', 'http://www.google.com', 'http://www.instagram.com', 'http://www.youtube.com', 'http://www.pinterest.com', 'http://www.twitter.com', '', 50, 'Meet the seller in person and transfer cash only if you have secured the item. As a seller, ensure that you have secured your payment and safely exchanged your item.\r\n\r\nDo not transfer money in advance!\r\n\r\nUnless verified by your own bank directly, don\'t trust any SMS or email about any money transferred to your account. Someone\'s claim to have paid extra money by mistake and asking to return/reverse is suspicious in nature and should be avoided in all instances.');
+('abt1', 'Vegpuf', 'A MarketPlace from Vegpuf', 'support@vegpuf.com', '0', 'http://vegpuf.com', 0, 'ca-pub-7127831079008160', '6882887537', 0, 'UA-79164209-2', 'https://www.facebook.com/vegpuf', '', 'https://www.instagram.com/vegpuf/', '', '', '', '', 50, 'Meet the seller in person and transfer cash only if you have secured the item. As a seller, ensure that you have secured your payment and safely exchanged your item.\r\n\r\nDo not transfer money in advance!\r\n\r\nUnless verified by your own bank directly, don\'t trust any SMS or email about any money transferred to your account. Someone\'s claim to have paid extra money by mistake and asking to return/reverse is suspicious in nature and should be avoided in all instances.');
 
 -- --------------------------------------------------------
 
@@ -6022,15 +6300,21 @@ CREATE TABLE `core_backend_config` (
   `dyn_link_domain` varchar(255) NOT NULL,
   `dyn_link_deep_url` varchar(255) NOT NULL,
   `ios_boundle_id` varchar(255) NOT NULL,
-  `ios_appstore_id` varchar(255) NOT NULL
+  `ios_appstore_id` varchar(255) NOT NULL,
+  `landscape_thumb2x_width` int(11) NOT NULL,
+  `potrait_thumb2x_height` int(11) NOT NULL,
+  `square_thumb2x_height` int(11) NOT NULL,
+  `landscape_thumb3x_width` int(11) NOT NULL,
+  `potrait_thumb3x_height` int(11) NOT NULL,
+  `square_thumb3x_height` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `core_backend_config`
 --
 
-INSERT INTO `core_backend_config` (`id`, `sender_name`, `sender_email`, `receive_email`, `fcm_api_key`, `topics`, `smtp_enable`, `smtp_host`, `smtp_port`, `smtp_user`, `smtp_pass`, `landscape_width`, `potrait_height`, `square_height`, `landscape_thumb_width`, `potrait_thumb_height`, `square_thumb_height`, `email_verification_enabled`, `dyn_link_key`, `dyn_link_url`, `dyn_link_package_name`, `dyn_link_domain`, `dyn_link_deep_url`, `ios_boundle_id`, `ios_appstore_id`) VALUES
-('be1', 'Team PS', 'sender@blog.panacea-soft.com', 'teamps.is.cool@gmail.com', 'AAAAdas8rOs:APA91bEhLizx8g2RQpdxf6eWfZitLrriVUiAYUIzN6DKKSmXsfyXk6Oq79iMFDZADnEHsIdu-67rue1sss0QmFzKWnIvQi54eWvtvsJLQAlLS0ow4pO_3aQN9RUSiqsvPKSPcuKH_05d', 'broadcast', 0, 'ssl://smtp.dreamhost.com', '585', 'sender@blog.panacea-soft.com', '123456', 1000, 1000, 1000, 200, 200, 200, 0, 'AIzaSyAKBO26mCqOrmMbaBb2amplpgJ7nGRgekY', 'https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=', 'com.panaceasoft.flutterbuyandsell', 'buysell1.page.link', 'http://panacea-soft.com/buysell-admin/itemId=', 'com.panaceasoft.flutterbuyandsell', '1500242983');
+INSERT INTO `core_backend_config` (`id`, `sender_name`, `sender_email`, `receive_email`, `fcm_api_key`, `topics`, `smtp_enable`, `smtp_host`, `smtp_port`, `smtp_user`, `smtp_pass`, `landscape_width`, `potrait_height`, `square_height`, `landscape_thumb_width`, `potrait_thumb_height`, `square_thumb_height`, `email_verification_enabled`, `dyn_link_key`, `dyn_link_url`, `dyn_link_package_name`, `dyn_link_domain`, `dyn_link_deep_url`, `ios_boundle_id`, `ios_appstore_id`, `landscape_thumb2x_width`, `potrait_thumb2x_height`, `square_thumb2x_height`, `landscape_thumb3x_width`, `potrait_thumb3x_height`, `square_thumb3x_height`) VALUES
+('be1', 'Team PS', 'sender@blog.panacea-soft.com', 'teamps.is.cool@gmail.com', 'AAAAdas8rOs:APA91bEhLizx8g2RQpdxf6eWfZitLrriVUiAYUIzN6DKKSmXsfyXk6Oq79iMFDZADnEHsIdu-67rue1sss0QmFzKWnIvQi54eWvtvsJLQAlLS0ow4pO_3aQN9RUSiqsvPKSPcuKH_05d', 'broadcast', 0, 'ssl://smtp.dreamhost.com', '585', 'sender@blog.panacea-soft.com', '123456', 1000, 1000, 1000, 200, 200, 200, 0, 'AIzaSyAKBO26mCqOrmMbaBb2amplpgJ7nGRgekY', 'https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=', 'com.panaceasoft.flutterbuyandsell', 'buysell1.page.link', 'http://panacea-soft.com/buysell-admin/itemId=', 'com.panaceasoft.flutterbuyandsell', '1500242983', 200, 200, 200, 350, 350, 350);
 
 -- --------------------------------------------------------
 
@@ -6066,7 +6350,7 @@ CREATE TABLE `core_data_deletion` (
 --
 
 INSERT INTO `core_data_deletion` (`id`, `content`) VALUES
-('datadelete1', '&lt;p&gt;&lt;img alt=&quot;&quot; src=&quot;https://www.panacea-soft.com/flutter-buysell/assets/ckeditor_fileupload/upload/jess-bailey-l3N9Q27zULw-unsplash (1).jpg&quot; style=&quot;height:525px; width:700px&quot; /&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\r\n\r\n&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque venenatis luctus nunc, in ultrices orci suscipit sit amet. Proin finibus interdum elementum. Praesent et posuere augue, id consequat neque. Mauris maximus porta lacus eget fermentum. Nullam tristique justo sed sem ultrices condimentum. Nullam quis vulputate risus, sed pellentesque nibh. Ut gravida justo vel dolor elementum accumsan. Mauris fringilla magna leo. Pellentesque semper nibh ac ligula porta, sed maximus nisi aliquam. Etiam egestas turpis nibh, in finibus mauris mattis quis. Suspendisse potenti. Quisque ac mauris neque. Donec bibendum posuere quam, vitae venenatis urna viverra sit amet. Suspendisse nec diam eu turpis interdum placerat. Vivamus hendrerit, leo quis pellentesque feugiat, leo quam suscipit ipsum, quis porttitor purus est a lacus. Nulla in porta quam. Sed ac aliquam odio. Vestibulum in tincidunt augue. Quisque gravida velit quis orci blandit luctus et et est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam erat volutpat. Cras vitae blandit sem. Fusce placerat sagittis mauris, a aliquet ligula varius vel. Proin ipsum elit, facilisis sed facilisis vitae, vestibulum vitae nunc. Aenean luctus consectetur vulputate. Cras laoreet rutrum urna, sit amet cursus arcu varius in. Suspendisse eu consequat erat. Nullam dapibus, enim ut pretium aliquet, dui ex lacinia nunc, ac porttitor massa nibh et augue. Curabitur ante felis, aliquam at rhoncus sit amet, tristique nec eros.&lt;/p&gt;\r\n\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;img alt=&quot;&quot; src=&quot;https://www.panacea-soft.com/flutter-buysell/assets/ckeditor_fileupload/upload/jess-bailey-l3N9Q27zULw-unsplash (1).jpg&quot; style=&quot;height:525px; width:700px&quot; /&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Morbi ultrices faucibus felis bibendum efficitur. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque quis erat vel urna aliquet mollis eget a nisl. In fringilla efficitur urna, non aliquet nisi. Mauris et convallis orci. Pellentesque in tempor enim. Vestibulum nisl nunc, pretium ut congue auctor, eleifend vitae massa. Nunc venenatis mauris non suscipit rhoncus. Mauris vulputate tortor eget vehicula tempus. Quisque ullamcorper, dui vel pulvinar volutpat, nunc magna volutpat enim, quis imperdiet mauris nibh nec lorem. In et accumsan urna. Praesent vehicula lectus quam, id venenatis libero vestibulum ut. In bibendum mattis nisi nec mattis. Maecenas urna massa, tempor in arcu consectetur, pellentesque tincidunt elit. Mauris felis sem, cursus vitae fringilla maximus, tempor efficitur lectus. Nullam tincidunt metus tellus, eget convallis mi fringilla ut. Fusce hendrerit felis auctor sapien varius tempus. Cras molestie ornare est sed convallis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas tristique risus ut tincidunt imperdiet. Vivamus quis lectus felis. Donec imperdiet nec libero non egestas. Cras sed nibh ut ligula maximus condimentum id in dolor. Praesent justo neque, fringilla vitae dui eget, dignissim fermentum sapien. Nunc auctor maximus ipsum in ornare. Phasellus tempus bibendum quam, et luctus arcu tristique a. Vivamus fringilla neque neque. Quisque eget laoreet mi. Curabitur elementum iaculis tristique. Curabitur convallis egestas tempor. Donec mattis tellus tellus, semper porta dui vehicula nec.&lt;/p&gt;');
+('datadelete1', '');
 
 -- --------------------------------------------------------
 
@@ -6085,284 +6369,566 @@ CREATE TABLE `core_images` (
   `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `added_user_id` varchar(255) NOT NULL,
   `updated_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_user_id` varchar(255) NOT NULL
+  `updated_user_id` varchar(255) NOT NULL,
+  `ordering` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `core_images`
 --
 
-INSERT INTO `core_images` (`img_id`, `img_parent_id`, `img_type`, `img_path`, `img_width`, `img_height`, `img_desc`, `added_date`, `added_user_id`, `updated_date`, `updated_user_id`) VALUES
-('img00ac6cb7203dcbcebe2078d4534430e9', 'feedce2c4e6f3b2d4a133bf1f9786b2e92ae', 'blog', 'food_2(1).png', '600', '400', 'desc', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img01b140d011774a2e1c8db804da390bd1', 'notic8efc242faa81272c78f0b4be1af72e0', 'noti', 'a3.jpg', '563', '1000', '', '2020-09-22 01:14:33', '', '0000-00-00 00:00:00', ''),
-('img01d727b25d51f284d40bffcf399f8fd0', 'subcatc4b6928dd0ba7f1f4ffc5a4588cea59e', 'subcat_icon', 'computers_icon3.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img02608f9a353a9daa4d0fa8ef4579dbb9', 'itm_709970eef73e104ca5d4114b2485355d', 'item', 'IMG_20190724_104702_182.jpg', '660', '660', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img04a6e9d9e64f031ac51020c3081bb293', 'cat445639833db3eff8b6cdb5510aa39faa', 'category', 'computers_cover.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img05cb133cb4f8f88631aa0323fbf3522b', 'noti0b045f1dd581ef3237a9d09f3da9000e', 'noti', 'Webp_net-compress-image_(14)4.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img062f9b5a866f72842d379c62725a16dd', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', '156818407574020190911003437.jpg', '187', '250', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img066d80f113c1b2fd0f81bca1938574b8', 'noti4c046d2e97e87c22d0565f2c11500f69', 'noti', 'Screenshot_2020-09-18_at_1_03_01_PM.png', '757', '265', '', '2020-09-22 01:41:05', '', '0000-00-00 00:00:00', ''),
-('img06ec7601535f6fee7e85d242ca51913a', 'feedf6bf282726b910430fa2c5931a556a38', 'blog', 'medicine_1.png', '600', '400', 'desc', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img09791cb3d2ea11acc84772e1ee2ea696', 'itm_f1d68517076ac7a74dee2dacbe655b90', 'item', 'IMG_20190724_141530_254.jpg', '1280', '853', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img097a3aab4e82f434702b0f23f88411c5', 'notia6762cdde82ea5e3609a669ec3fec1cf', 'noti', 'a38.jpg', '563', '1000', '', '2020-09-22 01:39:28', '', '0000-00-00 00:00:00', ''),
-('img0ac4c932425c93ae32a86d28667272cf', 'usr84db7485fc9b8eeb0c74ed43fa8af040', 'chat', 'magazine-unlock-05-2.3.1390-_876D9B83618F47D0CFEDC5C03CA4FD4C20190703041743.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img0b5ec5bf8fc258b2b2513dbc3b5823a2', 'itm_3831c0d10b159d92e6e488dc2a13ed79', 'item', 'IMG_20190724_104818_986.jpg', '600', '900', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img0b9b99b5e6cd08b5ee227c1fe1abf4f6', 'offline_payment0a25ff53e952bb206aaabb89f0004586', 'offline_icon', '1.png', '256', '256', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img0ba82bfa8fad47fcde98b9665f3de33f', 'itm_ee73165b7c94f2eff3a4201b9fe73c6b', 'item', 'IMG_20190724_104630_534.jpg', '1280', '853', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img0c1a3aa44ea214d422dd9a16ed08b80a', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'japanese-cherry-trees-324175__340_compressed518222925272383080220200922012229.jpg', '650', '433', '', '2020-09-22 02:52:29', '', '0000-00-00 00:00:00', ''),
-('img0c994a43ecf58ae9f8dc21c49c018b82', 'subcatcdf3f568c7dedef69f2aa372e544a3d7', 'subcat_icon', 'fashion_icon4.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img0cca4e47c990829d45bd0d3fb0396ad1', 'usrbad733f0fa26f94bc0c072a39d369a8f', 'chat', 'eyJpdSI6ImU4Y2U1YjBkMWVhOGMzNTNlZmFmNmNjYTQ3NWIyNTFmNTA0NThkNzA4MTk1Y2YyN2ZkNmNmNzUyZmE4NDQ0N2UiLCJ3IjozNTAsImgiOjIwMCwiZCI6Mi4wLCJjcyI6MCwiZiI6MH020191004122151.jpg', '700', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img0e351684b8d253b41101c985822a7d44', 'noti4fec50ee8c555d2baa781a50a7655e95', 'noti', 'Screenshot_2020-09-19_at_10_29_58_PM2.png', '573', '277', '', '2020-09-22 04:17:57', '', '0000-00-00 00:00:00', ''),
-('img0f03769a147e4aa6ece48b57bb2c1cb9', 'be1', 'fav-icon', 'favicon.ico', '', '', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img0f7169224a76864f6a81ced9e328df30', 'itm_3831c0d10b159d92e6e488dc2a13ed79', 'item', 'IMG_20190724_104816_382.jpg', '800', '800', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img0f7a142e824779ec0710a51e2b5486eb', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'FB_IMG_1598056719598_compressed60341961443547915220201019015528.jpg', '650', '650', '', '2020-10-19 03:25:28', '', '0000-00-00 00:00:00', ''),
-('img111ee007b701a7040526855bfc4eaf41', 'feedccaca598699e47429206ffdcfb970e9e', 'blog', 'food_1(1).png', '600', '400', 'desc', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img116ca5e2243a7bd56357cc455eebd99d', 'usr3f57bf66eac7eebcf7cbecf84651d96c', 'chat', 'Webp.net-compress-image (14)20190704222017.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img1173c0103e3b87b926322157bf0331bb', 'notie1bba29f85cf82cb4d0b664aca48be9b', 'noti', 'Webp_net-compress-image_(14)1.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img11b97cd4393790578af5f02a6698c8bf', 'itm_aec300faa4929e3342679e55e63c24bc', 'item', 'FB_IMG_1563881218073.jpg', '720', '540', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img11f76d25c329116cdabef22b307c8e1e', 'usr3f57bf66eac7eebcf7cbecf84651d96c', 'chat', 'Webp.net-compress-image (14)20190704232658.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img13b3a722dbccf785e74bd655603e9232', 'subcat0499ae94e6e2bf5e02ce4235051047d6', 'subcat_icon', 'phones_icon4.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img153b8e7b4bc464f846ebdc165fd7c04a', 'subcate3da9c8769ad3eaefcfa6ffb3ca6fb52', 'subcat_icon', 'phones_icon2.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img167368a8e2f091844338660903e8b239', 'itm_9cbb0e920e49e3769ebfbc5efa2f48ce', 'item', 'IMG_20190724_141530_254.jpg', '1280', '853', '', '2020-11-12 22:46:16', '', '0000-00-00 00:00:00', ''),
-('img17a94bf3f01f34a97dbceb20cdee31a5', 'subcat49b4f5f3173bac6e64f9c213a99f386a', 'subcat_icon', 'k5.jpg', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img1a4dcdc6cb08e5b4b911a534eceecdf1', 'noti38cb47ff92a4fa02b97896f4f90cc692', 'noti', 'a311.jpg', '563', '1000', '', '2020-09-22 03:17:30', '', '0000-00-00 00:00:00', ''),
-('img1a57088e9f6f6fcab9ae5650070f5acd', 'subcatc58f3b37c72a22faa7a1e6fac40bf264', 'sub_category', 'ukele.jpg', '1200', '1200', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img1a60a112d87cb4b713848ab508112369', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', '20200113_11443420200129042357.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img1da75d6298241c4833fbd3af88b2bd56', 'itm_8c22c49be4fcb839586d508cb71bea62', 'item', 'magazine-unlock-01-2_3_1812-_6ef97afd2d3e47bba3546147f226a0bb.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img1e0827ee5d911f7e769676bd64f1b90e', 'subcatb1e75e347ed7f989cb1bcec390b1eac7', 'subcat_icon', 'sports_icon2.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img1e589b15b71028fda20b707c5cdabeed', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'magazine-unlock-01-2.3.1375-_E5A58282A4717F213DA893AC76D2EBB620190627031639.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img1e6db2897df922b2af6a4847da6915af', 'itm_2edb3a5e3bc2f616f930ca0b9d9da38b', 'item', 'FB_IMG_15638810710991.jpg', '720', '540', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img1e7deb6e78440276bd7ee3db2151397d', 'cat3ed818f44f3a3e3d49a2798b4c51f5b8', 'category', 'properties_cover.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img1ede2380ed4e252f75bf891a041fdf7f', 'be1', 'login-image', 'login_background.png', '1080', '720', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img20b13e8a3f707857259ab8aaefc71f3a', 'catfa070dd5cc2a2c9c6196159f85480ff7', 'category-icon', 'services_icon.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img22ae8a079c89c8d0ed1c3c652d35df14', 'itm_0434d45e5b5836778bcbe241c55b2b10', 'item', 'IMG_20190724_104723_853.jpg', '833', '626', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img23c1ed8b9e990810936e2e3a0dddde0e', 'itm_52c74ad65651f004b6145559b25db4d5', 'item', 'JPEG_20191004_171040_5267190558043144582.jpg', '4000', '3000', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img24aa9f7b1ab5a72e00047d84b9cabedd', 'subcat49b4f5f3173bac6e64f9c213a99f386a', 'sub_category', 'k9.jpg', '410', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img24d40d516fa08ed531b2d9a4b26c3d5d', 'usr84db7485fc9b8eeb0c74ed43fa8af040', 'chat', 'magazine-unlock-05-2.3.1390-_5AA635ADF90C0C2F971ACB5FAC1CF72520190704204036.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img25084027a46dc4d1e6b86ddb915ffe30', 'subcatc4b6928dd0ba7f1f4ffc5a4588cea59e', 'sub_category', 'notebook.jpg', '1500', '1000', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img274fcc3dc632037862851798f2f54efa', 'subcatc61744e20375d4e72666348bfacb3046', 'subcat_icon', 'phones_icon3.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img27a52f2077afc8f427f1803d11108630', 'itm_7359de3d150f84bd9e06d9e6054ba151', 'item', 'IMG_20191007_124254.jpg', '4000', '3000', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img2892ff0f674c1a1e119a1de26ecb1ae0', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'japanese-cherry-trees-324175__340_compressed189331045631763819020200922012056.jpg', '650', '433', '', '2020-09-22 02:50:56', '', '0000-00-00 00:00:00', ''),
-('img28cfe407d84241a237d7880ead246783', 'itm_8461c34b7431724f8904f7ba0c360edf', 'item', 'IMG_20190724_104723_853.jpg', '833', '626', '', '2020-11-16 22:04:05', '', '0000-00-00 00:00:00', ''),
-('img2b72a41a7ec7f917a714c3b9fefbf502', 'feed2e4b04cfc7586d0dc41b4abfb518b932', 'blog', 'Audi-Wallpaper-19.jpg', '1920', '1080', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img2b77fb7ef9f645e901912ffb80618f79', 'notibc0662102e21611940f501a95e551704', 'noti', 'Screenshot_2020-09-19_at_10_29_58_PM4.png', '573', '277', '', '2020-09-22 04:23:01', '', '0000-00-00 00:00:00', ''),
-('img2b8acd6b0e16d0b1e4ddc67962b3191d', 'subcat3f6a29e6c498b5e5bbcd0a5b3bf1dda4', 'sub_category', 'house.jpg', '1200', '800', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img2c119d9e9d081453d73f06b14dd84613', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'Screenshot_2020-08-22-07-26-25-308_com.facebook.katana_compressed807964821215795454420201019021752.jpg', '650', '1408', '', '2020-10-19 03:47:52', '', '0000-00-00 00:00:00', ''),
-('img2d470b85ba97078b9b9baf9dd7263dc7', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'FB_IMG_1598056719598_compressed718062764608060405220201019015300.jpg', '650', '650', '', '2020-10-19 03:23:00', '', '0000-00-00 00:00:00', ''),
-('img2eeee970c7d9304843a5f931cea4d76d', 'subcatd725dbc5bf8e386dc384594ed3290a7e', 'sub_category', 'guitar.jpg', '1000', '1000', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img31c093d85d8b19c2a0eea35052f1ad00', 'itm_0434d45e5b5836778bcbe241c55b2b10', 'item', 'IMG_20190724_104718_507.jpg', '1000', '667', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img31c2b46eb292c3c0529184e87ea87039', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'IMG_20190912_16162620191104055025.jpg', '960', '1280', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img3284fe7ac4a474eb5d9b14fdca6f8556', 'subcat237b84c51a1134669e801fac81578b65', 'subcat_icon', 'properties_icon2.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img35fe3932196f110e22722021bfbe484a', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'FB_IMG_1598059712556_compressed159981221247122142220201019004213.jpg', '650', '653', '', '2020-10-19 02:12:13', '', '0000-00-00 00:00:00', ''),
-('img364df8650461115719cac0af2aece8f1', 'subcat08f52e619858a83627bb8850d03cb4b3', 'sub_category', 'download_(24).jpg', '215', '234', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img3688412671a24621a79fc1bb7c9f0b05', 'itm_8d2c7208b461f1abbbe467e5059dd60a', 'item', 'IMG_20190724_104844_699.jpg', '1637', '1872', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img36989aa8183680a03b240ea3ca9b7cac', 'cata497304389495ab7c262383923243180', 'category-icon', 'phones_icon.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img37813dd8b32927524cf66954f54bce24', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'IMG_20190912_16162620191104081320.jpg', '960', '1280', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img39401981a1ffe5996aeac201d57171d1', 'noti2c63448c89aa222e50c3f00970a65641', 'noti', 'a312.jpg', '563', '1000', '', '2020-09-22 03:41:58', '', '0000-00-00 00:00:00', ''),
-('img3a48f7cf46f2d1ca708e52f06dd8ad19', 'usr1ffb51feddb5c60deeaacb5c644257c7', 'chat', 'Webp.net-compress-image (14)20190708000425.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img3a5045929af43dfded9e0fee5882325c', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'magazine-unlock-01-2.3.1390-_310DBC05EDCAD82586E7B466A238E7CB20190703035737.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img3a7525ca43b5b6f3b359346c83600f08', 'noti77b5e6cc9164567d5d3f910481670998', 'noti', 'a317.jpg', '563', '1000', '', '2020-09-22 04:29:43', '', '0000-00-00 00:00:00', ''),
-('img3a754b0944863023105162ec3f771776', 'itm_097aa52c313db8bdb97dccde3edd072a', 'item', 'IMG_20200630_1723202020071020082120200804050305.jpg', '0', '0', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img3b8103a0d6e64f36a7d6fdb672b4f2b7', 'itm_f46919ee83aed9fc697e218b3438cb8a', 'item', 'FB_IMG_1599918773325_compressed6981938751844530503.jpg', '751', '1001', '', '2020-09-24 21:46:38', '', '0000-00-00 00:00:00', ''),
-('img3cff5c173045139c9dbddd06a02080b9', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'Webp.net-compress-image (11)20190704204133.jpg', '1280', '853', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img3fd4cb01f78920c90e57d2f945dccadd', 'notif16cd25b6678149e67cc048eb0bc65b6', 'noti', 'a33.jpg', '563', '1000', '', '2020-09-22 01:25:41', '', '0000-00-00 00:00:00', ''),
-('img408b57ff92dfb8740f6acb9731ae6749', 'noti226157e9070efa6d8d9e2489dc19a814', 'noti', 'Webp_net-compress-image_(14)5.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img40d33cb58d2be8c94a979775ebca3706', 'usr84264292f0b3360143f6ea8776b77f20', 'chat', 'Screenshot_20190914-122632_FarmConnekt20190914213721.jpg', '1440', '2960', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img416d3984418516f4413ce9681eebd825', 'itm_feba75af4918ebee809bafb3c5e4c963', 'item', 'Screenshot_20190330-000438.png', '720', '1280', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img4428f0ac78f82c00e090b7c6dc8f6493', 'usr1ffb51feddb5c60deeaacb5c644257c7', 'chat', 'magazine-unlock-01-2.3.1397-_1030ed04f78540f28179f67cde66233120190708000159.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img47d9be7b4fe523d6b7f2d575a07c94ce', 'feedc06aa8c73ef6b5986e1d57e68377b5ae', 'blog', 'a(8).jpg', '509', '340', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img497853d15d55a1d077f55e84fb74256d', 'usr8ee77c955316a0a01ad2c6a1b6ab414e', 'chat', 'Screenshot_20191103-235140_WhatsApp20191106054447.jpg', '1080', '1920', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img498946a4449051768c8c7047b2607a61', 'itm_8461c34b7431724f8904f7ba0c360edf', 'item', 'IMG_20190724_104718_507.jpg', '1000', '667', '', '2020-11-16 22:04:05', '', '0000-00-00 00:00:00', ''),
-('img49d93966e45c17fe5141b24a3ca80d3b', 'noti217badcd797b369a6e8d7e1bf5d0337e', 'noti', 'itsgreatoutthere-unsplash-01.jpg', '1200', '800', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img49dab298476177901001ee2b94abe7f4', 'feed399789809c27117114b75360eb3ca227', 'blog', 'electronic_2.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img4a2863f9a8b5e6c9dde41ddb05b6ba6f', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'FB_IMG_1602986984522_compressed42876860164722118020201019041946.jpg', '650', '528', '', '2020-10-19 05:49:46', '', '0000-00-00 00:00:00', ''),
-('img4c0cc76dfea654fa3539013cbdfff886', 'itm_33a66429f209514b7fd2c128fbf1f88d', 'item', 'IMG_20190724_104657_691.jpg', '955', '1200', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img4cda349095ad8625bc2530bbb7a9fcf2', 'feedbf7024305368fea5897252665b9ca7c2', 'blog', 'food_3(1).png', '600', '400', 'desc', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img4e0d76a4c0870a2d265cb8594f6df781', 'subcatd725dbc5bf8e386dc384594ed3290a7e', 'subcat_icon', 'musics_icon3.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img4ef295809ac5ed9c1cce71656bafc655', 'usr1ffb51feddb5c60deeaacb5c644257c7', 'chat', 'magazine-unlock-05-2.3.1397-_b0541fa3d1754026af6e9b3cd109e73f20190708000145.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img4f0c5a8444ac20a7f16b624c076c8313', 'subcat30618a4244d996f117ef347fc7718886', 'subcat_icon', 'musics_icon1.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img4f2d23c9915d38f6fdcb8cfafe9f69e3', 'itm_19d8a632ca279d2a4739913172cb71dd', 'item', 'FB_IMG_1563880976112.jpg', '720', '842', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img4f8aaa2a9e01bf0a2e9236ac402497a0', 'noti9e9aabfc4e77fce0bdba0d2c8d0818b2', 'noti', 'a313.jpg', '563', '1000', '', '2020-09-22 04:04:59', '', '0000-00-00 00:00:00', ''),
-('img4fc44f7a1a897b58e3bc806bd13a7d86', 'subcat0499ae94e6e2bf5e02ce4235051047d6', 'sub_category', 'download_(23).jpg', '206', '244', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img509fea0cb1d16af88e3bdf646fa56462', 'be1', 'backend-logo', 'backend_logo.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img5225ffe8963de548e43b4a73572cb251', 'itm_c428fde98a8b2dc3fb40b6bdbf90c7a1', 'item', 'IMG_000391E964CD-0681-430E-BE9E-7936753C2CED_compressed.jpg', '1000', '667', '', '2020-09-15 04:02:37', '', '0000-00-00 00:00:00', ''),
-('img53335cbc23885e1b9080454a360a4edc', 'usr84264292f0b3360143f6ea8776b77f20', 'chat', 'IMG-20190909-WA000020190909035728.jpg', '470', '431', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img541db0fe8b7e6ef428e9dd2ffb9fcc75', 'itm_54709837e70ae2f179b49a739ded54d7', 'item', 'IMG_20190724_104758_965.jpg', '225', '225', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img556b80354e13172f4242bf43fb694d34', 'noti12096443c182b3f4b7b9eb9e86d9cc1b', 'noti', 'a319.jpg', '563', '1000', '', '2020-09-22 04:38:44', '', '0000-00-00 00:00:00', ''),
-('img558c1c5eb26c4eb20ec73a0bc009b32c', 'notif34dffb87f4adaf7a0a38209f8f56588', 'noti', 'Webp_net-compress-image_(14)3.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img5611bbbc121afdac8bdfc066842c62e6', 'in_app_purchase_prd_id4dfa347c284a3706abf87a0f4671bf6c', 'purchase_icon', 'f11.jpeg', '500', '750', '', '2020-11-13 07:16:06', '', '0000-00-00 00:00:00', ''),
-('img576c623e33ebe60140df1c2b2c8a3c08', 'subcatc58f3b37c72a22faa7a1e6fac40bf264', 'subcat_icon', 'musics_icon4.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img57b03caa3473f23ead8f3a502a6f0b4c', 'subcat237b84c51a1134669e801fac81578b65', 'sub_category', 'apartment2.jpg', '1280', '853', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img582a9bf381c0f13b86b933a15069d3ab', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'eyJpdSI6ImU4Y2U1YjBkMWVhOGMzNTNlZmFmNmNjYTQ3NWIyNTFmNTA0NThkNzA4MTk1Y2YyN2ZkNmNmNzUyZmE4NDQ0N2UiLCJ3IjozNTAsImgiOjIwMCwiZCI6Mi4wLCJjcyI6MCwiZiI6MH020191004122220.jpg', '700', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img584c2b3c34a5a0ce8f7ca54719e30f88', 'subcat88be821e3cb84cc0c049f7d92028fe48', 'sub_category', '2k.jpg', '1280', '759', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img58907c65350fb94e6771b428c82c489b', 'notib3b05f8bcad9afffb0eef6817aeeb25f', 'noti', 'a32.jpg', '563', '1000', '', '2020-09-22 01:19:03', '', '0000-00-00 00:00:00', ''),
-('img59bf21da25e0bd4f24947ffbf31dc51d', 'subcatc2c047936bef5ff528f790680e3ed083', 'sub_category', 'images_(22).jpg', '250', '202', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img5a395f140870156075331b6733061fac', 'subcat0cc28d586f90805b3a569178b16b1fc6', 'subcat_icon', 'computers_icon1.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img5a460c2f1d6227d31315573176ef2b6c', 'cat445639833db3eff8b6cdb5510aa39faa', 'category-icon', 'computers_icon.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img5a6fad55e94e0b0a1c5bf0a0268a7b49', 'cat3988c9afad482db9a872ee5c19c34fbb', 'category-icon', 'musics_icon.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img5bee2ee99ef4c5bd8e356c71134b1c27', 'feed8d521e86017cf8aa7f4883a2fb67f068', 'blog', 'a(11).jpg', '478', '340', 'old blog', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img5c1adc4214025211acb9d6315c9ebf04', 'usr84db7485fc9b8eeb0c74ed43fa8af040', 'chat', 'magazine-unlock-05-2.3.1375-_80002ea70fa94c37bd434f7776b6b71e20190703042900.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img5d25b72b7ece82563a8f2f6e773b873f', 'subcat3f6a29e6c498b5e5bbcd0a5b3bf1dda4', 'subcat_icon', 'properties_icon1.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img5f0026b7cb3409bff8687b7b480b2fa7', 'subcat30618a4244d996f117ef347fc7718886', 'sub_category', 'download_(10).jpg', '275', '183', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img640bcf36291b9c42796faf7a26eda95d', 'itm_c428fde98a8b2dc3fb40b6bdbf90c7a1', 'item', 'IMG_0001B5916F52-960D-4A98-83FA-B0A5DA7C6AD1_compressed.jpg', '1000', '664', '', '2020-09-15 03:57:15', '', '0000-00-00 00:00:00', ''),
-('img65dfe1d8dffd91756d579fe9b52ee5b0', 'usr4edb805ca791dc7677ba4a785873debd', 'chat', '2019-11-25-08-55-03-18320191203035746.jpg', '1152', '1536', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img67d5733100cc5dfeeacbd2dd79173ab9', 'itm_ba0837310e18f29408f09fca748271ef', 'item', 'IMG_20190724_104834_070.jpg', '640', '519', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img68f5643253cf58c857ef4571fa5642c5', 'noti086455b97a2f4b0ab9bad5295eef4259', 'noti', 'Screenshot_2020-09-19_at_10_29_58_PM.png', '573', '277', '', '2020-09-22 04:12:15', '', '0000-00-00 00:00:00', ''),
-('img696dbfa1eca354caeb461bf925214720', 'itm_ea7c87b1758bad40efccb3caedb6a1d1', 'item', 'IMG_20190724_104801_838.jpg', '560', '560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img6ac39743ee66dbf17a9f9bde3bfb6c7f', 'noti0e1ef32c073fa4b7f93279b39e5c1ba0', 'noti', 'a21.jpg', '563', '1000', '', '2020-09-22 03:16:33', '', '0000-00-00 00:00:00', ''),
-('img6b7d862132c70929da29adb422616ea8', 'itm_0500dcce80c7d70b79453a8ff4096428', 'item', 'IMG_20191006_162316.jpg', '3120', '4160', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img6cb8831074ebcf7f0c69bb8e84d5f376', 'notideea4659d97d2701fbf1374613e3a08a', 'noti', 'a37.jpg', '563', '1000', '', '2020-09-22 01:37:53', '', '0000-00-00 00:00:00', ''),
-('img6f25945eac18c9ab1f62860aea6109b4', 'subcat68bf2c365c88382966dd72a347fc3473', 'sub_category', 'computertech.jpg', '304', '166', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img6f5cc37188e1d21266d639ddc8501bbf', 'subcat6226dfba4c0d4d8f9130cc2d5c8a5a58', 'subcat_icon', 'fashion_icon3.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img710759a00c676ac692b8351d31e6e777', 'noti0c27395c74ba53e57eefc2ec42e80fd5', 'noti', 'a314.jpg', '563', '1000', '', '2020-09-22 04:23:31', '', '0000-00-00 00:00:00', ''),
-('img715f3d15dd87d4128bb2c1e1ea72d0fd', 'noti773db0d610ecb45698cf58b86537002d', 'noti', 'a320.jpg', '563', '1000', '', '2020-09-22 04:39:54', '', '0000-00-00 00:00:00', ''),
-('img71d94420abd0004af0fe7e107ef6d2d9', 'subcat7768ede02fa1e337b6270209cf83c8ce', 'subcat_icon', 'fashion_icon5.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img73a7ef14195a9e7a136252562704540c', 'subcat0132c5a6635b0a9d5c55278ebf226ad7', 'sub_category', 'doctor.jpg', '800', '600', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img743b421bbde30a9cb01404d6813fe2e5', 'subcat7768ede02fa1e337b6270209cf83c8ce', 'sub_category', 'skirt2.jpg', '196', '257', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img755e6ebdf43c7034779deb03e316032b', 'itm_b07822ea537a70cfaf044754757f6419', 'item', 'IMG_20190724_104723_853.jpg', '833', '626', '', '2020-11-16 22:03:57', '', '0000-00-00 00:00:00', ''),
-('img757ec19132382ac4dac4ed520c0c98d4', 'cate2f7ee7f7317ceddf4395f82665b5a86', 'category-icon', 'fashion_icon.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img75ca7bf538b22de4165ff1f64d9d47df', 'notic9a3ad3dca6672cc5075efbc9ca39ccc', 'noti', 'burger1.jpg', '1280', '720', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img76640cb68f1ece56c4601a7a41527375', 'subcat9b35a9ef1469be03db203811634f5ffc', 'sub_category', 'westerndress.jpg', '1000', '1000', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img77652e842b2b2e9935025f1b9e8af7cc', 'cat5dfc0138547b926dccc5ee269b1cd042', 'category', 'sports_cover.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img77bb72d8ac54e5cd3b117515f2690087', 'subcatc2c047936bef5ff528f790680e3ed083', 'subcat_icon', 'phones_icon1.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img780a9ee922720d7589aedb6c16662e4a', 'subcataa581788260871cce0607c7137b06036', 'sub_category', 'ultrabook.jpg', '1200', '675', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img79180b67226c25a939020388638b24d7', 'itm_8c22c49be4fcb839586d508cb71bea62', 'item', 'magazine-unlock-01-2_3_1952-_70e14f84da274836b5ca3354faf78710.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img79a3cfd6545c0ec7f2100f4d3259d992', 'noti57b1037c64fb64588834f7e41a0e70cd', 'noti', 'c12.jpg', '620', '736', '', '2020-09-22 02:30:15', '', '0000-00-00 00:00:00', ''),
-('img7b3133bd654986a9b872e90eedb0fb2b', 'itm_c428fde98a8b2dc3fb40b6bdbf90c7a1', 'item', 'IMG_0111098E9A29-2DA7-4D7B-9B0A-B948A3DA6995_compressed.jpg', '1000', '750', '', '2020-09-15 03:50:48', '', '0000-00-00 00:00:00', ''),
-('img7c3083ab5433cfcb2241f1e7af637b10', 'itm_2bb3fb13e1040cae112485657e31f868', 'item', 'FB_IMG_1563882504633.jpg', '720', '731', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img7d960a09704d25334f010a4eff6253ea', 'usr3f57bf66eac7eebcf7cbecf84651d96c', 'chat', 'Webp.net-compress-image (14)20190704232649.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img80211d8c7d75748c108c70de2b4d3ea7', 'noti588dcd7c9537ef31eea629309dbb89c6', 'noti', 'a22.jpg', '563', '1000', '', '2020-09-22 04:24:40', '', '0000-00-00 00:00:00', ''),
-('img824becd832966cb9378664d66b489513', 'itm_33a66429f209514b7fd2c128fbf1f88d', 'item', 'IMG_20190724_104654_861.jpg', '1024', '753', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img83e678d68643c303c27bee6c563ca5ff', 'itm_c80942f3ecbc906985d16f32f4355072', 'item', 'IMG_20190724_104625_876.jpg', '960', '1280', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img8509fa4596d3abbe4f23f1a2aa053a8f', 'usre71177a5c87155245fc6d7ba39043963', 'chat', 'IMG_20190901_10415820190902133119.jpg', '1944', '2592', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img85ec78ddea3be3de213943fe2d47ec53', 'usr84264292f0b3360143f6ea8776b77f20', 'chat', 'orsrc3892420190928122029.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img871df2edbac345b83e7e0c18373020ff', 'subcatc61744e20375d4e72666348bfacb3046', 'sub_category', 'download_(32).jpg', '160', '212', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img89ec7d034ce7d5a8a2dd6525e8392fb7', 'usra4e2aa021472c91ff57a0691a381f3c5', 'chat', 'c120200915034148.jpg', '620', '736', '', '2020-09-15 05:11:48', '', '0000-00-00 00:00:00', ''),
-('img8bb0666a0ef92c8c12f7e2dbcdafa2ba', 'usr84264292f0b3360143f6ea8776b77f20', 'chat', 'IMG_20190829_14165620190829034215.jpg', '3120', '4160', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img8bb075308144a38add63f0dc4bb05b7a', 'subcat96f05c8a49c61ee601800578d6d73175', 'sub_category', 'driver.jpg', '750', '500', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img8c4a0b46c3d073baec74015635c7814b', 'subcatb1e75e347ed7f989cb1bcec390b1eac7', 'sub_category', 'sportshirt2.jpg', '940', '591', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img8c7353af380c081178656040dfbfdbaa', 'subcat08f52e619858a83627bb8850d03cb4b3', 'subcat_icon', 'phones_icon5.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img8cd7597e5f2938d4dfc76046bb929aeb', 'usr1ffb51feddb5c60deeaacb5c644257c7', 'chat', '00e523cf665d314742a1abcd07f7c1c620190904162638.png', '1500', '802', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img8d62bbd69862ff5f16ba41204071dbab', 'subcat3c0d35feb4c9e82599bf6f8bfbd08405', 'sub_category', 'myanmardress.jpg', '794', '584', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img8e762256593d3e4b7cb770faaff1706c', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'magazine-unlock-01-2.3.1390-_53A80E8DFDB9DCB137C18BCD58B26A1C20190703211229.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img90e29d3354998ec9554f9ed01cf81ae8', 'feed54717707cd5d9eaa115be9e8704066f3', 'blog', 'summer_3.png', '600', '400', 'desc', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img91f9271718fa4da8b66a8e2d877df3d1', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', '7df8629260663b053256b0ad5c2a17a9_compressed781658969866247173720200915005730.jpg', '650', '1050', '', '2020-09-15 02:27:30', '', '0000-00-00 00:00:00', ''),
-('img9273c2f563c94ebf965cedf07d2d5fa1', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'depositphotos_218014928-stock-illustration-dishwashing-liquid-soap-lemon-packaging_compressed877729503615984490020200922012638.jpg', '650', '524', '', '2020-09-22 02:56:38', '', '0000-00-00 00:00:00', ''),
-('img9285ee1d0c29512341c5324e2776668f', 'itm_1a7f3815a51c3c3888ede85bbacb9b88', '', 'hotel1.jpg', '1280', '960', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img929ba529fc02114aaab8e03af3583649', 'itm_70a57c254699bae1c98f7a8ed461cf42', 'item', 'portrait_art_7_compressed2432769639133634134.jpg', '668', '1000', '', '2020-12-08 06:08:32', '', '0000-00-00 00:00:00', ''),
-('img930c844689f0dd00764be05e5ac23e10', 'itm_54709837e70ae2f179b49a739ded54d7', 'item', 'IMG_20190724_135937_642.jpg', '919', '900', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img9406d530136422ce4b74b0cc5b9716fe', 'notia1059de7e746401653f19c88cf3613b5', 'noti', 'a39.jpg', '563', '1000', '', '2020-09-22 01:51:26', '', '0000-00-00 00:00:00', ''),
-('img9467a876d6827345854675c054b1613c', 'usr3f57bf66eac7eebcf7cbecf84651d96c', 'chat', 'Webp.net-compress-image (14)20190704232711.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img9526039f2ae7d868c2f8d6664024317a', 'usr8ee77c955316a0a01ad2c6a1b6ab414e', 'chat', 'IMG_20190912_16162620191106042138.jpg', '960', '1280', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img9548195945a9e433d1b4a15c33d101bf', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', '1514731324670893763ants-animated-clipart.hi_compressed768900659441845796420200915005848.jpg', '650', '990', '', '2020-09-15 02:28:48', '', '0000-00-00 00:00:00', ''),
-('img9572b71160603501c68d042cad7840b4', 'itm_2446dc20339a5d9658a60c9315ef26e8', 'item', 'o1.jpg', '1280', '720', '', '2020-10-16 03:27:35', '', '0000-00-00 00:00:00', ''),
-('img9927c242d75540d70850f75d155218b1', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', '20190827_16152820191203074103.jpg', '2336', '1080', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img992a25f269b920ecc3f5a8e027d238d9', 'usr1ffb51feddb5c60deeaacb5c644257c7', 'chat', 'magazine-unlock-02-2.3.1328-_1C14A117038531370CAA24BCB314AA3020190705004208.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img9b0964788db5236f8eb70e03983159f2', 'itm_ba0837310e18f29408f09fca748271ef', 'item', 'IMG_20190724_104750_545.jpg', '569', '569', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img9b1f64132b990c6ae227f0db6cf41f1d', 'itm_19d8a632ca279d2a4739913172cb71dd', 'item', 'FB_IMG_1563880979579.jpg', '720', '540', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img9b9752ec33fc24d19bb0f8176e65e0b8', 'subcataa581788260871cce0607c7137b06036', 'subcat_icon', 'computers_icon2.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img9b9bf345afd8d4c8b9ac80749045ac1e', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'FB_IMG_1598056719598_compressed358946217122031107320201019004244.jpg', '650', '650', '', '2020-10-19 02:12:44', '', '0000-00-00 00:00:00', ''),
-('img9c544786ea5704636aa881688552add8', 'offline_paymentc893aee9889df52e6a8b18bf0f3b4587', 'offline_icon', '3.png', '256', '256', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img9cb24379ed8e84646d90b9f87aba813a', 'cat5dfc0138547b926dccc5ee269b1cd042', 'category-icon', 'sports_icon.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img9cedf2c25c3612ffc0c89c9c6a3395a5', 'usre59502e68b1d7c9b313e5962aaed6260', 'chat', 'IMG_20190807_13361520190909123749.jpg', '4160', '3120', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('img9e23f65cae8efcc644508f68a84ce7b3', 'noti261692a3db354d190997c63a26e7c38c', 'noti', 'a36.jpg', '563', '1000', '', '2020-09-22 01:34:12', '', '0000-00-00 00:00:00', ''),
-('imga0b1a63a469fe39b04bc6d6b503df1ca', 'subcat00ec4d9a87ab18c9793c18fd587f6cb2', 'subcat_icon', 'musics_icon2.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imga120bbfdc07dd08733e7226d473e79eb', 'subcat96f05c8a49c61ee601800578d6d73175', 'subcat_icon', 'services_icon3.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imga170209db7a66b071327e0b27b3cd6f6', 'itm_c80942f3ecbc906985d16f32f4355072', 'item', 'IMG_20190724_104622_541.jpg', '853', '1280', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imga17f869925d7d4a1466ab8d3afb29b1f', 'itm_a0ee873a872f79828676b8850c3e875a', 'item', 'IMG_20190724_104823_899.jpg', '225', '225', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imga315bed766d16f1a1a239b578ffed35f', 'noti21382993b298da2aa7f84fe04d716df7', 'noti', 'a315.jpg', '563', '1000', '', '2020-09-22 04:28:30', '', '0000-00-00 00:00:00', ''),
-('imgaa1a89f591c6ab76828e5141eac13958', 'itm_fa5a6d56eefccce6ad0da2369700383d', 'item', 'IL201712211844082163_compressed8409121921225394673.jpg', '751', '1001', '', '2020-09-28 03:06:29', '', '0000-00-00 00:00:00', ''),
-('imgadccdc2566c35399f1cbebc58698f745', 'itm_8d2c7208b461f1abbbe467e5059dd60a', 'item', 'IMG_20190724_104847_701.jpg', '466', '533', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgae4856e148c890950f5712083c6c684c', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'FB_IMG_1598056719598_compressed174210988941554308720201019015444.jpg', '650', '650', '', '2020-10-19 03:24:44', '', '0000-00-00 00:00:00', ''),
-('imgb0f7a1d5a71bd60dd6a9356c2c0f7f50', 'itm_c428fde98a8b2dc3fb40b6bdbf90c7a1', 'item', 'IMG_0002D0D8C6CC-CBD4-4882-884B-01DFEE715F9C_compressed.jpg', '1000', '664', '', '2020-09-15 03:54:12', '', '0000-00-00 00:00:00', ''),
-('imgb13d22a069520524117f209af2f13991', 'itm_8277fd5c824ab26ec25f902c7026a40c', 'item', 'Screenshot_20190330-0004381.png', '720', '1280', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgb1f196a9ddeef969240e24318304d802', 'notic5e28233efce4b086657c5884206fd58', 'noti', 'Screenshot_2020-09-18_at_1_03_01_PM2.png', '757', '265', '', '2020-09-22 02:08:11', '', '0000-00-00 00:00:00', ''),
-('imgb200ce9f56a1375a25a5e0adaa09b51b', 'offline_paymentfcbc2f20eb9f4c56b2938ceac24fc622', 'offline_icon', '2.png', '256', '256', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgb31f17e860e4a43192d16d2c7bd212f1', 'usr4edb805ca791dc7677ba4a785873debd', 'chat', 'magazine-unlock-01-2.3.1375-_E5A58282A4717F213DA893AC76D2EBB620190703202133.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgb45e7c18511abad20570d8a98c04cc98', 'usr1ffb51feddb5c60deeaacb5c644257c7', 'chat', 'magazine-unlock-01-2.3.1375-_9518100b3efb457a82715d74d8370dcf20190703031719.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgb9375de6fff5b93602c9c475f4a131df', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'FB_IMG_1602986984522_compressed580119678859481145720201019041830.jpg', '650', '528', '', '2020-10-19 05:48:30', '', '0000-00-00 00:00:00', ''),
-('imgb9b9dbc583a12092607f15227f41198b', 'usr1ffb51feddb5c60deeaacb5c644257c7', 'chat', 'magazine-unlock-05-2.3.1390-_5AA635ADF90C0C2F971ACB5FAC1CF72520190705005601.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgbc7a1b89fb6c724a598515443b85c540', 'feed2e4b04cfc7586d0dc41b4abfb518b932', 'blog', 'mobil.png', '188', '110', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgbe15f07984161a02a14574c34c39c001', 'itm_ea7c87b1758bad40efccb3caedb6a1d1', 'item', 'IMG_20190724_104805_649.jpg', '1280', '720', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgc0225403789ac2d6afee52fbf2139190', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'Screenshot_2020-08-22-07-24-50-908_com.facebook.katana_compressed420657620713161203320201019021946.jpg', '650', '1408', '', '2020-10-19 03:49:46', '', '0000-00-00 00:00:00', ''),
-('imgc127a6d255eddb97504afa0a3a07a0dd', 'usr3f57bf66eac7eebcf7cbecf84651d96c', 'chat', 'Webp.net-compress-image (14)20190704232542.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgc1c06874feb3644191d54d1e7ee766a1', 'noti797430dd6fd89a73fb301fd03060dcad', 'noti', 'Screenshot_2020-09-18_at_1_03_01_PM1.png', '757', '265', '', '2020-09-22 01:58:52', '', '0000-00-00 00:00:00', ''),
-('imgc1fbd8aabd3885f76224526d5848ba2b', 'noti8413649f209666fca3abb1da3d55724e', 'noti', 'a31.jpg', '563', '1000', '', '2020-09-22 01:15:33', '', '0000-00-00 00:00:00', ''),
-('imgc3512a6d78ac37822251152b755612ce', 'subcat00ec4d9a87ab18c9793c18fd587f6cb2', 'sub_category', 'images_(5).jpg', '300', '168', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgc438ddd08224ffa8773da682cf641b1a', 'subcat6226dfba4c0d4d8f9130cc2d5c8a5a58', 'sub_category', 'forkids.jpg', '193', '261', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgc6c98f45fbfc1e95e76dfc3cff27b793', 'noti0a9fe8de0f9f32ee416d08fbebd6dbef', 'noti', 'a35.jpg', '563', '1000', '', '2020-09-22 01:33:18', '', '0000-00-00 00:00:00', ''),
-('imgc8b9055a793b95b923fb06ca2c8a8e24', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'clothes_220190618060908.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgc98132414e8a691f404900d51f3d0068', 'feed64a7346dc26c2e8642fbeab5d4d345c9', 'blog', 'a(4).jpg', '509', '340', 'ddd', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgc9e4de0bac884492310dfb0560b2f250', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'magazine-unlock-05-2.3.1375-_3a8fae5a79ea4119aafc431d4eb5bccc20190627030948.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgca0ddeb15e3e18f6d40fe1eddcce7201', 'offline_payment151fa121f7e46b194a53edfc8f8093b8', 'offline_icon', '4.png', '256', '256', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgca9f056d2dd01cf1cc256487332097ec', 'usra4e2aa021472c91ff57a0691a381f3c5', 'chat', 'c120200915034005.jpg', '620', '736', '', '2020-09-15 05:10:05', '', '0000-00-00 00:00:00', ''),
-('imgcda14d8b4596316def77dc53689440f0', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'magazine-unlock-05-2.3.1390-_8880E9535347ABB6C85AECB1651B3DF520190704203637.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgcda7991efb0db736a3f31ccace0955cf', 'noti77d23fda3815489e306e7c779ecafca3', 'noti', 'Screenshot_2020-09-19_at_10_29_58_PM1.png', '573', '277', '', '2020-09-22 04:14:50', '', '0000-00-00 00:00:00', ''),
-('imgcf2fbaab0c6fa16c8da5f4e4972bd97c', 'itm_f1d68517076ac7a74dee2dacbe655b90', 'item', 'IMG_20190724_141527_198.jpg', '1280', '840', '', '2020-10-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgcf39e7676c63d83c81048daedec66f28', 'subcat88be821e3cb84cc0c049f7d92028fe48', 'subcat_icon', 'sports_icon1.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgcf93d4397dc06494e9841604335a3c4b', 'noticcd5c64fa5f5128c441dde6357b31ef8', 'noti', 'a318.jpg', '563', '1000', '', '2020-09-22 04:38:06', '', '0000-00-00 00:00:00', ''),
-('imgcf9aaa58f500815302b9eea203b99a47', 'itm_2446dc20339a5d9658a60c9315ef26e8', 'item', '02.jpg', '1200', '628', '', '2020-10-16 03:27:51', '', '0000-00-00 00:00:00', ''),
-('imgd1645268b1b3d4a3f1ce03eed57fcaae', 'itm_2446dc20339a5d9658a60c9315ef26e8', 'item', 'o3.jpeg', '635', '476', '', '2020-10-16 03:27:51', '', '0000-00-00 00:00:00', ''),
-('imgd1c50f9149ba498d00d24cf9075650f3', 'subcate3da9c8769ad3eaefcfa6ffb3ca6fb52', 'sub_category', 'download_(26).jpg', '225', '225', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgd48281afd30440983129ad21cb277478', 'usr84db7485fc9b8eeb0c74ed43fa8af040', 'chat', 'magazine-unlock-05-2.3.1375-_FD450E14FA7B9D1C28BA732522AF199220190703042629.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgd518f4cf6f6b9ab384e5a373f1c9da4f', 'usr5abdf0ccb5135714b71b27ba0a6b83f2', 'chat', 'IMG_20201017_124251_495_compressed-187215793320201017225545.jpg', '650', '1156', '', '2020-10-18 00:25:46', '', '0000-00-00 00:00:00', ''),
-('imgd5a02839098b2d71ed6bc4fac7cbb05c', 'noti1e8a078a6c8967826f5eeb6060c0f69f', 'noti', 'c11.jpg', '620', '736', '', '2020-09-22 01:27:20', '', '0000-00-00 00:00:00', ''),
-('imgd61f15cbe15f3a44119d60a0e32c72d2', 'itm_9cbb0e920e49e3769ebfbc5efa2f48ce', 'item', 'IMG_20190724_141527_198.jpg', '1280', '840', '', '2020-11-12 22:46:16', '', '0000-00-00 00:00:00', ''),
-('imgd661ee5e82d872c3b57a0c27b7b374cd', 'itm_2bb3fb13e1040cae112485657e31f868', 'item', 'FB_IMG_1563882500699.jpg', '720', '720', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgd71a61cf51bbee40b759a9e9cb86d80d', 'usr84db7485fc9b8eeb0c74ed43fa8af040', 'chat', '156153385149420190626023046.jpg', '3120', '4160', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgd78b26b6a52d7a7406123cc35207602e', 'notie01356eca4caa060afeb20085d298268', 'noti', 'a310.jpg', '563', '1000', '', '2020-09-22 02:27:12', '', '0000-00-00 00:00:00', ''),
-('imgd8957cf3ced79352ce48a465574e597e', 'usra4e2aa021472c91ff57a0691a381f3c5', 'chat', '1514731324670893763ants-animated-clipart.hi_compressed526315716744229408620200915034316.jpg', '650', '990', '', '2020-09-15 05:13:16', '', '0000-00-00 00:00:00', ''),
-('imgd90339ff1c2d6df39d39e9596219e0b1', 'subcat9b35a9ef1469be03db203811634f5ffc', 'subcat_icon', 'fashion_icon1.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgd9c4409b06d05768efcdd18cb211c8c1', 'itm_99a63da9f5cb9655a371c4a6dfd9f673', 'item', 'IMG_20190724_104642_033.jpg', '800', '800', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgda18ec34c6cc39f5644c2f793ca74d46', 'itm_709970eef73e104ca5d4114b2485355d', 'item', 'IMG_20190724_104714_981.jpg', '850', '850', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgdb7cf17f61f42b36e52897b5ca4fbd5d', 'cata497304389495ab7c262383923243180', 'category', 'phones_cover.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgdbdc858d705478313c8dd786c6f039e6', 'itm_99a63da9f5cb9655a371c4a6dfd9f673', 'item', 'IMG_20190724_104645_206.jpg', '800', '800', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgdce4725e1cf135bd370fd4d2a9d6d3a4', 'feed143913da363b12f35bb44d583561d95e', 'blog', 'a(6).jpg', '510', '340', 'old blog', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgdcffbaefa4c65613444c764e1aff3e89', 'abt1', 'about', 'about_wp.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgddf0e616b9f57314685c6ee2ccbf3344', 'notia4c24fa14c98e0920aa1ed2ad1680535', 'noti', 'Screenshot_2020-09-19_at_10_29_58_PM3.png', '573', '277', '', '2020-09-22 04:20:01', '', '0000-00-00 00:00:00', ''),
-('imgde46820970b56c2c3e818a54c44ef9b5', 'subcat0132c5a6635b0a9d5c55278ebf226ad7', 'subcat_icon', 'services_icon2.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgde92e3d63f7dfe45bd8783782f8beb16', 'subcat3c0d35feb4c9e82599bf6f8bfbd08405', 'subcat_icon', 'fashion_icon2.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgde94c92a04727fcd6906849de7840270', 'itm_478864abde0d4c253f54cc5eb3a68619', 'item', 'IMG_20191007_121852.jpg', '4000', '3000', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgdf2061746fe7482cc37536b6fed0759d', 'noti13dbe114bfe298f7d0e95d56b8c7c289', 'noti', 'c1.jpg', '620', '736', '', '2020-09-22 01:22:28', '', '0000-00-00 00:00:00', ''),
-('imge0e7dacc9f7431b192ea76f0ae07d8f0', 'usr84264292f0b3360143f6ea8776b77f20', 'chat', 'Scan120190903141356.jpg', '1654', '2338', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imge8968544becae2961ae2daca090e0af0', 'itm_b07822ea537a70cfaf044754757f6419', 'item', 'IMG_20190724_104718_507.jpg', '1000', '667', '', '2020-11-16 22:03:58', '', '0000-00-00 00:00:00', ''),
-('imge8a3add4c0d0df3c96e112865d0dc45a', 'catfa070dd5cc2a2c9c6196159f85480ff7', 'category', 'services_cover.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imge8fef8b0569935cf1f94a4d09dfd65cc', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'magazine-unlock-05-2.3.1390-_876D9B83618F47D0CFEDC5C03CA4FD4C20190704203357.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imge93936f9f5616734e194ae6d415188aa', 'itm_8c22c49be4fcb839586d508cb71bea62', 'item', 'magazine-unlock-01-2_3_2022-_f08c325f4670410fa5b19fafe141fd90.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgeb8e2481b649d018c1b690261c690550', 'noti39045f4b1490d328c1b766c002438ff6', 'noti', 'Webp_net-compress-image_(14)2.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgecbfbd8f0f89ef0e160906c3638cca8e', 'itm_e4c2c5de6be9fc50d5d8e77026e75298', 'item', '74178f40b70a12e81a372a9d4eaf07d0_compressed9176680664007275660.jpg', '1000', '1000', '', '2020-09-24 21:33:59', '', '0000-00-00 00:00:00', ''),
-('imged144b7c7bf68d33ff616bed6943c0cf', 'usr1ffb51feddb5c60deeaacb5c644257c7', 'chat', 'Webp.net-compress-image (14)20190708000430.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgee6d5ffa0835753508a532576371de44', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'Screenshot_20191007-000929_Gallery20191106055647.jpg', '1080', '1920', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgee8bbfeb67b13e2bb41265f9c6f73824', 'itm_2edb3a5e3bc2f616f930ca0b9d9da38b', 'item', 'FB_IMG_15638810741721.jpg', '720', '720', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgef69fea8920229bf6a6664bcc7d5d33e', 'cate2f7ee7f7317ceddf4395f82665b5a86', 'category', 'fashions_cover.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgf2baa7b726239759e8773723a9da41d3', 'notiab1a86ae12a0446d8d925b25fe6090e5', 'noti', 'a316.jpg', '563', '1000', '', '2020-09-22 04:28:56', '', '0000-00-00 00:00:00', ''),
-('imgf2e07e4a3c876d44e2349bf3228c02b3', 'itm_c428fde98a8b2dc3fb40b6bdbf90c7a1', 'item', 'IMG_0005AA230E79-6627-48D4-82BA-94365B25836F_compressed.jpg', '1000', '667', '', '2020-09-15 04:01:28', '', '0000-00-00 00:00:00', ''),
-('imgf3ea1f2bc870143a4ac25bcd7e9fca02', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'japanese-cherry-trees-324175__340_compressed4347335757588342220200922012159.jpg', '650', '433', '', '2020-09-22 02:51:59', '', '0000-00-00 00:00:00', ''),
-('imgf4040b5b18fbc06ae4fbfd15bc08e4da', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'Webp.net-compress-image (11)20190704204545.jpg', '1280', '853', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgf40ed10a8508cf071c63c9dff5a1f016', 'usr5abdf0ccb5135714b71b27ba0a6b83f2', 'chat', 'IMG_20201017_124251_495_compressed-148312660720201017231030.jpg', '650', '1156', '', '2020-10-18 00:40:30', '', '0000-00-00 00:00:00', ''),
-('imgf56de4f3f3b3bcb9078c7d344dd4091b', 'subcat0cc28d586f90805b3a569178b16b1fc6', 'sub_category', 'gamingpc.jpg', '1100', '513', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgf5e15a53395861927f472193039c37bf', 'itm_8c22c49be4fcb839586d508cb71bea62', 'item', 'magazine-unlock-05-2_3_1812-_d46ca9c9a81044a5a6b92aff9f750d29.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgf5e2f5c22c29dc86e937cde38fa55622', 'cat3988c9afad482db9a872ee5c19c34fbb', 'category', 'music_cover.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgf76c5e8da5f45ce88b2bc9de4bd2784e', 'itm_ee73165b7c94f2eff3a4201b9fe73c6b', 'item', 'IMG_20190724_104636_236.jpg', '1280', '854', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgf784e8ecc94b84c70726e21423ba98b8', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'magazine-unlock-01-2.3.1375-_E5A58282A4717F213DA893AC76D2EBB620190705004301.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '');
-INSERT INTO `core_images` (`img_id`, `img_parent_id`, `img_type`, `img_path`, `img_width`, `img_height`, `img_desc`, `added_date`, `added_user_id`, `updated_date`, `updated_user_id`) VALUES
-('imgf794497cdc55d027c606abb39f53e21b', 'itm_8c22c49be4fcb839586d508cb71bea62', 'item', 'magazine-unlock-05-2_3_1462-_ccb80bc03c46428bb4e61941ee0ff3732.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgf8582695beb166e2525a4576fb28df88', 'itm_5058fb44b1f3a2efd9cbd0925ab67785', 'item', 'Screenshot_20190330-0004382.png', '720', '1280', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgf902a64352e30f1c26f4aaf35482425f', 'itm_a0ee873a872f79828676b8850c3e875a', 'item', 'IMG_20190724_104829_492.jpg', '225', '225', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgfb46d0b8a4ecb3458b570b844914c57a', 'cat3ed818f44f3a3e3d49a2798b4c51f5b8', 'category-icon', 'properties_icon.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgfb4a73d2ff06e92c4a9386ab717c2771', 'subcat68bf2c365c88382966dd72a347fc3473', 'subcat_icon', 'services_icon1.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgfba3f1a01f95e4f7ed3c8cc51db50931', 'subcatcdf3f568c7dedef69f2aa372e544a3d7', 'sub_category', 'sweater2.jpg', '223', '226', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgfc42fb1de0a447624d9d9e4bbfe4841a', 'noticb0cdff90ec760b76116608a86eb7073', 'noti', 'a1.jpeg', '500', '333', '', '2020-09-22 01:22:02', '', '0000-00-00 00:00:00', ''),
-('imgfdad4903994dcbbf81a8fe9a1563ec1e', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', '53cf999d760f69464f41442745409b9f.png_wh860_compressed853496893691037966020200915020436.jpg', '650', '650', '', '2020-09-15 03:34:36', '', '0000-00-00 00:00:00', ''),
-('imgfdf8de1e18b4d172974b336f6464f091', 'feed7fccca6a75b52b9f1713a8732bffd4e1', 'blog', 'Audi-Wallpaper-19(1).jpg', '1920', '1080', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', ''),
-('imgffa94a30e1698e531d5a3a105c4b3fa7', 'noti8fd74798613ea720339771594efda8e8', 'noti', 'a34.jpg', '563', '1000', '', '2020-09-22 01:32:30', '', '0000-00-00 00:00:00', ''),
-('imgdad73b96e684d79a102953e880882dc5', 'cate83d78e82bb86ab3c5f5e10536f04346', 'category', 'car.jpg', '236', '236', '', '2021-02-09 04:50:44', '', '0000-00-00 00:00:00', ''),
-('img22420422d0196a9df42d1de44b20138e', 'cate83d78e82bb86ab3c5f5e10536f04346', 'category-icon', 'car1.jpg', '236', '236', '', '2021-02-09 04:50:44', '', '0000-00-00 00:00:00', ''),
-('imgfef6e7dc6a77804dba217dcd681c9e9d', 'cat5e37e054f831448f9479f16098880fa1', 'category', 'car2.png', '236', '236', '', '2021-02-09 04:51:25', '', '0000-00-00 00:00:00', ''),
-('img03dc655579d00c13b2c37cd476b68acc', 'cat5e37e054f831448f9479f16098880fa1', 'category-icon', 'air.jpg', '360', '360', '', '2021-02-09 04:51:25', '', '0000-00-00 00:00:00', ''),
-('img0c5a537519a8a818d24119f1180fdada', 'subcat7316f42e40813ba831f18e850480929d', 'sub_category', 'air1.jpg', '360', '360', '', '2021-02-09 04:55:11', '', '0000-00-00 00:00:00', ''),
-('imgffd7f2273a6b934b3740190cce2692e4', 'subcat7316f42e40813ba831f18e850480929d', 'subcat_icon', 'car2.jpg', '236', '236', '', '2021-02-09 04:55:11', '', '0000-00-00 00:00:00', ''),
-('img05e54c5868afdd081fe9dc7a5eee3a47', 'itm_36e2d98f252b835ea4b494f1bc863dd4', 'item', 'air2.jpg', '360', '360', '', '2021-02-09 04:56:44', '', '0000-00-00 00:00:00', ''),
-('img156b317dce1ed506cef3e6a0d0039cbe', 'itm_bc20eb78df8f2f409171f095db12cf75', 'item', 'car3.jpg', '236', '236', '', '2021-02-09 05:00:11', '', '0000-00-00 00:00:00', '');
+INSERT INTO `core_images` (`img_id`, `img_parent_id`, `img_type`, `img_path`, `img_width`, `img_height`, `img_desc`, `added_date`, `added_user_id`, `updated_date`, `updated_user_id`, `ordering`) VALUES
+('img00ac6cb7203dcbcebe2078d4534430e9', 'feedce2c4e6f3b2d4a133bf1f9786b2e92ae', 'blog', 'food_2(1).png', '600', '400', 'desc', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img01b140d011774a2e1c8db804da390bd1', 'notic8efc242faa81272c78f0b4be1af72e0', 'noti', 'a3.jpg', '563', '1000', '', '2020-09-22 01:14:33', '', '0000-00-00 00:00:00', '', 0),
+('img01d727b25d51f284d40bffcf399f8fd0', 'subcatc4b6928dd0ba7f1f4ffc5a4588cea59e', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img02608f9a353a9daa4d0fa8ef4579dbb9', 'itm_709970eef73e104ca5d4114b2485355d', 'item', 'IMG_20190724_104702_182.jpg', '660', '660', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img04a6e9d9e64f031ac51020c3081bb293', 'cat445639833db3eff8b6cdb5510aa39faa', 'category', 'computers_cover.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img05cb133cb4f8f88631aa0323fbf3522b', 'noti0b045f1dd581ef3237a9d09f3da9000e', 'noti', 'Webp_net-compress-image_(14)4.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img062f9b5a866f72842d379c62725a16dd', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', '156818407574020190911003437.jpg', '187', '250', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img066d80f113c1b2fd0f81bca1938574b8', 'noti4c046d2e97e87c22d0565f2c11500f69', 'noti', 'Screenshot_2020-09-18_at_1_03_01_PM.png', '757', '265', '', '2020-09-22 01:41:05', '', '0000-00-00 00:00:00', '', 0),
+('img06ec7601535f6fee7e85d242ca51913a', 'feedf6bf282726b910430fa2c5931a556a38', 'blog', 'medicine_1.png', '600', '400', 'desc', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img09791cb3d2ea11acc84772e1ee2ea696', 'itm_f1d68517076ac7a74dee2dacbe655b90', 'item', 'IMG_20190724_141530_254.jpg', '1280', '853', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img097a3aab4e82f434702b0f23f88411c5', 'notia6762cdde82ea5e3609a669ec3fec1cf', 'noti', 'a38.jpg', '563', '1000', '', '2020-09-22 01:39:28', '', '0000-00-00 00:00:00', '', 0),
+('img0ac4c932425c93ae32a86d28667272cf', 'usr84db7485fc9b8eeb0c74ed43fa8af040', 'chat', 'magazine-unlock-05-2.3.1390-_876D9B83618F47D0CFEDC5C03CA4FD4C20190703041743.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img0b5ec5bf8fc258b2b2513dbc3b5823a2', 'itm_3831c0d10b159d92e6e488dc2a13ed79', 'item', 'IMG_20190724_104818_986.jpg', '600', '900', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img0b9b99b5e6cd08b5ee227c1fe1abf4f6', 'offline_payment0a25ff53e952bb206aaabb89f0004586', 'offline_icon', '1.png', '256', '256', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img0ba82bfa8fad47fcde98b9665f3de33f', 'itm_ee73165b7c94f2eff3a4201b9fe73c6b', 'item', 'IMG_20190724_104630_534.jpg', '1280', '853', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img0c1a3aa44ea214d422dd9a16ed08b80a', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'japanese-cherry-trees-324175__340_compressed518222925272383080220200922012229.jpg', '650', '433', '', '2020-09-22 02:52:29', '', '0000-00-00 00:00:00', '', 0),
+('img0c994a43ecf58ae9f8dc21c49c018b82', 'subcatcdf3f568c7dedef69f2aa372e544a3d7', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img0cca4e47c990829d45bd0d3fb0396ad1', 'usrbad733f0fa26f94bc0c072a39d369a8f', 'chat', 'eyJpdSI6ImU4Y2U1YjBkMWVhOGMzNTNlZmFmNmNjYTQ3NWIyNTFmNTA0NThkNzA4MTk1Y2YyN2ZkNmNmNzUyZmE4NDQ0N2UiLCJ3IjozNTAsImgiOjIwMCwiZCI6Mi4wLCJjcyI6MCwiZiI6MH020191004122151.jpg', '700', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img0e351684b8d253b41101c985822a7d44', 'noti4fec50ee8c555d2baa781a50a7655e95', 'noti', 'Screenshot_2020-09-19_at_10_29_58_PM2.png', '573', '277', '', '2020-09-22 04:17:57', '', '0000-00-00 00:00:00', '', 0),
+('img0f03769a147e4aa6ece48b57bb2c1cb9', 'be1', 'fav-icon', 'favicon.ico', '', '', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img0f7169224a76864f6a81ced9e328df30', 'itm_3831c0d10b159d92e6e488dc2a13ed79', 'item', 'IMG_20190724_104816_382.jpg', '800', '800', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img0f7a142e824779ec0710a51e2b5486eb', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'FB_IMG_1598056719598_compressed60341961443547915220201019015528.jpg', '650', '650', '', '2020-10-19 03:25:28', '', '0000-00-00 00:00:00', '', 0),
+('img111ee007b701a7040526855bfc4eaf41', 'feedccaca598699e47429206ffdcfb970e9e', 'blog', 'food_1(1).png', '600', '400', 'desc', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img116ca5e2243a7bd56357cc455eebd99d', 'usr3f57bf66eac7eebcf7cbecf84651d96c', 'chat', 'Webp.net-compress-image (14)20190704222017.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img1173c0103e3b87b926322157bf0331bb', 'notie1bba29f85cf82cb4d0b664aca48be9b', 'noti', 'Webp_net-compress-image_(14)1.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img11b97cd4393790578af5f02a6698c8bf', 'itm_aec300faa4929e3342679e55e63c24bc', 'item', 'FB_IMG_1563881218073.jpg', '720', '540', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img11f76d25c329116cdabef22b307c8e1e', 'usr3f57bf66eac7eebcf7cbecf84651d96c', 'chat', 'Webp.net-compress-image (14)20190704232658.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img13b3a722dbccf785e74bd655603e9232', 'subcat0499ae94e6e2bf5e02ce4235051047d6', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img153b8e7b4bc464f846ebdc165fd7c04a', 'subcate3da9c8769ad3eaefcfa6ffb3ca6fb52', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img167368a8e2f091844338660903e8b239', 'itm_9cbb0e920e49e3769ebfbc5efa2f48ce', 'item', 'IMG_20190724_141530_254.jpg', '1280', '853', '', '2020-11-12 22:46:16', '', '0000-00-00 00:00:00', '', 0),
+('img17a94bf3f01f34a97dbceb20cdee31a5', 'subcat49b4f5f3173bac6e64f9c213a99f386a', 'subcat_icon', 'logo100x100.png', '600', '400', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img1a4dcdc6cb08e5b4b911a534eceecdf1', 'noti38cb47ff92a4fa02b97896f4f90cc692', 'noti', 'a311.jpg', '563', '1000', '', '2020-09-22 03:17:30', '', '0000-00-00 00:00:00', '', 0),
+('img1a57088e9f6f6fcab9ae5650070f5acd', 'subcatc58f3b37c72a22faa7a1e6fac40bf264', 'sub_category', 'logo100x100.png', '1200', '1200', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img1a60a112d87cb4b713848ab508112369', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', '20200113_11443420200129042357.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img1da75d6298241c4833fbd3af88b2bd56', 'itm_8c22c49be4fcb839586d508cb71bea62', 'item', 'magazine-unlock-01-2_3_1812-_6ef97afd2d3e47bba3546147f226a0bb.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img1e0827ee5d911f7e769676bd64f1b90e', 'subcatb1e75e347ed7f989cb1bcec390b1eac7', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img1e589b15b71028fda20b707c5cdabeed', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'magazine-unlock-01-2.3.1375-_E5A58282A4717F213DA893AC76D2EBB620190627031639.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img1e6db2897df922b2af6a4847da6915af', 'itm_2edb3a5e3bc2f616f930ca0b9d9da38b', 'item', 'FB_IMG_15638810710991.jpg', '720', '540', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img1e7deb6e78440276bd7ee3db2151397d', 'cat3ed818f44f3a3e3d49a2798b4c51f5b8', 'category', 'properties_cover.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img1ede2380ed4e252f75bf891a041fdf7f', 'be1', 'login-image', 'login_background.png', '1080', '720', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img20b13e8a3f707857259ab8aaefc71f3a', 'catfa070dd5cc2a2c9c6196159f85480ff7', 'category-icon', 'services_icon.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img22ae8a079c89c8d0ed1c3c652d35df14', 'itm_0434d45e5b5836778bcbe241c55b2b10', 'item', 'IMG_20190724_104723_853.jpg', '833', '626', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img23c1ed8b9e990810936e2e3a0dddde0e', 'itm_52c74ad65651f004b6145559b25db4d5', 'item', 'JPEG_20191004_171040_5267190558043144582.jpg', '4000', '3000', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img24aa9f7b1ab5a72e00047d84b9cabedd', 'subcat49b4f5f3173bac6e64f9c213a99f386a', 'sub_category', 'logo100x100.png', '410', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img24d40d516fa08ed531b2d9a4b26c3d5d', 'usr84db7485fc9b8eeb0c74ed43fa8af040', 'chat', 'magazine-unlock-05-2.3.1390-_5AA635ADF90C0C2F971ACB5FAC1CF72520190704204036.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img25084027a46dc4d1e6b86ddb915ffe30', 'subcatc4b6928dd0ba7f1f4ffc5a4588cea59e', 'sub_category', 'logo100x100.png', '1500', '1000', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img274fcc3dc632037862851798f2f54efa', 'subcatc61744e20375d4e72666348bfacb3046', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img27a52f2077afc8f427f1803d11108630', 'itm_7359de3d150f84bd9e06d9e6054ba151', 'item', 'IMG_20191007_124254.jpg', '4000', '3000', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img2892ff0f674c1a1e119a1de26ecb1ae0', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'japanese-cherry-trees-324175__340_compressed189331045631763819020200922012056.jpg', '650', '433', '', '2020-09-22 02:50:56', '', '0000-00-00 00:00:00', '', 0),
+('img28cfe407d84241a237d7880ead246783', 'itm_8461c34b7431724f8904f7ba0c360edf', 'item', 'IMG_20190724_104723_853.jpg', '833', '626', '', '2020-11-16 22:04:05', '', '0000-00-00 00:00:00', '', 0),
+('img2b72a41a7ec7f917a714c3b9fefbf502', 'feed2e4b04cfc7586d0dc41b4abfb518b932', 'blog', 'Audi-Wallpaper-19.jpg', '1920', '1080', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img2b77fb7ef9f645e901912ffb80618f79', 'notibc0662102e21611940f501a95e551704', 'noti', 'Screenshot_2020-09-19_at_10_29_58_PM4.png', '573', '277', '', '2020-09-22 04:23:01', '', '0000-00-00 00:00:00', '', 0),
+('img2b8acd6b0e16d0b1e4ddc67962b3191d', 'subcat3f6a29e6c498b5e5bbcd0a5b3bf1dda4', 'sub_category', 'logo100x100.png', '1200', '800', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img2c119d9e9d081453d73f06b14dd84613', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'Screenshot_2020-08-22-07-26-25-308_com.facebook.katana_compressed807964821215795454420201019021752.jpg', '650', '1408', '', '2020-10-19 03:47:52', '', '0000-00-00 00:00:00', '', 0),
+('img2d470b85ba97078b9b9baf9dd7263dc7', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'FB_IMG_1598056719598_compressed718062764608060405220201019015300.jpg', '650', '650', '', '2020-10-19 03:23:00', '', '0000-00-00 00:00:00', '', 0),
+('img2eeee970c7d9304843a5f931cea4d76d', 'subcatd725dbc5bf8e386dc384594ed3290a7e', 'sub_category', 'logo100x100.png', '1000', '1000', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img31c093d85d8b19c2a0eea35052f1ad00', 'itm_0434d45e5b5836778bcbe241c55b2b10', 'item', 'IMG_20190724_104718_507.jpg', '1000', '667', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img31c2b46eb292c3c0529184e87ea87039', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'IMG_20190912_16162620191104055025.jpg', '960', '1280', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img3284fe7ac4a474eb5d9b14fdca6f8556', 'subcat237b84c51a1134669e801fac81578b65', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img35fe3932196f110e22722021bfbe484a', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'FB_IMG_1598059712556_compressed159981221247122142220201019004213.jpg', '650', '653', '', '2020-10-19 02:12:13', '', '0000-00-00 00:00:00', '', 0),
+('img364df8650461115719cac0af2aece8f1', 'subcat08f52e619858a83627bb8850d03cb4b3', 'sub_category', 'logo100x100.png', '215', '234', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img3688412671a24621a79fc1bb7c9f0b05', 'itm_8d2c7208b461f1abbbe467e5059dd60a', 'item', 'IMG_20190724_104844_699.jpg', '1637', '1872', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img36989aa8183680a03b240ea3ca9b7cac', 'cata497304389495ab7c262383923243180', 'category-icon', 'phones_icon.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img37813dd8b32927524cf66954f54bce24', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'IMG_20190912_16162620191104081320.jpg', '960', '1280', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img39401981a1ffe5996aeac201d57171d1', 'noti2c63448c89aa222e50c3f00970a65641', 'noti', 'a312.jpg', '563', '1000', '', '2020-09-22 03:41:58', '', '0000-00-00 00:00:00', '', 0),
+('img3a48f7cf46f2d1ca708e52f06dd8ad19', 'usr1ffb51feddb5c60deeaacb5c644257c7', 'chat', 'Webp.net-compress-image (14)20190708000425.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img3a5045929af43dfded9e0fee5882325c', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'magazine-unlock-01-2.3.1390-_310DBC05EDCAD82586E7B466A238E7CB20190703035737.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img3a7525ca43b5b6f3b359346c83600f08', 'noti77b5e6cc9164567d5d3f910481670998', 'noti', 'a317.jpg', '563', '1000', '', '2020-09-22 04:29:43', '', '0000-00-00 00:00:00', '', 0),
+('img3a754b0944863023105162ec3f771776', 'itm_097aa52c313db8bdb97dccde3edd072a', 'item', 'IMG_20200630_1723202020071020082120200804050305.jpg', '0', '0', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img3b8103a0d6e64f36a7d6fdb672b4f2b7', 'itm_f46919ee83aed9fc697e218b3438cb8a', 'item', 'FB_IMG_1599918773325_compressed6981938751844530503.jpg', '751', '1001', '', '2020-09-24 21:46:38', '', '0000-00-00 00:00:00', '', 0),
+('img3cff5c173045139c9dbddd06a02080b9', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'Webp.net-compress-image (11)20190704204133.jpg', '1280', '853', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img3fd4cb01f78920c90e57d2f945dccadd', 'notif16cd25b6678149e67cc048eb0bc65b6', 'noti', 'a33.jpg', '563', '1000', '', '2020-09-22 01:25:41', '', '0000-00-00 00:00:00', '', 0),
+('img408b57ff92dfb8740f6acb9731ae6749', 'noti226157e9070efa6d8d9e2489dc19a814', 'noti', 'Webp_net-compress-image_(14)5.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img40d33cb58d2be8c94a979775ebca3706', 'usr84264292f0b3360143f6ea8776b77f20', 'chat', 'Screenshot_20190914-122632_FarmConnekt20190914213721.jpg', '1440', '2960', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img416d3984418516f4413ce9681eebd825', 'itm_feba75af4918ebee809bafb3c5e4c963', 'item', 'Screenshot_20190330-000438.png', '720', '1280', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img4428f0ac78f82c00e090b7c6dc8f6493', 'usr1ffb51feddb5c60deeaacb5c644257c7', 'chat', 'magazine-unlock-01-2.3.1397-_1030ed04f78540f28179f67cde66233120190708000159.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img47d9be7b4fe523d6b7f2d575a07c94ce', 'feedc06aa8c73ef6b5986e1d57e68377b5ae', 'blog', 'a(8).jpg', '509', '340', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img497853d15d55a1d077f55e84fb74256d', 'usr8ee77c955316a0a01ad2c6a1b6ab414e', 'chat', 'Screenshot_20191103-235140_WhatsApp20191106054447.jpg', '1080', '1920', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img498946a4449051768c8c7047b2607a61', 'itm_8461c34b7431724f8904f7ba0c360edf', 'item', 'IMG_20190724_104718_507.jpg', '1000', '667', '', '2020-11-16 22:04:05', '', '0000-00-00 00:00:00', '', 0),
+('img49d93966e45c17fe5141b24a3ca80d3b', 'noti217badcd797b369a6e8d7e1bf5d0337e', 'noti', 'itsgreatoutthere-unsplash-01.jpg', '1200', '800', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img49dab298476177901001ee2b94abe7f4', 'feed399789809c27117114b75360eb3ca227', 'blog', 'electronic_2.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img4a2863f9a8b5e6c9dde41ddb05b6ba6f', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'FB_IMG_1602986984522_compressed42876860164722118020201019041946.jpg', '650', '528', '', '2020-10-19 05:49:46', '', '0000-00-00 00:00:00', '', 0),
+('img4c0cc76dfea654fa3539013cbdfff886', 'itm_33a66429f209514b7fd2c128fbf1f88d', 'item', 'IMG_20190724_104657_691.jpg', '955', '1200', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img4cda349095ad8625bc2530bbb7a9fcf2', 'feedbf7024305368fea5897252665b9ca7c2', 'blog', 'food_3(1).png', '600', '400', 'desc', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img4e0d76a4c0870a2d265cb8594f6df781', 'subcatd725dbc5bf8e386dc384594ed3290a7e', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img4ef295809ac5ed9c1cce71656bafc655', 'usr1ffb51feddb5c60deeaacb5c644257c7', 'chat', 'magazine-unlock-05-2.3.1397-_b0541fa3d1754026af6e9b3cd109e73f20190708000145.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img4f0c5a8444ac20a7f16b624c076c8313', 'subcat30618a4244d996f117ef347fc7718886', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img4f2d23c9915d38f6fdcb8cfafe9f69e3', 'itm_19d8a632ca279d2a4739913172cb71dd', 'item', 'FB_IMG_1563880976112.jpg', '720', '842', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img4f8aaa2a9e01bf0a2e9236ac402497a0', 'noti9e9aabfc4e77fce0bdba0d2c8d0818b2', 'noti', 'a313.jpg', '563', '1000', '', '2020-09-22 04:04:59', '', '0000-00-00 00:00:00', '', 0),
+('img4fc44f7a1a897b58e3bc806bd13a7d86', 'subcat0499ae94e6e2bf5e02ce4235051047d6', 'sub_category', 'logo100x100.png', '206', '244', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img5225ffe8963de548e43b4a73572cb251', 'itm_c428fde98a8b2dc3fb40b6bdbf90c7a1', 'item', 'IMG_000391E964CD-0681-430E-BE9E-7936753C2CED_compressed.jpg', '1000', '667', '', '2020-09-15 04:02:37', '', '0000-00-00 00:00:00', '', 0),
+('img53335cbc23885e1b9080454a360a4edc', 'usr84264292f0b3360143f6ea8776b77f20', 'chat', 'IMG-20190909-WA000020190909035728.jpg', '470', '431', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img541db0fe8b7e6ef428e9dd2ffb9fcc75', 'itm_54709837e70ae2f179b49a739ded54d7', 'item', 'IMG_20190724_104758_965.jpg', '225', '225', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img556b80354e13172f4242bf43fb694d34', 'noti12096443c182b3f4b7b9eb9e86d9cc1b', 'noti', 'a319.jpg', '563', '1000', '', '2020-09-22 04:38:44', '', '0000-00-00 00:00:00', '', 0),
+('img558c1c5eb26c4eb20ec73a0bc009b32c', 'notif34dffb87f4adaf7a0a38209f8f56588', 'noti', 'Webp_net-compress-image_(14)3.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img5611bbbc121afdac8bdfc066842c62e6', 'in_app_purchase_prd_id4dfa347c284a3706abf87a0f4671bf6c', 'purchase_icon', 'f11.jpeg', '500', '750', '', '2020-11-13 07:16:06', '', '0000-00-00 00:00:00', '', 0),
+('img576c623e33ebe60140df1c2b2c8a3c08', 'subcatc58f3b37c72a22faa7a1e6fac40bf264', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img57b03caa3473f23ead8f3a502a6f0b4c', 'subcat237b84c51a1134669e801fac81578b65', 'sub_category', 'logo100x100.png', '1280', '853', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img582a9bf381c0f13b86b933a15069d3ab', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'eyJpdSI6ImU4Y2U1YjBkMWVhOGMzNTNlZmFmNmNjYTQ3NWIyNTFmNTA0NThkNzA4MTk1Y2YyN2ZkNmNmNzUyZmE4NDQ0N2UiLCJ3IjozNTAsImgiOjIwMCwiZCI6Mi4wLCJjcyI6MCwiZiI6MH020191004122220.jpg', '700', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img584c2b3c34a5a0ce8f7ca54719e30f88', 'subcat88be821e3cb84cc0c049f7d92028fe48', 'sub_category', 'logo100x100.png', '1280', '759', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img58907c65350fb94e6771b428c82c489b', 'notib3b05f8bcad9afffb0eef6817aeeb25f', 'noti', 'a32.jpg', '563', '1000', '', '2020-09-22 01:19:03', '', '0000-00-00 00:00:00', '', 0),
+('img59bf21da25e0bd4f24947ffbf31dc51d', 'subcatc2c047936bef5ff528f790680e3ed083', 'sub_category', 'logo100x100.png', '250', '202', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img5a395f140870156075331b6733061fac', 'subcat0cc28d586f90805b3a569178b16b1fc6', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img5a460c2f1d6227d31315573176ef2b6c', 'cat445639833db3eff8b6cdb5510aa39faa', 'category-icon', 'computers_icon.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img5a6fad55e94e0b0a1c5bf0a0268a7b49', 'cat3988c9afad482db9a872ee5c19c34fbb', 'category-icon', 'musics_icon.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img5bee2ee99ef4c5bd8e356c71134b1c27', 'feed8d521e86017cf8aa7f4883a2fb67f068', 'blog', 'a(11).jpg', '478', '340', 'old blog', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img5c1adc4214025211acb9d6315c9ebf04', 'usr84db7485fc9b8eeb0c74ed43fa8af040', 'chat', 'magazine-unlock-05-2.3.1375-_80002ea70fa94c37bd434f7776b6b71e20190703042900.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img5d25b72b7ece82563a8f2f6e773b873f', 'subcat3f6a29e6c498b5e5bbcd0a5b3bf1dda4', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img5f0026b7cb3409bff8687b7b480b2fa7', 'subcat30618a4244d996f117ef347fc7718886', 'sub_category', 'logo100x100.png', '275', '183', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img640bcf36291b9c42796faf7a26eda95d', 'itm_c428fde98a8b2dc3fb40b6bdbf90c7a1', 'item', 'IMG_0001B5916F52-960D-4A98-83FA-B0A5DA7C6AD1_compressed.jpg', '1000', '664', '', '2020-09-15 03:57:15', '', '0000-00-00 00:00:00', '', 0),
+('img65dfe1d8dffd91756d579fe9b52ee5b0', 'usr4edb805ca791dc7677ba4a785873debd', 'chat', '2019-11-25-08-55-03-18320191203035746.jpg', '1152', '1536', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img67d5733100cc5dfeeacbd2dd79173ab9', 'itm_ba0837310e18f29408f09fca748271ef', 'item', 'IMG_20190724_104834_070.jpg', '640', '519', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img68f5643253cf58c857ef4571fa5642c5', 'noti086455b97a2f4b0ab9bad5295eef4259', 'noti', 'Screenshot_2020-09-19_at_10_29_58_PM.png', '573', '277', '', '2020-09-22 04:12:15', '', '0000-00-00 00:00:00', '', 0),
+('img696dbfa1eca354caeb461bf925214720', 'itm_ea7c87b1758bad40efccb3caedb6a1d1', 'item', 'IMG_20190724_104801_838.jpg', '560', '560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img6ac39743ee66dbf17a9f9bde3bfb6c7f', 'noti0e1ef32c073fa4b7f93279b39e5c1ba0', 'noti', 'a21.jpg', '563', '1000', '', '2020-09-22 03:16:33', '', '0000-00-00 00:00:00', '', 0),
+('img6b7d862132c70929da29adb422616ea8', 'itm_0500dcce80c7d70b79453a8ff4096428', 'item', 'IMG_20191006_162316.jpg', '3120', '4160', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img6cb8831074ebcf7f0c69bb8e84d5f376', 'notideea4659d97d2701fbf1374613e3a08a', 'noti', 'a37.jpg', '563', '1000', '', '2020-09-22 01:37:53', '', '0000-00-00 00:00:00', '', 0),
+('img6f25945eac18c9ab1f62860aea6109b4', 'subcat68bf2c365c88382966dd72a347fc3473', 'sub_category', 'logo100x100.png', '304', '166', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img6f5cc37188e1d21266d639ddc8501bbf', 'subcat6226dfba4c0d4d8f9130cc2d5c8a5a58', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img710759a00c676ac692b8351d31e6e777', 'noti0c27395c74ba53e57eefc2ec42e80fd5', 'noti', 'a314.jpg', '563', '1000', '', '2020-09-22 04:23:31', '', '0000-00-00 00:00:00', '', 0),
+('img715f3d15dd87d4128bb2c1e1ea72d0fd', 'noti773db0d610ecb45698cf58b86537002d', 'noti', 'a320.jpg', '563', '1000', '', '2020-09-22 04:39:54', '', '0000-00-00 00:00:00', '', 0),
+('img71d94420abd0004af0fe7e107ef6d2d9', 'subcat7768ede02fa1e337b6270209cf83c8ce', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img73a7ef14195a9e7a136252562704540c', 'subcat0132c5a6635b0a9d5c55278ebf226ad7', 'sub_category', 'logo100x100.png', '800', '600', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img743b421bbde30a9cb01404d6813fe2e5', 'subcat7768ede02fa1e337b6270209cf83c8ce', 'sub_category', 'logo100x100.png', '196', '257', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img755e6ebdf43c7034779deb03e316032b', 'itm_b07822ea537a70cfaf044754757f6419', 'item', 'IMG_20190724_104723_853.jpg', '833', '626', '', '2020-11-16 22:03:57', '', '0000-00-00 00:00:00', '', 0),
+('img757ec19132382ac4dac4ed520c0c98d4', 'cate2f7ee7f7317ceddf4395f82665b5a86', 'category-icon', 'fashion_icon.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img75ca7bf538b22de4165ff1f64d9d47df', 'notic9a3ad3dca6672cc5075efbc9ca39ccc', 'noti', 'burger1.jpg', '1280', '720', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img76640cb68f1ece56c4601a7a41527375', 'subcat9b35a9ef1469be03db203811634f5ffc', 'sub_category', 'logo100x100.png', '1000', '1000', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img77652e842b2b2e9935025f1b9e8af7cc', 'cat5dfc0138547b926dccc5ee269b1cd042', 'category', 'sports_cover.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img77bb72d8ac54e5cd3b117515f2690087', 'subcatc2c047936bef5ff528f790680e3ed083', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img780a9ee922720d7589aedb6c16662e4a', 'subcataa581788260871cce0607c7137b06036', 'sub_category', 'logo100x100.png', '1200', '675', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img79180b67226c25a939020388638b24d7', 'itm_8c22c49be4fcb839586d508cb71bea62', 'item', 'magazine-unlock-01-2_3_1952-_70e14f84da274836b5ca3354faf78710.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img79a3cfd6545c0ec7f2100f4d3259d992', 'noti57b1037c64fb64588834f7e41a0e70cd', 'noti', 'c12.jpg', '620', '736', '', '2020-09-22 02:30:15', '', '0000-00-00 00:00:00', '', 0),
+('img7b3133bd654986a9b872e90eedb0fb2b', 'itm_c428fde98a8b2dc3fb40b6bdbf90c7a1', 'item', 'IMG_0111098E9A29-2DA7-4D7B-9B0A-B948A3DA6995_compressed.jpg', '1000', '750', '', '2020-09-15 03:50:48', '', '0000-00-00 00:00:00', '', 0),
+('img7c3083ab5433cfcb2241f1e7af637b10', 'itm_2bb3fb13e1040cae112485657e31f868', 'item', 'FB_IMG_1563882504633.jpg', '720', '731', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img7d960a09704d25334f010a4eff6253ea', 'usr3f57bf66eac7eebcf7cbecf84651d96c', 'chat', 'Webp.net-compress-image (14)20190704232649.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img80211d8c7d75748c108c70de2b4d3ea7', 'noti588dcd7c9537ef31eea629309dbb89c6', 'noti', 'a22.jpg', '563', '1000', '', '2020-09-22 04:24:40', '', '0000-00-00 00:00:00', '', 0),
+('img824becd832966cb9378664d66b489513', 'itm_33a66429f209514b7fd2c128fbf1f88d', 'item', 'IMG_20190724_104654_861.jpg', '1024', '753', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img83e678d68643c303c27bee6c563ca5ff', 'itm_c80942f3ecbc906985d16f32f4355072', 'item', 'IMG_20190724_104625_876.jpg', '960', '1280', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img8509fa4596d3abbe4f23f1a2aa053a8f', 'usre71177a5c87155245fc6d7ba39043963', 'chat', 'IMG_20190901_10415820190902133119.jpg', '1944', '2592', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img85ec78ddea3be3de213943fe2d47ec53', 'usr84264292f0b3360143f6ea8776b77f20', 'chat', 'orsrc3892420190928122029.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img871df2edbac345b83e7e0c18373020ff', 'subcatc61744e20375d4e72666348bfacb3046', 'sub_category', 'logo100x100.png', '160', '212', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img89ec7d034ce7d5a8a2dd6525e8392fb7', 'usra4e2aa021472c91ff57a0691a381f3c5', 'chat', 'c120200915034148.jpg', '620', '736', '', '2020-09-15 05:11:48', '', '0000-00-00 00:00:00', '', 0),
+('img8bb0666a0ef92c8c12f7e2dbcdafa2ba', 'usr84264292f0b3360143f6ea8776b77f20', 'chat', 'IMG_20190829_14165620190829034215.jpg', '3120', '4160', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img8bb075308144a38add63f0dc4bb05b7a', 'subcat96f05c8a49c61ee601800578d6d73175', 'sub_category', 'logo100x100.png', '750', '500', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img8c4a0b46c3d073baec74015635c7814b', 'subcatb1e75e347ed7f989cb1bcec390b1eac7', 'sub_category', 'logo100x100.png', '940', '591', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img8c7353af380c081178656040dfbfdbaa', 'subcat08f52e619858a83627bb8850d03cb4b3', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img8cd7597e5f2938d4dfc76046bb929aeb', 'usr1ffb51feddb5c60deeaacb5c644257c7', 'chat', '00e523cf665d314742a1abcd07f7c1c620190904162638.png', '1500', '802', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img8d62bbd69862ff5f16ba41204071dbab', 'subcat3c0d35feb4c9e82599bf6f8bfbd08405', 'sub_category', 'logo100x100.png', '794', '584', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img8e762256593d3e4b7cb770faaff1706c', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'magazine-unlock-01-2.3.1390-_53A80E8DFDB9DCB137C18BCD58B26A1C20190703211229.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img90e29d3354998ec9554f9ed01cf81ae8', 'feed54717707cd5d9eaa115be9e8704066f3', 'blog', 'summer_3.png', '600', '400', 'desc', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img91f9271718fa4da8b66a8e2d877df3d1', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', '7df8629260663b053256b0ad5c2a17a9_compressed781658969866247173720200915005730.jpg', '650', '1050', '', '2020-09-15 02:27:30', '', '0000-00-00 00:00:00', '', 0),
+('img9273c2f563c94ebf965cedf07d2d5fa1', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'depositphotos_218014928-stock-illustration-dishwashing-liquid-soap-lemon-packaging_compressed877729503615984490020200922012638.jpg', '650', '524', '', '2020-09-22 02:56:38', '', '0000-00-00 00:00:00', '', 0),
+('img9285ee1d0c29512341c5324e2776668f', 'itm_1a7f3815a51c3c3888ede85bbacb9b88', '', 'hotel1.jpg', '1280', '960', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img929ba529fc02114aaab8e03af3583649', 'itm_70a57c254699bae1c98f7a8ed461cf42', 'item', 'portrait_art_7_compressed2432769639133634134.jpg', '668', '1000', '', '2020-12-08 06:08:32', '', '0000-00-00 00:00:00', '', 0),
+('img930c844689f0dd00764be05e5ac23e10', 'itm_54709837e70ae2f179b49a739ded54d7', 'item', 'IMG_20190724_135937_642.jpg', '919', '900', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img9406d530136422ce4b74b0cc5b9716fe', 'notia1059de7e746401653f19c88cf3613b5', 'noti', 'a39.jpg', '563', '1000', '', '2020-09-22 01:51:26', '', '0000-00-00 00:00:00', '', 0),
+('img9467a876d6827345854675c054b1613c', 'usr3f57bf66eac7eebcf7cbecf84651d96c', 'chat', 'Webp.net-compress-image (14)20190704232711.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img9526039f2ae7d868c2f8d6664024317a', 'usr8ee77c955316a0a01ad2c6a1b6ab414e', 'chat', 'IMG_20190912_16162620191106042138.jpg', '960', '1280', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img9548195945a9e433d1b4a15c33d101bf', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', '1514731324670893763ants-animated-clipart.hi_compressed768900659441845796420200915005848.jpg', '650', '990', '', '2020-09-15 02:28:48', '', '0000-00-00 00:00:00', '', 0),
+('img9572b71160603501c68d042cad7840b4', 'itm_2446dc20339a5d9658a60c9315ef26e8', 'item', 'o1.jpg', '1280', '720', '', '2020-10-16 03:27:35', '', '0000-00-00 00:00:00', '', 0),
+('img9927c242d75540d70850f75d155218b1', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', '20190827_16152820191203074103.jpg', '2336', '1080', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img992a25f269b920ecc3f5a8e027d238d9', 'usr1ffb51feddb5c60deeaacb5c644257c7', 'chat', 'magazine-unlock-02-2.3.1328-_1C14A117038531370CAA24BCB314AA3020190705004208.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img9b0964788db5236f8eb70e03983159f2', 'itm_ba0837310e18f29408f09fca748271ef', 'item', 'IMG_20190724_104750_545.jpg', '569', '569', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img9b1f64132b990c6ae227f0db6cf41f1d', 'itm_19d8a632ca279d2a4739913172cb71dd', 'item', 'FB_IMG_1563880979579.jpg', '720', '540', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img9b9752ec33fc24d19bb0f8176e65e0b8', 'subcataa581788260871cce0607c7137b06036', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img9b9bf345afd8d4c8b9ac80749045ac1e', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'FB_IMG_1598056719598_compressed358946217122031107320201019004244.jpg', '650', '650', '', '2020-10-19 02:12:44', '', '0000-00-00 00:00:00', '', 0),
+('img9c544786ea5704636aa881688552add8', 'offline_paymentc893aee9889df52e6a8b18bf0f3b4587', 'offline_icon', '3.png', '256', '256', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img9cb24379ed8e84646d90b9f87aba813a', 'cat5dfc0138547b926dccc5ee269b1cd042', 'category-icon', 'sports_icon.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img9cedf2c25c3612ffc0c89c9c6a3395a5', 'usre59502e68b1d7c9b313e5962aaed6260', 'chat', 'IMG_20190807_13361520190909123749.jpg', '4160', '3120', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('img9e23f65cae8efcc644508f68a84ce7b3', 'noti261692a3db354d190997c63a26e7c38c', 'noti', 'a36.jpg', '563', '1000', '', '2020-09-22 01:34:12', '', '0000-00-00 00:00:00', '', 0),
+('imga0b1a63a469fe39b04bc6d6b503df1ca', 'subcat00ec4d9a87ab18c9793c18fd587f6cb2', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imga120bbfdc07dd08733e7226d473e79eb', 'subcat96f05c8a49c61ee601800578d6d73175', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imga170209db7a66b071327e0b27b3cd6f6', 'itm_c80942f3ecbc906985d16f32f4355072', 'item', 'IMG_20190724_104622_541.jpg', '853', '1280', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imga17f869925d7d4a1466ab8d3afb29b1f', 'itm_a0ee873a872f79828676b8850c3e875a', 'item', 'IMG_20190724_104823_899.jpg', '225', '225', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imga315bed766d16f1a1a239b578ffed35f', 'noti21382993b298da2aa7f84fe04d716df7', 'noti', 'a315.jpg', '563', '1000', '', '2020-09-22 04:28:30', '', '0000-00-00 00:00:00', '', 0),
+('imgaa1a89f591c6ab76828e5141eac13958', 'itm_fa5a6d56eefccce6ad0da2369700383d', 'item', 'IL201712211844082163_compressed8409121921225394673.jpg', '751', '1001', '', '2020-09-28 03:06:29', '', '0000-00-00 00:00:00', '', 0),
+('imgadccdc2566c35399f1cbebc58698f745', 'itm_8d2c7208b461f1abbbe467e5059dd60a', 'item', 'IMG_20190724_104847_701.jpg', '466', '533', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgae4856e148c890950f5712083c6c684c', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'FB_IMG_1598056719598_compressed174210988941554308720201019015444.jpg', '650', '650', '', '2020-10-19 03:24:44', '', '0000-00-00 00:00:00', '', 0),
+('imgb0f7a1d5a71bd60dd6a9356c2c0f7f50', 'itm_c428fde98a8b2dc3fb40b6bdbf90c7a1', 'item', 'IMG_0002D0D8C6CC-CBD4-4882-884B-01DFEE715F9C_compressed.jpg', '1000', '664', '', '2020-09-15 03:54:12', '', '0000-00-00 00:00:00', '', 0),
+('imgb13d22a069520524117f209af2f13991', 'itm_8277fd5c824ab26ec25f902c7026a40c', 'item', 'Screenshot_20190330-0004381.png', '720', '1280', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgb1f196a9ddeef969240e24318304d802', 'notic5e28233efce4b086657c5884206fd58', 'noti', 'Screenshot_2020-09-18_at_1_03_01_PM2.png', '757', '265', '', '2020-09-22 02:08:11', '', '0000-00-00 00:00:00', '', 0),
+('imgb200ce9f56a1375a25a5e0adaa09b51b', 'offline_paymentfcbc2f20eb9f4c56b2938ceac24fc622', 'offline_icon', '2.png', '256', '256', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgb31f17e860e4a43192d16d2c7bd212f1', 'usr4edb805ca791dc7677ba4a785873debd', 'chat', 'magazine-unlock-01-2.3.1375-_E5A58282A4717F213DA893AC76D2EBB620190703202133.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgb45e7c18511abad20570d8a98c04cc98', 'usr1ffb51feddb5c60deeaacb5c644257c7', 'chat', 'magazine-unlock-01-2.3.1375-_9518100b3efb457a82715d74d8370dcf20190703031719.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgb9375de6fff5b93602c9c475f4a131df', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'FB_IMG_1602986984522_compressed580119678859481145720201019041830.jpg', '650', '528', '', '2020-10-19 05:48:30', '', '0000-00-00 00:00:00', '', 0),
+('imgb9b9dbc583a12092607f15227f41198b', 'usr1ffb51feddb5c60deeaacb5c644257c7', 'chat', 'magazine-unlock-05-2.3.1390-_5AA635ADF90C0C2F971ACB5FAC1CF72520190705005601.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgbc7a1b89fb6c724a598515443b85c540', 'feed2e4b04cfc7586d0dc41b4abfb518b932', 'blog', 'mobil.png', '188', '110', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgbe15f07984161a02a14574c34c39c001', 'itm_ea7c87b1758bad40efccb3caedb6a1d1', 'item', 'IMG_20190724_104805_649.jpg', '1280', '720', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgc0225403789ac2d6afee52fbf2139190', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'Screenshot_2020-08-22-07-24-50-908_com.facebook.katana_compressed420657620713161203320201019021946.jpg', '650', '1408', '', '2020-10-19 03:49:46', '', '0000-00-00 00:00:00', '', 0),
+('imgc127a6d255eddb97504afa0a3a07a0dd', 'usr3f57bf66eac7eebcf7cbecf84651d96c', 'chat', 'Webp.net-compress-image (14)20190704232542.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgc1c06874feb3644191d54d1e7ee766a1', 'noti797430dd6fd89a73fb301fd03060dcad', 'noti', 'Screenshot_2020-09-18_at_1_03_01_PM1.png', '757', '265', '', '2020-09-22 01:58:52', '', '0000-00-00 00:00:00', '', 0),
+('imgc1fbd8aabd3885f76224526d5848ba2b', 'noti8413649f209666fca3abb1da3d55724e', 'noti', 'a31.jpg', '563', '1000', '', '2020-09-22 01:15:33', '', '0000-00-00 00:00:00', '', 0),
+('imgc3512a6d78ac37822251152b755612ce', 'subcat00ec4d9a87ab18c9793c18fd587f6cb2', 'sub_category', 'logo100x100.png', '300', '168', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgc438ddd08224ffa8773da682cf641b1a', 'subcat6226dfba4c0d4d8f9130cc2d5c8a5a58', 'sub_category', 'logo100x100.png', '193', '261', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgc6c98f45fbfc1e95e76dfc3cff27b793', 'noti0a9fe8de0f9f32ee416d08fbebd6dbef', 'noti', 'a35.jpg', '563', '1000', '', '2020-09-22 01:33:18', '', '0000-00-00 00:00:00', '', 0),
+('imgc8b9055a793b95b923fb06ca2c8a8e24', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'clothes_220190618060908.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgc98132414e8a691f404900d51f3d0068', 'feed64a7346dc26c2e8642fbeab5d4d345c9', 'blog', 'a(4).jpg', '509', '340', 'ddd', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgc9e4de0bac884492310dfb0560b2f250', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'magazine-unlock-05-2.3.1375-_3a8fae5a79ea4119aafc431d4eb5bccc20190627030948.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgca0ddeb15e3e18f6d40fe1eddcce7201', 'offline_payment151fa121f7e46b194a53edfc8f8093b8', 'offline_icon', '4.png', '256', '256', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgca9f056d2dd01cf1cc256487332097ec', 'usra4e2aa021472c91ff57a0691a381f3c5', 'chat', 'c120200915034005.jpg', '620', '736', '', '2020-09-15 05:10:05', '', '0000-00-00 00:00:00', '', 0),
+('imgcda14d8b4596316def77dc53689440f0', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'magazine-unlock-05-2.3.1390-_8880E9535347ABB6C85AECB1651B3DF520190704203637.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgcda7991efb0db736a3f31ccace0955cf', 'noti77d23fda3815489e306e7c779ecafca3', 'noti', 'Screenshot_2020-09-19_at_10_29_58_PM1.png', '573', '277', '', '2020-09-22 04:14:50', '', '0000-00-00 00:00:00', '', 0),
+('imgcf2fbaab0c6fa16c8da5f4e4972bd97c', 'itm_f1d68517076ac7a74dee2dacbe655b90', 'item', 'IMG_20190724_141527_198.jpg', '1280', '840', '', '2020-10-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgcf39e7676c63d83c81048daedec66f28', 'subcat88be821e3cb84cc0c049f7d92028fe48', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgcf93d4397dc06494e9841604335a3c4b', 'noticcd5c64fa5f5128c441dde6357b31ef8', 'noti', 'a318.jpg', '563', '1000', '', '2020-09-22 04:38:06', '', '0000-00-00 00:00:00', '', 0),
+('imgcf9aaa58f500815302b9eea203b99a47', 'itm_2446dc20339a5d9658a60c9315ef26e8', 'item', '02.jpg', '1200', '628', '', '2020-10-16 03:27:51', '', '0000-00-00 00:00:00', '', 0),
+('imgd1645268b1b3d4a3f1ce03eed57fcaae', 'itm_2446dc20339a5d9658a60c9315ef26e8', 'item', 'o3.jpeg', '635', '476', '', '2020-10-16 03:27:51', '', '0000-00-00 00:00:00', '', 0),
+('imgd1c50f9149ba498d00d24cf9075650f3', 'subcate3da9c8769ad3eaefcfa6ffb3ca6fb52', 'sub_category', 'logo100x100.png', '225', '225', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgd48281afd30440983129ad21cb277478', 'usr84db7485fc9b8eeb0c74ed43fa8af040', 'chat', 'magazine-unlock-05-2.3.1375-_FD450E14FA7B9D1C28BA732522AF199220190703042629.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgd518f4cf6f6b9ab384e5a373f1c9da4f', 'usr5abdf0ccb5135714b71b27ba0a6b83f2', 'chat', 'IMG_20201017_124251_495_compressed-187215793320201017225545.jpg', '650', '1156', '', '2020-10-18 00:25:46', '', '0000-00-00 00:00:00', '', 0),
+('imgd5a02839098b2d71ed6bc4fac7cbb05c', 'noti1e8a078a6c8967826f5eeb6060c0f69f', 'noti', 'c11.jpg', '620', '736', '', '2020-09-22 01:27:20', '', '0000-00-00 00:00:00', '', 0),
+('imgd61f15cbe15f3a44119d60a0e32c72d2', 'itm_9cbb0e920e49e3769ebfbc5efa2f48ce', 'item', 'IMG_20190724_141527_198.jpg', '1280', '840', '', '2020-11-12 22:46:16', '', '0000-00-00 00:00:00', '', 0),
+('imgd661ee5e82d872c3b57a0c27b7b374cd', 'itm_2bb3fb13e1040cae112485657e31f868', 'item', 'FB_IMG_1563882500699.jpg', '720', '720', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgd71a61cf51bbee40b759a9e9cb86d80d', 'usr84db7485fc9b8eeb0c74ed43fa8af040', 'chat', '156153385149420190626023046.jpg', '3120', '4160', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgd78b26b6a52d7a7406123cc35207602e', 'notie01356eca4caa060afeb20085d298268', 'noti', 'a310.jpg', '563', '1000', '', '2020-09-22 02:27:12', '', '0000-00-00 00:00:00', '', 0),
+('imgd8957cf3ced79352ce48a465574e597e', 'usra4e2aa021472c91ff57a0691a381f3c5', 'chat', '1514731324670893763ants-animated-clipart.hi_compressed526315716744229408620200915034316.jpg', '650', '990', '', '2020-09-15 05:13:16', '', '0000-00-00 00:00:00', '', 0),
+('imgd90339ff1c2d6df39d39e9596219e0b1', 'subcat9b35a9ef1469be03db203811634f5ffc', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgd9c4409b06d05768efcdd18cb211c8c1', 'itm_99a63da9f5cb9655a371c4a6dfd9f673', 'item', 'IMG_20190724_104642_033.jpg', '800', '800', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgda18ec34c6cc39f5644c2f793ca74d46', 'itm_709970eef73e104ca5d4114b2485355d', 'item', 'IMG_20190724_104714_981.jpg', '850', '850', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgdb7cf17f61f42b36e52897b5ca4fbd5d', 'cata497304389495ab7c262383923243180', 'category', 'phones_cover.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgdbdc858d705478313c8dd786c6f039e6', 'itm_99a63da9f5cb9655a371c4a6dfd9f673', 'item', 'IMG_20190724_104645_206.jpg', '800', '800', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgdce4725e1cf135bd370fd4d2a9d6d3a4', 'feed143913da363b12f35bb44d583561d95e', 'blog', 'a(6).jpg', '510', '340', 'old blog', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgddf0e616b9f57314685c6ee2ccbf3344', 'notia4c24fa14c98e0920aa1ed2ad1680535', 'noti', 'Screenshot_2020-09-19_at_10_29_58_PM3.png', '573', '277', '', '2020-09-22 04:20:01', '', '0000-00-00 00:00:00', '', 0),
+('imgde46820970b56c2c3e818a54c44ef9b5', 'subcat0132c5a6635b0a9d5c55278ebf226ad7', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgde92e3d63f7dfe45bd8783782f8beb16', 'subcat3c0d35feb4c9e82599bf6f8bfbd08405', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgde94c92a04727fcd6906849de7840270', 'itm_478864abde0d4c253f54cc5eb3a68619', 'item', 'IMG_20191007_121852.jpg', '4000', '3000', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgdf2061746fe7482cc37536b6fed0759d', 'noti13dbe114bfe298f7d0e95d56b8c7c289', 'noti', 'c1.jpg', '620', '736', '', '2020-09-22 01:22:28', '', '0000-00-00 00:00:00', '', 0),
+('imge0e7dacc9f7431b192ea76f0ae07d8f0', 'usr84264292f0b3360143f6ea8776b77f20', 'chat', 'Scan120190903141356.jpg', '1654', '2338', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imge8968544becae2961ae2daca090e0af0', 'itm_b07822ea537a70cfaf044754757f6419', 'item', 'IMG_20190724_104718_507.jpg', '1000', '667', '', '2020-11-16 22:03:58', '', '0000-00-00 00:00:00', '', 0),
+('imge8a3add4c0d0df3c96e112865d0dc45a', 'catfa070dd5cc2a2c9c6196159f85480ff7', 'category', 'services_cover.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imge8fef8b0569935cf1f94a4d09dfd65cc', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'magazine-unlock-05-2.3.1390-_876D9B83618F47D0CFEDC5C03CA4FD4C20190704203357.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imge93936f9f5616734e194ae6d415188aa', 'itm_8c22c49be4fcb839586d508cb71bea62', 'item', 'magazine-unlock-01-2_3_2022-_f08c325f4670410fa5b19fafe141fd90.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgeb8e2481b649d018c1b690261c690550', 'noti39045f4b1490d328c1b766c002438ff6', 'noti', 'Webp_net-compress-image_(14)2.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgecbfbd8f0f89ef0e160906c3638cca8e', 'itm_e4c2c5de6be9fc50d5d8e77026e75298', 'item', '74178f40b70a12e81a372a9d4eaf07d0_compressed9176680664007275660.jpg', '1000', '1000', '', '2020-09-24 21:33:59', '', '0000-00-00 00:00:00', '', 0),
+('imged144b7c7bf68d33ff616bed6943c0cf', 'usr1ffb51feddb5c60deeaacb5c644257c7', 'chat', 'Webp.net-compress-image (14)20190708000430.jpg', '1280', '851', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgee6d5ffa0835753508a532576371de44', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'Screenshot_20191007-000929_Gallery20191106055647.jpg', '1080', '1920', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgee8bbfeb67b13e2bb41265f9c6f73824', 'itm_2edb3a5e3bc2f616f930ca0b9d9da38b', 'item', 'FB_IMG_15638810741721.jpg', '720', '720', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgef69fea8920229bf6a6664bcc7d5d33e', 'cate2f7ee7f7317ceddf4395f82665b5a86', 'category', 'fashions_cover.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgf2baa7b726239759e8773723a9da41d3', 'notiab1a86ae12a0446d8d925b25fe6090e5', 'noti', 'a316.jpg', '563', '1000', '', '2020-09-22 04:28:56', '', '0000-00-00 00:00:00', '', 0),
+('imgf2e07e4a3c876d44e2349bf3228c02b3', 'itm_c428fde98a8b2dc3fb40b6bdbf90c7a1', 'item', 'IMG_0005AA230E79-6627-48D4-82BA-94365B25836F_compressed.jpg', '1000', '667', '', '2020-09-15 04:01:28', '', '0000-00-00 00:00:00', '', 0),
+('imgf3ea1f2bc870143a4ac25bcd7e9fca02', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'japanese-cherry-trees-324175__340_compressed4347335757588342220200922012159.jpg', '650', '433', '', '2020-09-22 02:51:59', '', '0000-00-00 00:00:00', '', 0),
+('imgf4040b5b18fbc06ae4fbfd15bc08e4da', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'Webp.net-compress-image (11)20190704204545.jpg', '1280', '853', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgf40ed10a8508cf071c63c9dff5a1f016', 'usr5abdf0ccb5135714b71b27ba0a6b83f2', 'chat', 'IMG_20201017_124251_495_compressed-148312660720201017231030.jpg', '650', '1156', '', '2020-10-18 00:40:30', '', '0000-00-00 00:00:00', '', 0),
+('imgf56de4f3f3b3bcb9078c7d344dd4091b', 'subcat0cc28d586f90805b3a569178b16b1fc6', 'sub_category', 'logo100x100.png', '1100', '513', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgf5e15a53395861927f472193039c37bf', 'itm_8c22c49be4fcb839586d508cb71bea62', 'item', 'magazine-unlock-05-2_3_1812-_d46ca9c9a81044a5a6b92aff9f750d29.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgf5e2f5c22c29dc86e937cde38fa55622', 'cat3988c9afad482db9a872ee5c19c34fbb', 'category', 'music_cover.png', '600', '400', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0);
+INSERT INTO `core_images` (`img_id`, `img_parent_id`, `img_type`, `img_path`, `img_width`, `img_height`, `img_desc`, `added_date`, `added_user_id`, `updated_date`, `updated_user_id`, `ordering`) VALUES
+('imgf76c5e8da5f45ce88b2bc9de4bd2784e', 'itm_ee73165b7c94f2eff3a4201b9fe73c6b', 'item', 'IMG_20190724_104636_236.jpg', '1280', '854', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgf784e8ecc94b84c70726e21423ba98b8', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', 'magazine-unlock-01-2.3.1375-_E5A58282A4717F213DA893AC76D2EBB620190705004301.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgf794497cdc55d027c606abb39f53e21b', 'itm_8c22c49be4fcb839586d508cb71bea62', 'item', 'magazine-unlock-05-2_3_1462-_ccb80bc03c46428bb4e61941ee0ff3732.jpg', '1440', '2560', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgf8582695beb166e2525a4576fb28df88', 'itm_5058fb44b1f3a2efd9cbd0925ab67785', 'item', 'Screenshot_20190330-0004382.png', '720', '1280', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgf902a64352e30f1c26f4aaf35482425f', 'itm_a0ee873a872f79828676b8850c3e875a', 'item', 'IMG_20190724_104829_492.jpg', '225', '225', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgfb46d0b8a4ecb3458b570b844914c57a', 'cat3ed818f44f3a3e3d49a2798b4c51f5b8', 'category-icon', 'properties_icon.png', '512', '512', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgfb4a73d2ff06e92c4a9386ab717c2771', 'subcat68bf2c365c88382966dd72a347fc3473', 'subcat_icon', 'logo100x100.png', '512', '512', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgfba3f1a01f95e4f7ed3c8cc51db50931', 'subcatcdf3f568c7dedef69f2aa372e544a3d7', 'sub_category', 'logo100x100.png', '223', '226', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgfc42fb1de0a447624d9d9e4bbfe4841a', 'noticb0cdff90ec760b76116608a86eb7073', 'noti', 'a1.jpeg', '500', '333', '', '2020-09-22 01:22:02', '', '0000-00-00 00:00:00', '', 0),
+('imgfdad4903994dcbbf81a8fe9a1563ec1e', 'c4ca4238a0b923820dcc509a6f75849b', 'chat', '53cf999d760f69464f41442745409b9f.png_wh860_compressed853496893691037966020200915020436.jpg', '650', '650', '', '2020-09-15 03:34:36', '', '0000-00-00 00:00:00', '', 0),
+('imgfdf8de1e18b4d172974b336f6464f091', 'feed7fccca6a75b52b9f1713a8732bffd4e1', 'blog', 'Audi-Wallpaper-19(1).jpg', '1920', '1080', '', '2020-09-14 03:43:17', '', '0000-00-00 00:00:00', '', 0),
+('imgffa94a30e1698e531d5a3a105c4b3fa7', 'noti8fd74798613ea720339771594efda8e8', 'noti', 'a34.jpg', '563', '1000', '', '2020-09-22 01:32:30', '', '0000-00-00 00:00:00', '', 0),
+('imgdad73b96e684d79a102953e880882dc5', 'cate83d78e82bb86ab3c5f5e10536f04346', 'category', 'car.jpg', '236', '236', '', '2021-02-09 04:50:44', '', '0000-00-00 00:00:00', '', 0),
+('img22420422d0196a9df42d1de44b20138e', 'cate83d78e82bb86ab3c5f5e10536f04346', 'category-icon', 'car1.jpg', '236', '236', '', '2021-02-09 04:50:44', '', '0000-00-00 00:00:00', '', 0),
+('imgfef6e7dc6a77804dba217dcd681c9e9d', 'cat5e37e054f831448f9479f16098880fa1', 'category', 'car2.png', '236', '236', '', '2021-02-09 04:51:25', '', '0000-00-00 00:00:00', '', 0),
+('img03dc655579d00c13b2c37cd476b68acc', 'cat5e37e054f831448f9479f16098880fa1', 'category-icon', 'air.jpg', '360', '360', '', '2021-02-09 04:51:25', '', '0000-00-00 00:00:00', '', 0),
+('img0c5a537519a8a818d24119f1180fdada', 'subcat7316f42e40813ba831f18e850480929d', 'sub_category', 'logo100x100.png', '360', '360', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgffd7f2273a6b934b3740190cce2692e4', 'subcat7316f42e40813ba831f18e850480929d', 'subcat_icon', 'logo100x100.png', '236', '236', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img05e54c5868afdd081fe9dc7a5eee3a47', 'itm_36e2d98f252b835ea4b494f1bc863dd4', 'item', 'air2.jpg', '360', '360', '', '2021-02-09 04:56:44', '', '0000-00-00 00:00:00', '', 0),
+('img156b317dce1ed506cef3e6a0d0039cbe', 'itm_bc20eb78df8f2f409171f095db12cf75', 'item', 'car3.jpg', '236', '236', '', '2021-02-09 05:00:11', '', '0000-00-00 00:00:00', '', 0),
+('img284df8414af8622cfeb4cce41feb20f6', 'catfb38abbfe5cd129800978bfb5d4f8e94', 'category', 'logo100x100.png', '100', '100', '', '2021-10-16 12:30:51', '', '0000-00-00 00:00:00', '', 0),
+('imga406a01523a8b5da2ef1d9db4d901074', 'catfb38abbfe5cd129800978bfb5d4f8e94', 'category-icon', 'logo100x1001.png', '100', '100', '', '2021-10-16 12:30:51', '', '0000-00-00 00:00:00', '', 0),
+('img590bf3d6e00055549c38264b2cadb71c', 'cat88bd03f2e044a618ce48c6411a15134e', 'category', 'logo100x1002.png', '100', '100', '', '2021-10-16 12:31:16', '', '0000-00-00 00:00:00', '', 0),
+('img540f7dc44ebf1b4b5769c3d39dc4771f', 'cat88bd03f2e044a618ce48c6411a15134e', 'category-icon', 'logo100x1003.png', '100', '100', '', '2021-10-16 12:31:16', '', '0000-00-00 00:00:00', '', 0),
+('img516a6fecae232a12fc5ed4a1e898e3ed', 'cat6a03f0461a4541256a0e6c2651f9d1ee', 'category', 'logo100x1004.png', '100', '100', '', '2021-10-16 12:32:05', '', '0000-00-00 00:00:00', '', 0),
+('img3d95de9a2fd31a4c9f190a1f4be52c3e', 'cat6a03f0461a4541256a0e6c2651f9d1ee', 'category-icon', 'logo100x1005.png', '100', '100', '', '2021-10-16 12:32:05', '', '0000-00-00 00:00:00', '', 0),
+('img3eacd34ae3259609f23afe73d3a03699', 'cat8758c377f4d266c34d12c751cb4a57a5', 'category', 'logo100x1006.png', '100', '100', '', '2021-10-16 12:32:29', '', '0000-00-00 00:00:00', '', 0),
+('imgd605aa9e62adbf4d4d8c4d7a4557371a', 'cat8758c377f4d266c34d12c751cb4a57a5', 'category-icon', 'logo100x1007.png', '100', '100', '', '2021-10-16 12:32:29', '', '0000-00-00 00:00:00', '', 0),
+('imgb778894312042f6e92a48d14df146df5', 'cat4ecdecdfb0d950f4a70a222bffebea34', 'category', 'logo100x1008.png', '100', '100', '', '2021-10-16 12:32:47', '', '0000-00-00 00:00:00', '', 0),
+('img924ac291bdb9263e1186ae0c5e9632e9', 'cat4ecdecdfb0d950f4a70a222bffebea34', 'category-icon', 'logo100x1009.png', '100', '100', '', '2021-10-16 12:32:47', '', '0000-00-00 00:00:00', '', 0),
+('img94d933d376d5ba4b605af7c14e7b4de0', 'cat9b08778efc4d46ead220262774ede4a7', 'category', 'logo100x10010.png', '100', '100', '', '2021-10-16 12:33:51', '', '0000-00-00 00:00:00', '', 0),
+('img9bd2856618b9bb0761e5d5adee5ffeac', 'cat9b08778efc4d46ead220262774ede4a7', 'category-icon', 'logo100x10011.png', '100', '100', '', '2021-10-16 12:33:51', '', '0000-00-00 00:00:00', '', 0),
+('img25811a635bd917e9f6ff48be6a6b5d5b', 'cat275c8f30db3c7ad6beba374c9ab7c031', 'category', 'logo100x10012.png', '100', '100', '', '2021-10-16 12:34:32', '', '0000-00-00 00:00:00', '', 0),
+('img2e87aa9bfc8392223f5c2a87fe43e2c3', 'cat275c8f30db3c7ad6beba374c9ab7c031', 'category-icon', 'logo100x10013.png', '100', '100', '', '2021-10-16 12:34:32', '', '0000-00-00 00:00:00', '', 0),
+('img37b7a450d32a880f1f0ba27eb168cf1f', 'cat0692d84fc596280192101277cbc9353a', 'category', 'logo100x10014.png', '100', '100', '', '2021-10-16 12:34:51', '', '0000-00-00 00:00:00', '', 0),
+('imgcfa344e72d887e8c05425e6f487ff612', 'cat0692d84fc596280192101277cbc9353a', 'category-icon', 'logo100x10015.png', '100', '100', '', '2021-10-16 12:34:51', '', '0000-00-00 00:00:00', '', 0),
+('img06a1374a875ed7a1dc85795bbea55ade', 'cat937c11b28690e47d1949650c407ee8d8', 'category', 'logo100x10016.png', '100', '100', '', '2021-10-16 12:35:09', '', '0000-00-00 00:00:00', '', 0),
+('imgef8ae0cb534aa1612de6e82432eccbed', 'cat937c11b28690e47d1949650c407ee8d8', 'category-icon', 'logo100x10017.png', '100', '100', '', '2021-10-16 12:35:09', '', '0000-00-00 00:00:00', '', 0),
+('img0bf69a0ea72eb20256318486d3389a47', 'cat9c2c5e35d677f4c572f2f85739f334a1', 'category', 'logo100x10018.png', '100', '100', '', '2021-10-16 12:35:27', '', '0000-00-00 00:00:00', '', 0),
+('imgf20da66c4b72e65d672de1db918d4869', 'cat9c2c5e35d677f4c572f2f85739f334a1', 'category-icon', 'logo100x10019.png', '100', '100', '', '2021-10-16 12:35:27', '', '0000-00-00 00:00:00', '', 0),
+('imgcfd7685f102aedea6d4c7a9525503835', 'cat3ab4302f1d9232092470e2d088a29406', 'category', 'logo100x10020.png', '100', '100', '', '2021-10-16 12:35:48', '', '0000-00-00 00:00:00', '', 0),
+('imge160a1c4eec1f91a1c64f8ad773155c6', 'cat3ab4302f1d9232092470e2d088a29406', 'category-icon', 'logo100x10021.png', '100', '100', '', '2021-10-16 12:35:48', '', '0000-00-00 00:00:00', '', 0),
+('imgb66d830a1d4df13eb77a2794150312b2', 'cat758bbb232a3a5cfa74692117bd59999f', 'category', 'logo100x10022.png', '100', '100', '', '2021-10-16 12:36:08', '', '0000-00-00 00:00:00', '', 0),
+('img5b17adc625c21be19c912c734583f2bd', 'cat758bbb232a3a5cfa74692117bd59999f', 'category-icon', 'logo100x10023.png', '100', '100', '', '2021-10-16 12:36:08', '', '0000-00-00 00:00:00', '', 0),
+('imgc5b0f2095c6c5f3dfdf19697050aaa52', 'cat5a5c765b9d56677e9fb51a759bf38203', 'category', 'logo100x10024.png', '100', '100', '', '2021-10-16 12:36:27', '', '0000-00-00 00:00:00', '', 0),
+('img48712bd9317da1ce827bd10e2387e127', 'cat5a5c765b9d56677e9fb51a759bf38203', 'category-icon', 'logo100x10025.png', '100', '100', '', '2021-10-16 12:36:27', '', '0000-00-00 00:00:00', '', 0),
+('img7571063487fa80560a0939e4a620a0de', 'cat9126cc7d038da8293e70be988541e55e', 'category', 'logo100x10026.png', '100', '100', '', '2021-10-16 12:36:45', '', '0000-00-00 00:00:00', '', 0),
+('imgbdb2a86ce05b527da5ddb1c03b008f33', 'cat9126cc7d038da8293e70be988541e55e', 'category-icon', 'logo100x10027.png', '100', '100', '', '2021-10-16 12:36:45', '', '0000-00-00 00:00:00', '', 0),
+('imgac3298f1954bf41de5a8b159a8d09bd4', 'subcatfe707f3de14102adc8cd4cab05efe53b', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img259b0d0d486e56fbb1459ff1a08b29ee', 'subcatfe707f3de14102adc8cd4cab05efe53b', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img9d1279d1c556ac9453c5b99f8d65ed2e', 'subcat41ce168826ad556b7c942e02344f5b74', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img67c0b0c1f3d7c2231b73f9e8b52ea660', 'subcat41ce168826ad556b7c942e02344f5b74', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img0af0b0bce557a03c422f3d4c756454f5', 'catff7e082160d464a5b8a91a4ad84169ec', 'category', 'logo100x10032.png', '100', '100', '', '2021-10-16 12:39:34', '', '0000-00-00 00:00:00', '', 0),
+('imged6a50245191f1fca397b9e80c3700fe', 'catff7e082160d464a5b8a91a4ad84169ec', 'category-icon', 'logo100x10033.png', '100', '100', '', '2021-10-16 12:39:34', '', '0000-00-00 00:00:00', '', 0),
+('img3d0d28a1a0482c9085ba45b07c43cc1b', 'subcat72b5bddefbd01811a33d23a64ded8a27', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img4fd42c329c7bbf7b4a2eaaa5d717c725', 'subcat72b5bddefbd01811a33d23a64ded8a27', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgd4da473d4c8757f97610ae38c2de66f3', 'subcat6ab5fa17282a2b35726dd6ce9749acf1', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img85b61dbb11e2e2df72cb79da1cde1430', 'subcat6ab5fa17282a2b35726dd6ce9749acf1', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img2f3ba88de24f79ab658f460496c457ac', 'subcat369f627e4d99adb3155fa7f3a43b8098', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgad9c2ef4ea197b25452b52a4bed9c358', 'subcat369f627e4d99adb3155fa7f3a43b8098', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img5edaaf33ffd2098116d7c10c0f3aa6be', 'subcat018727c7a9ca786979957e134809c8f1', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img28b545f943e95d51e4bd2841d57e29f1', 'subcat018727c7a9ca786979957e134809c8f1', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgca72f8bc2ad2b311719d5f9d1dbac248', 'subcatd04ef97ff6e1921b3ae7c851320fdbb6', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imge800a27844e1243faa490a1caac6511f', 'subcatd04ef97ff6e1921b3ae7c851320fdbb6', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgbcb6a66f4d794c21b3b469d623d255ce', 'subcatf75a50f064386e2efa625c11be5924e7', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img5e7ecccae19be82425ea2bcdbc19ffa1', 'subcatf75a50f064386e2efa625c11be5924e7', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img3b414d0c81be2b52968d4f6d3df0f44e', 'subcatb52e97e0d85cec4a458d5530f135e344', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img9f246fc75b0b1520e2b7216564ff09c9', 'subcatb52e97e0d85cec4a458d5530f135e344', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img695a7fe2248c05df586e3252f2d2de1b', 'subcatfd24aa3dd6d5e74c4ac418f97d74775d', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgd0fde8b0ef869cb779d60633f0a76a78', 'subcatfd24aa3dd6d5e74c4ac418f97d74775d', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img2096af142d7a612fe9f25fdc0df4f379', 'subcata529f1b9417d2775331dd639a418fcc1', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img5661f720c6ba21e795791412becc90c5', 'subcata529f1b9417d2775331dd639a418fcc1', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imged005fc78a230183f7dfc8c605be7d32', 'subcat92a940d08f6b7b1cf5e5676c3feff4fb', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img10944213e1a4da543b0d570bcdca4acc', 'subcat92a940d08f6b7b1cf5e5676c3feff4fb', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img6c7749633d629d5f320641577b062ee9', 'subcatc8c19822b0948cb8ee61efc1943e10d7', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img1ac1c78ca6fa6dd1eec70813faceda9e', 'subcatc8c19822b0948cb8ee61efc1943e10d7', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgb496a4501e68c1f8741091d7ca7023a5', 'subcat0a35186289c9419d3970bf1705512d8e', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgdb367aef4a3e2f8fdbb24a561f907fb4', 'subcat0a35186289c9419d3970bf1705512d8e', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img1cbc25dbbc2a570839bbcbb2444bd216', 'subcat04b01c7d4b0b9332347bf372da88fbed', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img556e79f9a80b2b3e8f3cbb57068347af', 'subcat04b01c7d4b0b9332347bf372da88fbed', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img3cb1dcc9cb71e39cac4f09173288ef33', 'subcat1ef090deb536079461b3a1030967f9fa', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img944a303f22359cb88a9cce8f5d97cb9e', 'subcat1ef090deb536079461b3a1030967f9fa', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgac7095d9a74c904bc4f2b1545946af9b', 'subcat4ad5a62da468b93809ecc4ef9b0cee5a', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imga2a329ad4e56cdb7d98b4e20421533f5', 'subcat4ad5a62da468b93809ecc4ef9b0cee5a', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imged84613dbeb0f4ddafeafadad2a4fb0a', 'subcatf755eb0f045b8a6c2ebe32e4b25757e6', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img6694d09306da02a19bca2baa0f973130', 'subcatf755eb0f045b8a6c2ebe32e4b25757e6', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img6524985e0dde7213d881b729bec097ef', 'subcat77767f41380d02f14a873943b10aa9b0', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img02f59d51e25a07d37098365651bc0115', 'subcat77767f41380d02f14a873943b10aa9b0', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img83cdcc99c3e2c941d6b694616b91e03e', 'subcatc99a9d8196bf7ac22ca8ea64cebd7eef', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img88742a73ea0b3ff5dd844cb4b5c05e6f', 'subcatc99a9d8196bf7ac22ca8ea64cebd7eef', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgbb91a66ed10933679bc5504b2eef0a28', 'subcat5b942c15ae98e0fad9a79d9eabd3152d', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img06e4d5ed843530574ab57b9629cf71d0', 'subcat5b942c15ae98e0fad9a79d9eabd3152d', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img82d347b0840647b68813f56d994a47b2', 'subcatafd2ec320a98c02d0776d693329d6ab7', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img945afa69d1af5bd20339a6b4723ea6d3', 'subcatafd2ec320a98c02d0776d693329d6ab7', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img3c639781590740ce74617912a9a6918c', 'subcat2fd23034e7b77b622e319850f07a3ec4', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img4dac45325a5f5fbc8d0c2e8e402a5f6c', 'subcat2fd23034e7b77b622e319850f07a3ec4', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img15a94938bd345273d5b1ed721756d10a', 'subcata6dccfe9a2c31a548c93950e11d583f8', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgb9e5daafbc16ace83db1d90dffe1e981', 'subcata6dccfe9a2c31a548c93950e11d583f8', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgf7aecbeda65ddc162cd0f6244dcf2afd', 'subcate2b840cef40c628d14dd88f66e6b79f7', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img455accbcb869cdb4415dc3d54785e2f8', 'subcate2b840cef40c628d14dd88f66e6b79f7', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imga564f3300543fe966785c421139bc3c6', 'subcat9649163838da0d4ba49f98a302f3d274', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgf363247aa66411531e74d34a8792bf58', 'subcat9649163838da0d4ba49f98a302f3d274', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img3bc06cf325e315649dbe41a6a13784ff', 'subcatbc3f0299433e3f89fad15f54a727a572', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img516b0256bf78433ef03005b20c4ce0f8', 'subcatbc3f0299433e3f89fad15f54a727a572', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgbbcd318f5182fc13625c9c0ebab1bd4a', 'subcat8a2f82b00940b1101bde9daebace89df', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img854893344aa356ad949da7a4b13ebb36', 'subcat8a2f82b00940b1101bde9daebace89df', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgd41e8ac7c37f3230b2b77ed0d464f5be', 'subcatc0cf04c4e512e0ee86b8ef5568cfae2a', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imge1c7c2ec4b16e487357c003c84c2a3ee', 'subcatc0cf04c4e512e0ee86b8ef5568cfae2a', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgbab97ee16db30043e03cc12fb55d1a41', 'subcate5ba5a788c7ff077778e00217daaec61', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img17538d96596877fcefb9355017d33c81', 'subcate5ba5a788c7ff077778e00217daaec61', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img0b3b4500a8bb1703c13a13baea26875b', 'subcat97b67d3c8e61f93520950bcd9dab3821', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img1d7bc96f370595e569566bc49a4ec5cf', 'subcat97b67d3c8e61f93520950bcd9dab3821', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgb350db0573de6c65356ea20654dcc9b5', 'subcatacb001566509c5f3f7ab079555b17f26', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img6fcf6fe98e3c9d3383e4969820f476e2', 'subcatacb001566509c5f3f7ab079555b17f26', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img9ff08d60f5e061d7d62ae4351898ac29', 'subcat2357394e3b4f0dce1ae93a7b69935522', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img3ddcd7565165d440a0aa8e3958434815', 'subcat2357394e3b4f0dce1ae93a7b69935522', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgd406b875e3ed233c7b39569fed59c61d', 'subcatf6bfa67b02bc490dc02011651fe60866', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img017d1deac1531dc473259b43fa1be9e4', 'subcatf6bfa67b02bc490dc02011651fe60866', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img994065e68f9482cd3a9bc85cd9aee0ca', 'subcat3bf9608603bd48f8623079539801df7e', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imge7eb5e4a24c99e63598959cb0165d7e6', 'subcat3bf9608603bd48f8623079539801df7e', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img59df2e454dfecc3b9c7e3491c6cdd1c4', 'subcat9807b669303a38ff2a170ba0789a0b40', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imge08a9dfa1bddb1956088742eab01c9e9', 'subcat9807b669303a38ff2a170ba0789a0b40', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img10281608eeec6fa44b3f911ef12568f2', 'subcatcdf60880fbf62fd0f01b4e0ecc0b4a6d', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img4c58c264a4149a68bd0b5b4efecba456', 'subcatcdf60880fbf62fd0f01b4e0ecc0b4a6d', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img85200d4affef6aa604c9074093f3aa4a', 'subcatbc78a876dccbcc1070fead65e7d2fa01', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img020928953192af628c989ce91fa8c0d2', 'subcatbc78a876dccbcc1070fead65e7d2fa01', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imga76fca1462ecf0ce3e1a8307e99ec364', 'subcat0aa7cd89373d72da354307bc8b96072e', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img87ac16d7dafa8a35f8d38ef2125f96ac', 'subcat0aa7cd89373d72da354307bc8b96072e', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img31bde8626f49d0f633c28661c830380b', 'subcat2c46282c6fe51accec148cce096e5ab1', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img8709f4679506518fed4f3842e0c91ade', 'subcat2c46282c6fe51accec148cce096e5ab1', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgaebdb57c25845e0f47b694ab5b0cfb97', 'subcat983cedf1cfa214c2f6b606173690e938', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img0c5d5c6940dafcdd4c583a32dcc46788', 'subcat983cedf1cfa214c2f6b606173690e938', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imge8fdf9e827d33d8fa583cec49c638935', 'subcatabc3add0733837d7339cd13096c5600d', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imga93b89c04718c5f38f0f7398724ce0fb', 'subcatabc3add0733837d7339cd13096c5600d', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img8e98fadacbe6081fbbb79643ce187e04', 'subcateacd5f70c042a2dfa850229eac713956', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img33ea9cb50d527c2137a738e674e4dcd7', 'subcateacd5f70c042a2dfa850229eac713956', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgec26dbbf289cf5764f1c42c4deceb864', 'subcat6b335111ea4581cc90507f383f626aea', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgac20fcb7eb1c7169539079e3341a1c68', 'subcat6b335111ea4581cc90507f383f626aea', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imga2b4103137ea57a9fccabda4e7d5fd7c', 'subcatf847079eee314132ef7ff407376451b2', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgfdbe0fc42a7e58e085b0d70fe8e8ec69', 'subcatf847079eee314132ef7ff407376451b2', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img7cfead1421587a5b32c20391c2858774', 'subcat957257b089dae1eb165bd6c5e1d7f42d', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgd815525392b51f17546f2b1f6eab16cc', 'subcat957257b089dae1eb165bd6c5e1d7f42d', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgee4644c1c37596ba9883f1ae49b19b1c', 'subcat98ea45ed4608c0daf1f061a592bd9988', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img42954835acd4e782d0e2bacf5bcfa3be', 'subcat98ea45ed4608c0daf1f061a592bd9988', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgbd9afd29448df1d98956eb855541df17', 'subcatc0a7c27c166f42ac654addbfcc84501c', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgb300ed98331b01e805fc782fd898f9f5', 'subcatc0a7c27c166f42ac654addbfcc84501c', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img84a3bfdc9da35615b7131f0dcad974dc', 'subcat1a719a13fdc019a44ed8a06462423714', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img71ea5f083cb71f758a022c87b1b35636', 'subcat1a719a13fdc019a44ed8a06462423714', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgbcc5e4e49d3ee07cecc2f0cd5d73a19b', 'subcatba388676fb747f0bda4618a33e841f80', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img5cd999596d24f2117d7d59bf464e7c04', 'subcatba388676fb747f0bda4618a33e841f80', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img63fc2a45e9a6dd69fa38815210954735', 'subcat88631b76ff0f70dddafc798cbe31cfb6', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imge551a8dc3c039f6886e2c9fff19dc020', 'subcat88631b76ff0f70dddafc798cbe31cfb6', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imge2065e6b2a4fdc1e278376b22e245acc', 'subcatbf88b3aad357870c231d966eee4f54f8', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img3824eb03e3c400c5f873a5d156c252dc', 'subcatbf88b3aad357870c231d966eee4f54f8', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img6beb6b7d6f91f935a4abfa1b87c5d97e', 'subcatc8a7ab3d2c47e4e9b11130f4adb4515e', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgcd7d15b8a8bbe0c4a6307ba540b38090', 'subcatc8a7ab3d2c47e4e9b11130f4adb4515e', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgd12a89cd5658bc7c57004037b810b15d', 'subcat9b2c1c1d37367df88ebe948e21417a61', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img35b304755f351995ab4c71fa1b385067', 'subcat9b2c1c1d37367df88ebe948e21417a61', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img6db87412d8432748ae039c46f0ce443d', 'subcatd451d609d062c9f77b3a4c003546d5d2', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgdbfae3ce2e5bc2032853e2042c2fec13', 'subcatd451d609d062c9f77b3a4c003546d5d2', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imga90ae3e43a5632c46f496e202c262e07', 'subcat1f026960c551ad9978f2f19392b19d3a', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img1787ea455bd8199484c5888907b1c254', 'subcat1f026960c551ad9978f2f19392b19d3a', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img960b8cb14f8f0fc81da1fee09acdf004', 'subcat43b7f26e18db70dd14ae82723a6e8971', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgc8631e080adf64086d76d6cf0f41e3de', 'subcat43b7f26e18db70dd14ae82723a6e8971', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img212265651d2c526ca99058fe8e2c995b', 'subcat9ac968818434b43469bb771864915c25', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img837bed7feb3b9fe55a10627a744a3e51', 'subcat9ac968818434b43469bb771864915c25', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img301fff8cda8d546dc1fc410ff87f7d84', 'subcat4a11634006874e8dfcfe96c7915c4c15', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgc00e38ca9a201ccac519e2d00bde07e5', 'subcat4a11634006874e8dfcfe96c7915c4c15', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img5b87b37af3b3759bb13241815fc519a0', 'subcat2fcd1ccfd9dfa81a3e9c866fa1feaf0b', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgad2c5679aaecd0b31967630d299e184d', 'subcat2fcd1ccfd9dfa81a3e9c866fa1feaf0b', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgc302847c26cd2beaf9f9fa2729fae068', 'subcatdbf8bca568e19761417fc54229c4920a', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgedc0bcbcd2dbcc4c9d54aa2d365d024c', 'subcatdbf8bca568e19761417fc54229c4920a', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgba36898021d708d41406751f4a044fd2', 'subcat7ff81f2aea609b7a4783cf655ffab3b2', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imge10f7954ff7a99898c31fbfb14f16dd4', 'subcat7ff81f2aea609b7a4783cf655ffab3b2', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img69a33123e3d9e6c216f0cca38a64126f', 'subcate2aa398e0469ce6ea84e048f5a7f2f0c', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgdb358e9ee847bf562b7229a34b00e109', 'subcate2aa398e0469ce6ea84e048f5a7f2f0c', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img5e807e3c0315f215bde26bdb37396f49', 'subcat7aea3805e68dcc2978cb4d10471b5a32', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgef6a27d88222d6005ad499020f86bbc6', 'subcat7aea3805e68dcc2978cb4d10471b5a32', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imge5a3262bac329af3cb96d2105dbdeffd', 'subcat9db32c01aeff17cb917c431fa0d2783d', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgf94d81dc06cf33ca15f83e6f9884c423', 'subcat9db32c01aeff17cb917c431fa0d2783d', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgf67626fdad7fe6f6baf5aa4a488d3c86', 'subcat2c4b8051dbfb9b313ab5539234485de4', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgd000f82cb9cab98b1b67aff0029e1d0e', 'subcat2c4b8051dbfb9b313ab5539234485de4', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgccdc23ac03df3dbd7815702ae88d9a7d', 'subcat7e0da0519b468291841fde0a5cd71969', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img955848129a62bf6779387f72a953de4c', 'subcat7e0da0519b468291841fde0a5cd71969', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img907f203768693a1b08e40956a97a628a', 'subcatd004eb8dac9f3b1a1a888b8155544b87', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img462896c1e2730bccac8188435274600c', 'subcatd004eb8dac9f3b1a1a888b8155544b87', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img16b471c4f346646898adfb3856f57f3e', 'subcat69e8f06c8d9ee1d20a2dde6d7b566f47', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgb8f8e1b0315de9b835c05ac809d3cf7f', 'subcat69e8f06c8d9ee1d20a2dde6d7b566f47', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img5e98e52ffcffb022fb0a2b28d6d2e1b4', 'subcat693b8d125abbfac69e8c9f180b9ba8f7', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgd535712a7884aad0c54e0183df143476', 'subcat693b8d125abbfac69e8c9f180b9ba8f7', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img5eca0d4afe4274e4b96708039fd6572a', 'subcat89a7895a4c1cd3c5183d3feeb77ca03f', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img642f4867657dcbb4d8a9bd187f2a323c', 'subcat89a7895a4c1cd3c5183d3feeb77ca03f', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img3423e50c123d2d0cdc6a8bd986322d5c', 'catd3bd74ddd4daaa67451dfa108d3ec9be', 'category', 'log512x512.png', '512', '512', '', '2021-10-16 13:19:14', '', '0000-00-00 00:00:00', '', 0),
+('imgec61a59227def8f73bf8629ba45ee978', 'catd3bd74ddd4daaa67451dfa108d3ec9be', 'category-icon', 'log512x5121.png', '512', '512', '', '2021-10-16 13:19:14', '', '0000-00-00 00:00:00', '', 0),
+('img9b673c4fabada11ee24959eb9094cd71', 'cataaab187b4f2a2afd72e94518ee73ddbf', 'category', 'log512x5122.png', '512', '512', '', '2021-10-16 13:19:27', '', '0000-00-00 00:00:00', '', 0),
+('imgbe508818d5b80fe17f28b05d5b6bebdb', 'cataaab187b4f2a2afd72e94518ee73ddbf', 'category-icon', 'log512x5123.png', '512', '512', '', '2021-10-16 13:19:27', '', '0000-00-00 00:00:00', '', 0),
+('img90e58b72a6ed86282b8b43dacf1f11bf', 'cat250256f90a1425de6154deed911a6bf3', 'category', 'logo-lite100x1004.png', '100', '100', '', '2021-10-16 13:22:38', '', '0000-00-00 00:00:00', '', 0),
+('img5183447ef8318df9889bde03a45fc928', 'cat250256f90a1425de6154deed911a6bf3', 'category-icon', 'logo-lite100x1005.png', '100', '100', '', '2021-10-16 13:22:38', '', '0000-00-00 00:00:00', '', 0),
+('imgd25edc79d931b51753a54f4d4c216fc0', 'cat34c18b69a7ef10244b59357791fee00c', 'category', 'logo-lite100x1006.png', '100', '100', '', '2021-10-16 13:23:06', '', '0000-00-00 00:00:00', '', 0),
+('img43885fc3003491bf463324360b2e0bd8', 'cat34c18b69a7ef10244b59357791fee00c', 'category-icon', 'logo-lite100x1007.png', '100', '100', '', '2021-10-16 13:23:06', '', '0000-00-00 00:00:00', '', 0),
+('img68c2959c51dd10d531027cc9eae40ac1', 'subcatbef0052d9bad9daa3b7c119f2095838b', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img092a994d71e63487f36172157b531fe7', 'subcatbef0052d9bad9daa3b7c119f2095838b', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img7dc2a582df1038d744057720fd0b9ad3', 'subcatf9744fcb6af1313e2c89e1a04db8dda7', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgeca3a02becc845e8a14e02717d7834ba', 'subcatf9744fcb6af1313e2c89e1a04db8dda7', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img6fb23e8b789a3aa73330c9b2b61b495a', 'subcat336399fe2179c8ae5fb8ab62ef284023', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgbe7cdc2cee311e19e48fb4b3a7e37cf3', 'subcat336399fe2179c8ae5fb8ab62ef284023', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgbd4574aea07b4fffeefeedd9b3ccbd06', 'subcat3f4ce16a1d4a792df0f275648452d2f7', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img91410507e39d98e98e46d5a291531ad7', 'subcat3f4ce16a1d4a792df0f275648452d2f7', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img7369720a3eaa0da484e0995c995c6c8a', 'subcatf35c1bbdc49de1992f02d6f8263ff311', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img8a1e747d1f8440041a4e78cbc6be0308', 'subcatf35c1bbdc49de1992f02d6f8263ff311', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img6213093f9384b878b33664a13af14102', 'subcat2e9c590e70d678fe8cf224a2074596b6', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img4e430bfd6e76f21e0670cd86fc4cd450', 'subcat2e9c590e70d678fe8cf224a2074596b6', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img02d1e35d3424d386183bb901e2f06b6e', 'subcat72cc2d607124ccfe6bd9062e62b7767a', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgab7a98257526bc00661a1ff3c242af11', 'subcat72cc2d607124ccfe6bd9062e62b7767a', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img03738f3f907e4fef2c4b34cef7d14415', 'subcatcb08bb2157d14c3674c6b281b6f8b3f8', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img9771ee57b626c08c640ed007244acb7c', 'subcatcb08bb2157d14c3674c6b281b6f8b3f8', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgb1263c932fc63825e659934ad813a235', 'subcat16c09f1b3493fba1ec666184297f3c9f', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img0491f39dba384d7a7544f421d1152b67', 'subcat16c09f1b3493fba1ec666184297f3c9f', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img082bbfc96fdfa9ec3e939afe724d5f17', 'subcat7d2e36d30e64925529a01deaeb914f34', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img48793b895e53dad5218c65be21222c07', 'subcat7d2e36d30e64925529a01deaeb914f34', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img08d84183c4ac95c5bfb2caaf05a4ec07', 'subcated72fbc3cfe5e6a092b7482e188efbd6', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img49d85739372a70760d6467543b21b89d', 'subcated72fbc3cfe5e6a092b7482e188efbd6', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgce3a7aae24d0f5fa7e99a175a64f50a3', 'subcat841b3cb375333f48fa6e58c426d663d3', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img66c9bac8485a7a6ffe479513448bfd0f', 'subcat841b3cb375333f48fa6e58c426d663d3', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgf6d1f2c6b346586dcb845c9ecacf879b', 'catb68004cef3701e0af9fce187a4ee8602', 'category', 'logo-lite100x10030.png', '100', '100', '', '2021-10-16 13:51:45', '', '0000-00-00 00:00:00', '', 0),
+('img921b95b57bd9e41f0bc4187fc47ea70c', 'catb68004cef3701e0af9fce187a4ee8602', 'category-icon', 'logo-lite100x10031.png', '100', '100', '', '2021-10-16 13:51:45', '', '0000-00-00 00:00:00', '', 0),
+('img781331c6f192571476cfe597acbc460a', 'subcatfdca9dd6083f3d6729afdc6bb5996837', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img2da6799a873b67ca782234bbc165987f', 'subcatfdca9dd6083f3d6729afdc6bb5996837', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img4a1e267748f0a83b3980e720f661a8ef', 'subcat7df43fcd33919b912ffcc13918b068f3', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgc5d1f98a07d756decc7ca0123b60e575', 'subcat7df43fcd33919b912ffcc13918b068f3', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgbc630e5b2b3d31daf39c3c24efe78dfa', 'subcat0740572677a2dd9ef61fc9dd0d9f6580', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img5c342f0cac4505bbc8b5481dbe222949', 'subcat0740572677a2dd9ef61fc9dd0d9f6580', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgf081dbfa280d85f009e0511209ab0e88', 'subcatb29607b02577bb44a48ec38bb0d626e3', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img20ac3db5730c8839301e9b945e141ecf', 'subcatb29607b02577bb44a48ec38bb0d626e3', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img93a4c8440125e836e78622b92f53c1b9', 'subcat5831b5d0ea903ec7d40fbaf9b911efa7', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgb7618917595b8c92ac0b2a0ab6028ffc', 'subcat5831b5d0ea903ec7d40fbaf9b911efa7', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img7825e3eed5a9eecdd83bccc4c1aa9248', 'subcate526653ffb066f2ccec16018c85e5f18', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img738859d7843fd5081d3bc1d31e7ea729', 'subcate526653ffb066f2ccec16018c85e5f18', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgb1379f3e7b1343c8b93e7fd469aaf95b', 'subcate7ec060b4ce9e14b6f8d4a9b8e8ad834', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img125cd4797430d6d7f9c399fb33203539', 'subcate7ec060b4ce9e14b6f8d4a9b8e8ad834', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img1f154ec30fb86b14f9bcb47d1dab22b1', 'subcat2e09d2b40718c0075ab5157e4244abe8', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img147263aca279630c7e2f37f2b1dd1b7c', 'subcat2e09d2b40718c0075ab5157e4244abe8', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img050fb37ee6516e217b7dee89f7d846b1', 'catd144e8ec680ff89caa67d1a0823e7e4c', 'category', 'logo-lite100x10048.png', '100', '100', '', '2021-10-17 00:14:09', '', '0000-00-00 00:00:00', '', 0),
+('img7df59e58b78255eaf7f56150a1c9cdca', 'catd144e8ec680ff89caa67d1a0823e7e4c', 'category-icon', 'logo-lite100x10049.png', '100', '100', '', '2021-10-17 00:14:09', '', '0000-00-00 00:00:00', '', 0),
+('img10cf0c0a01e3287f7c584723742ab8af', 'catda31b23547fbdb66cfd347d852c2cbf5', 'category', 'logo-lite100x10050.png', '100', '100', '', '2021-10-17 00:14:34', '', '0000-00-00 00:00:00', '', 0),
+('imged0a05b2e96719c911a0ed8248ccf1b3', 'catda31b23547fbdb66cfd347d852c2cbf5', 'category-icon', 'logo-lite100x10051.png', '100', '100', '', '2021-10-17 00:14:34', '', '0000-00-00 00:00:00', '', 0),
+('imgdd8793009e06de670b142d12323edcf9', 'catb61b2abf66ec68c6bde40963bf05757a', 'category', 'logo-lite100x10052.png', '100', '100', '', '2021-10-17 00:14:57', '', '0000-00-00 00:00:00', '', 0),
+('img357d9dc106f0e824cd993948c1359002', 'catb61b2abf66ec68c6bde40963bf05757a', 'category-icon', 'logo-lite100x10053.png', '100', '100', '', '2021-10-17 00:14:57', '', '0000-00-00 00:00:00', '', 0),
+('img1ac75bb08c95e760c091f1d61fb58f7e', 'catdb641ace25a2d62bc06fa888ffe7bc06', 'category', 'logo-lite100x10054.png', '100', '100', '', '2021-10-17 00:15:21', '', '0000-00-00 00:00:00', '', 0),
+('img8215612d97f9dc61f1749d40f462e070', 'catdb641ace25a2d62bc06fa888ffe7bc06', 'category-icon', 'logo-lite100x10055.png', '100', '100', '', '2021-10-17 00:15:21', '', '0000-00-00 00:00:00', '', 0),
+('img3b709780cc4146b6cbd9994b21a05e51', 'catb507a4125b02ba1a161ac9b8720ba686', 'category', 'logo-lite100x10056.png', '100', '100', '', '2021-10-17 00:16:04', '', '0000-00-00 00:00:00', '', 0),
+('img6ec6c4104a2fb834424f6c20d561b53d', 'catb507a4125b02ba1a161ac9b8720ba686', 'category-icon', 'logo-lite100x10057.png', '100', '100', '', '2021-10-17 00:16:04', '', '0000-00-00 00:00:00', '', 0),
+('imge4df3e0ae16e9bcccc6d1e53f4bf94a4', 'catf0da5f571037350dc4202983ffaa4e2d', 'category', 'logo-lite100x10058.png', '100', '100', '', '2021-10-17 00:16:42', '', '0000-00-00 00:00:00', '', 0),
+('imgc8c18c48490504aebf68e00afc4fa8bf', 'catf0da5f571037350dc4202983ffaa4e2d', 'category-icon', 'logo-lite100x10059.png', '100', '100', '', '2021-10-17 00:16:42', '', '0000-00-00 00:00:00', '', 0),
+('img60f146d5c0e48417fb8c9add566dfba3', 'subcate067b0095e59b3e75732481649ca30d9', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img0315fff7e5ee8c17300ac31a2ee136cf', 'subcate067b0095e59b3e75732481649ca30d9', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgda1a5deeec39ca14017a46123670a402', 'subcat3ecb22fa35ef52bac6f1b7d9058ab5d4', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img411e3cb9c58a71b01182cd3bf005a7a8', 'subcat3ecb22fa35ef52bac6f1b7d9058ab5d4', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgdcf462e04d7c47f02f815abb13dc547b', 'subcat1e97955beb363e1639b1e1bfebf39804', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgf3af4e7a03bb1f7a2dc1a102cbb70169', 'subcat1e97955beb363e1639b1e1bfebf39804', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgd65f75765000ca1b4e5a092b593b4d48', 'subcatd42fd9b64b70dc623e9acb8091aac20c', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0);
+INSERT INTO `core_images` (`img_id`, `img_parent_id`, `img_type`, `img_path`, `img_width`, `img_height`, `img_desc`, `added_date`, `added_user_id`, `updated_date`, `updated_user_id`, `ordering`) VALUES
+('imgdb4d95963c1801e891004063bf1bde96', 'subcatd42fd9b64b70dc623e9acb8091aac20c', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imge2ac97d18d366dd7847f2b8e03eece3e', 'subcatb0b2d943ce219124fc3ed9796dba42e5', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img9c8b655a4605e8a3a8285f835f7cc43f', 'subcatb0b2d943ce219124fc3ed9796dba42e5', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imga045d1a91f6f1aa028b018f96b2dfd37', 'subcat6d628ea3f20eb0228dc16aeb0123af9b', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img75a8f4fd13abce41433b3aef9a600de8', 'subcat6d628ea3f20eb0228dc16aeb0123af9b', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img42f485cb2ce4be6914462f045194d40e', 'subcat2b58ae1b68f3f994b967fdcdca0d4a55', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgf5a6361fd2bd0fdb97bdd60031f964c5', 'subcat2b58ae1b68f3f994b967fdcdca0d4a55', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img9e615da728e14949ecd93550b9e0d421', 'subcat30ae04620bfbddc6f53819b0bd45e21f', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img6cb1ea068e6dbf8f4203e5f19e9ff0d7', 'subcat30ae04620bfbddc6f53819b0bd45e21f', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img7e4475440209c8b16e622cc5aa5fa477', 'subcat7d8f752246aba5d12fd75273d9dfd533', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img65a80b11c64fcca1a4660bcff60c14c2', 'subcat7d8f752246aba5d12fd75273d9dfd533', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img66c03a2335e476c397fe4bc43cc16d34', 'subcat262577c44ec0a61d4ebc16ba0ecdf6e2', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgf5922e4e6641e797ad05efe891dd2616', 'subcat262577c44ec0a61d4ebc16ba0ecdf6e2', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imga901522fceaa6789cb699c30d9b00b35', 'subcatb56e625a84b412da5f1f2f2d6d8e2b33', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img3eae79d37eead273e0e8526445362279', 'subcatb56e625a84b412da5f1f2f2d6d8e2b33', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgdad1cf77eff18642ac66dfefc323e7d5', 'subcat175357ee7a5a70a257684addd8803d71', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imga5833ff018076ce6d956b9a0db5d2f2e', 'subcat175357ee7a5a70a257684addd8803d71', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img92cdd164075de1273d7bd2759e260192', 'subcatdec12c27800167342d4726d8fc6043b1', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgc7b76162a6250f32985d9f9384fb0eab', 'subcatdec12c27800167342d4726d8fc6043b1', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgec9ce920c672cc88d9ac8af2d27cedd7', 'subcatdc3a6923eccba7c6ada439bb5deb2e4c', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgbc744b07b74167ccd3cba699491123ea', 'subcatdc3a6923eccba7c6ada439bb5deb2e4c', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgc532022cdd5426ffcca10756fab49ab7', 'subcatcc443454dc6ecdf8768395f0e9bfdf12', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img4e8bd8624821811c16de64ea11ee8f6d', 'subcatcc443454dc6ecdf8768395f0e9bfdf12', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgc892a89342a5951e8ae888bb0276f710', 'subcat13823e4c807a73dfed162c202f01b3d7', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img46eee16b29d83c6584148e4260223c30', 'subcat13823e4c807a73dfed162c202f01b3d7', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img5eb9661e9b5c5c9aaf3969e2387d1e94', 'subcatb277b736c96a76ff8d6b0f51161ffefa', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img904b8a8c99f4c69f5f813fac6034ee5e', 'subcatb277b736c96a76ff8d6b0f51161ffefa', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img35dc9364e0d155548bf79aa65cdaeaca', 'subcatfc37a05552e38d39fd3dfd2f4e527bd0', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgfb5bcd7c145e943094506e18793ccd54', 'subcatfc37a05552e38d39fd3dfd2f4e527bd0', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img105b644f2c71168e7efe9b6738e072c8', 'subcatc10b668af48f22d41002a1c82b62e40b', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img1c8255ddf29cede37db78aa7ca6dc469', 'subcatc10b668af48f22d41002a1c82b62e40b', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgc0e0cf9c7e2ad34f65d5be57ea84b27a', 'subcat9f18d2ebab8cf7aaff25e36e8182bd27', 'sub_category', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img230da8f54b38e83203ee2dfa1e2e96aa', 'subcat9f18d2ebab8cf7aaff25e36e8182bd27', 'subcat_icon', 'logo100x100.png', '100', '100', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('imgfb4c3c01f9ab52f10de3c5f2a7618f48', 'subcat89a14a3d3ce17d34ee343ed2fe7ab203', 'sub_category', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img80843088be660a1daaf8a5beec0dabc0', 'subcat89a14a3d3ce17d34ee343ed2fe7ab203', 'subcat_icon', 'logo100x100.png', '240', '240', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img85a3fe9f5178d81eee31f0301b6bf303', 'cat48c0954c232f6065eff464fe4dab59b1', 'category', 'logo-lite240x2406.png', '240', '240', '', '2021-10-17 01:16:29', '', '0000-00-00 00:00:00', '', 0),
+('img6943ff88a22066d66516f26a02ee08fe', 'cat48c0954c232f6065eff464fe4dab59b1', 'category-icon', 'logo-lite240x2407.png', '240', '240', '', '2021-10-17 01:16:29', '', '0000-00-00 00:00:00', '', 0),
+('imgd274f0f7a340ccd1bb98d2efea711b51', 'subcatc08f49c0dbc738e16453ab649aae9ef8', 'sub_category', 'logo100x100.png', '32', '32', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img2d4712e5fc06b67d635763b45cfb8f27', 'subcatc08f49c0dbc738e16453ab649aae9ef8', 'subcat_icon', 'logo100x100.png', '32', '32', '', '2021-10-17 02:01:55', '', '0000-00-00 00:00:00', '', 0),
+('img8307741df3d5f9142bdf2124e7b0943f', 'be1', 'backend-logo', 'logo240x24069.png', '240', '240', '', '2021-10-17 01:48:46', '', '0000-00-00 00:00:00', '', 1),
+('img46aec7a130fa504dbeb6c2a242322903', 'abt1', 'about', 'logDot1024x1024.png', '1000', '1000', '', '2021-10-17 01:53:28', '', '0000-00-00 00:00:00', '', 1);
 
 -- --------------------------------------------------------
 
@@ -6451,7 +7017,9 @@ INSERT INTO `core_modules` (`module_id`, `module_name`, `module_desc`, `module_l
 (45, 'offline_paids', 'Offline Paid Items', 'offline_paid_module', '', 15, 1, 1),
 (46, 'in_app_purchases', 'In App Purchased', 'in_app_purchases', '', 15, 1, 1),
 (47, 'data_deletion_policies', 'Data Deletion Policy', 'data_deletion_module', '', 10, 1, 6),
-(48, 'maincategories', 'Main Categories', 'main_cat_module', '', 20, 1, 1);
+(48, 'maincategories', 'Main Categories', 'main_cat_module', '', 20, 1, 1),
+(49, 'price_quantity', 'Price Quantity', 'price_qty_module', '', 20, 1, 1),
+(50, 'item_location_townships', 'Location Townships', 'location_townships', '', 15, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -6480,7 +7048,7 @@ CREATE TABLE `core_privacy_policy` (
 --
 
 INSERT INTO `core_privacy_policy` (`id`, `content`) VALUES
-('privacy1', '&lt;p&gt;&lt;strong&gt;Privacy Policy&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Kool Communications LLC built the DailyAdss app as a Free app. This SERVICE is provided by Kool Communications LLC at no cost and is intended for use as is.&lt;/p&gt;\r\n\r\n&lt;p&gt;This page is used to inform visitors regarding our policies with the collection, use, and disclosure of Personal Information if anyone decided to use our Service.&lt;/p&gt;\r\n\r\n&lt;p&gt;If you choose to use our Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that we collect is used for providing and improving the Service. we will not use or share your information with anyone except as described in this Privacy Policy.&lt;/p&gt;\r\n\r\n&lt;p&gt;The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at DailyAdss unless otherwise defined in this Privacy Policy.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Information Collection and Use&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;For a better experience, while using our Service, we may require you to provide us with certain personally identifiable information, including but not limited to Personal information refers to anything that can be used to identify an individual. including names, phone numbers, email, address, device IDs, and locations.. The information that we request will be retained by us and used as described in this privacy policy.&lt;/p&gt;\r\n\r\n&lt;p&gt;The app does use third party services that may collect information used to identify you.&lt;/p&gt;\r\n\r\n&lt;p&gt;Link to privacy policy of third party service providers used by the app&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;a href=&quot;https://www.google.com/policies/privacy/&quot; target=&quot;_blank&quot;&gt;Google Play Services&lt;/a&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;a href=&quot;https://support.google.com/admob/answer/6128543?hl=en&quot; target=&quot;_blank&quot;&gt;AdMob&lt;/a&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;a href=&quot;https://www.facebook.com/about/privacy/update/printable&quot; target=&quot;_blank&quot;&gt;Facebook&lt;/a&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Log Data&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;we want to inform you that whenever you use our Service, in a case of an error in the app we collect data and information (through third party products) on your phone called Log Data. This Log Data may include information such as your device Internet Protocol (&amp;ldquo;IP&amp;rdquo;) address, device name, operating system version, the configuration of the app when utilizing our Service, the time and date of your use of the Service, and other statistics.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Cookies&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Cookies are files with a small amount of data that are commonly used as anonymous unique identifiers. These are sent to your browser from the websites that you visit and are stored on your device&amp;#39;s internal memory.&lt;/p&gt;\r\n\r\n&lt;p&gt;This Service does not use these &amp;ldquo;cookies&amp;rdquo; explicitly. However, the app may use third party code and libraries that use &amp;ldquo;cookies&amp;rdquo; to collect information and improve their services. You have the option to either accept or refuse these cookies and know when a cookie is being sent to your device. If you choose to refuse our cookies, you may not be able to use some portions of this Service.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Service Providers&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;we may employ third-party companies and individuals due to the following reasons:&lt;/p&gt;\r\n\r\n&lt;p&gt;To facilitate our Service;&lt;/p&gt;\r\n\r\n&lt;p&gt;To provide the Service on our behalf;&lt;/p&gt;\r\n\r\n&lt;p&gt;To perform Service-related services; or&lt;/p&gt;\r\n\r\n&lt;p&gt;To assist us in analyzing how our Service is used.&lt;/p&gt;\r\n\r\n&lt;p&gt;we want to inform users of this Service that these third parties have access to your Personal Information. The reason is to perform the tasks assigned to them on our behalf. However, they are obligated not to disclose or use the information for any other purpose.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Security&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;we value your trust in providing us your Personal Information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Links to Other Sites&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;This Service may contain links to other sites. If you click on a third-party link, you will be directed to that site. Note that these external sites are not operated by us. Therefore, we strongly advise you to review the Privacy Policy of these websites. we have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Children&amp;rsquo;s Privacy&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;These Services do not address anyone under the age of 13. we do not knowingly collect personally identifiable information from children under 13. In the case we discover that a child under 13 has provided us with personal information, we immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact us so that we will be able to do necessary actions.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Changes to This Privacy Policy&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;we may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. we will notify you of any changes by posting the new Privacy Policy on this page.&lt;/p&gt;\r\n\r\n&lt;p&gt;This policy is effective as of 2020-05-29&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Contact Us&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at info@dailyadss.com.&lt;/p&gt;');
+('privacy1', '&lt;p&gt;&lt;strong&gt;VEGPUF Privacy Policy&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;hr /&gt;\r\n&lt;p&gt;&lt;strong&gt;Privacy Policy&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Vegpuf built the Vegpuf app as a Free app. This SERVICE is provided by Vegpuf at no cost and is intended for use as is.&lt;/p&gt;\r\n\r\n&lt;p&gt;This page is used to inform visitors regarding our policies with the collection, use, and disclosure of Personal Information if anyone decided to use our Service.&lt;/p&gt;\r\n\r\n&lt;p&gt;If you choose to use our Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that we collect is used for providing and improving the Service. We will not use or share your information with anyone except as described in this Privacy Policy.&lt;/p&gt;\r\n\r\n&lt;p&gt;The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at Vegpuf mobile app unless otherwise defined in this Privacy Policy.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Information Collection and Use&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;For a better experience, while using our Service, we may require you to provide us with certain personally identifiable information, including but not limited to Personal information refers to anything that can be used to identify an individual. including names, phone numbers, email, address, device IDs, and locations.. The information that we request will be retained by us and used as described in this privacy policy.&lt;/p&gt;\r\n\r\n&lt;p&gt;The app does use third party services that may collect information used to identify you.&lt;/p&gt;\r\n\r\n&lt;p&gt;Link to privacy policy of third party service providers used by the app&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;a href=&quot;https://www.google.com/policies/privacy/&quot; target=&quot;_blank&quot;&gt;Google Play Services&lt;/a&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;a href=&quot;https://support.google.com/admob/answer/6128543?hl=en&quot; target=&quot;_blank&quot;&gt;AdMob&lt;/a&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;a href=&quot;https://www.facebook.com/about/privacy/update/printable&quot; target=&quot;_blank&quot;&gt;Facebook&lt;/a&gt;&lt;br /&gt;\r\n&lt;br /&gt;\r\n&lt;a href=&quot;https://appodeal.com/ccpa-privacy-policy/&quot;&gt;Appodeal&lt;/a&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Log Data&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;We want to inform you that whenever you use our Service, in a case of an error in the app we collect data and information (through third party products) on your phone called Log Data. This Log Data may include information such as your device Internet Protocol (&amp;ldquo;IP&amp;rdquo;) address, device name, operating system version, the configuration of the app when utilizing our Service, the time and date of your use of the Service, and other statistics.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Cookies&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Cookies are files with a small amount of data that are commonly used as anonymous unique identifiers. These are sent to your browser from the websites that you visit and are stored on your device&amp;#39;s internal memory.&lt;/p&gt;\r\n\r\n&lt;p&gt;This Service does not use these &amp;ldquo;cookies&amp;rdquo; explicitly. However, the app may use third party code and libraries that use &amp;ldquo;cookies&amp;rdquo; to collect information and improve their services. You have the option to either accept or refuse these cookies and know when a cookie is being sent to your device. If you choose to refuse our cookies, you may not be able to use some portions of this Service.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Service Providers&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;We may employ third-party companies and individuals due to the following reasons:&lt;/p&gt;\r\n\r\n&lt;p&gt;To facilitate our Service;&lt;/p&gt;\r\n\r\n&lt;p&gt;To provide the Service on our behalf;&lt;/p&gt;\r\n\r\n&lt;p&gt;To perform Service-related services; or&lt;/p&gt;\r\n\r\n&lt;p&gt;To assist us in analyzing how our Service is used.&lt;/p&gt;\r\n\r\n&lt;p&gt;We want to inform users of this Service that these third parties have access to your Personal Information. The reason is to perform the tasks assigned to them on our behalf. However, they are obligated not to disclose or use the information for any other purpose.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Security&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;We value your trust in providing us your Personal Information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Links to Other Sites&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;This Service may contain links to other sites. If you click on a third-party link, you will be directed to that site. Note that these external sites are not operated by us. Therefore, we strongly advise you to review the Privacy Policy of these websites. We have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Children&amp;rsquo;s Privacy&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;These Services do not address anyone under the age of 13. we do not knowingly collect personally identifiable information from children under 13. In the case we discover that a child under 13 has provided us with personal information, we immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact us so that we will be able to do necessary actions.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Changes to This Privacy Policy&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page.&lt;/p&gt;\r\n\r\n&lt;p&gt;This policy is effective as of 2021-07-15&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;strong&gt;Contact Us&lt;/strong&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at info@vegpuf.com.&lt;/p&gt;');
 
 -- --------------------------------------------------------
 
@@ -6561,24 +7129,24 @@ CREATE TABLE `core_sessions` (
 --
 
 INSERT INTO `core_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-('4tjpms1kctjtdelq0apo2l2cla0ad5pp', '::1', 1612865378, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323836353337383b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b),
-('vie19ditn2l9s9qgju815458pjb1h24c', '::1', 1612865741, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323836353734313b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b),
-('e5f5tjn62u8vhgtlahe52krbh8b7j27e', '::1', 1612866044, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323836363034343b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b),
-('k2759bro3f8bqgfirn39llp091qiud4n', '::1', 1612866376, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323836363337363b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b6c616e67756167655f69647c733a33363a226c616e673637366239333035323034616632643963636634353039323862323065323731223b6361742d6d6f64756c657c733a31303a226361742d6d6f64756c65223b7365617263687465726d7c733a31343a225072645f7365617263685f636174223b6361745f6d6f64756c657c733a31303a226361745f6d6f64756c65223b5072645f7365617263685f6361747c733a31343a225072645f7365617263685f636174223b737563636573737c733a34303a225375622043617465676f727920686173206265656e207375636365737366756c6c79206164646564223b5f5f63695f766172737c613a313a7b733a373a2273756363657373223b733a333a226f6c64223b7d),
-('ss66kgg82556pt0acp9kfa54ihok4o91', '::1', 1612866757, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323836363735373b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b6c616e67756167655f69647c733a33363a226c616e673637366239333035323034616632643963636634353039323862323065323731223b6361742d6d6f64756c657c733a31303a226361742d6d6f64756c65223b7365617263687465726d7c733a383a226361745f6e616d65223b6361745f6d6f64756c657c733a31303a226361745f6d6f64756c65223b5072645f7365617263685f6361747c733a31343a225072645f7365617263685f636174223b6361745f6e616d657c733a383a226361745f6e616d65223b737563636573737c733a33323a224974656d20686173206265656e207375636365737366756c6c79206164646564223b5f5f63695f766172737c613a313a7b733a373a2273756363657373223b733a333a226f6c64223b7d),
-('c6b1n0em04qno247o1079j1pa9t37rgs', '::1', 1612867108, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323836373130383b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b6c616e67756167655f69647c733a33363a226c616e673637366239333035323034616632643963636634353039323862323065323731223b6361742d6d6f64756c657c733a31303a226361742d6d6f64756c65223b7365617263687465726d7c733a383a226361745f6e616d65223b6361745f6d6f64756c657c733a31303a226361745f6d6f64756c65223b5072645f7365617263685f6361747c733a31343a225072645f7365617263685f636174223b6361745f6e616d657c733a383a226361745f6e616d65223b),
-('hgp8rlt6fqavrim4uqajr9bofmcfn4hi', '::1', 1612867423, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323836373432333b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b6c616e67756167655f69647c733a33363a226c616e673637366239333035323034616632643963636634353039323862323065323731223b6361742d6d6f64756c657c733a31303a226361742d6d6f64756c65223b7365617263687465726d7c733a383a226361745f6e616d65223b6361745f6d6f64756c657c733a31303a226361745f6d6f64756c65223b5072645f7365617263685f6361747c733a31343a225072645f7365617263685f636174223b6361745f6e616d657c733a383a226361745f6e616d65223b737563636573737c733a34323a225375622043617465676f727920686173206265656e207375636365737366756c6c792075706461746564223b5f5f63695f766172737c613a313a7b733a373a2273756363657373223b733a333a226f6c64223b7d),
-('7gcl2t4b5nt34iaotp5u5j08h806450d', '::1', 1612867761, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323836373736313b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b6c616e67756167655f69647c733a33363a226c616e673637366239333035323034616632643963636634353039323862323065323731223b6361742d6d6f64756c657c733a31303a226361742d6d6f64756c65223b7365617263687465726d7c733a383a226361745f6e616d65223b6361745f6d6f64756c657c733a31303a226361745f6d6f64756c65223b5072645f7365617263685f6361747c733a31343a225072645f7365617263685f636174223b6361745f6e616d657c733a383a226361745f6e616d65223b),
-('fqueell5i5k0mpjj14gm4bf1353r8ej6', '::1', 1612868093, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323836383039333b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b6c616e67756167655f69647c733a33363a226c616e673637366239333035323034616632643963636634353039323862323065323731223b6361742d6d6f64756c657c733a31303a226361742d6d6f64756c65223b7365617263687465726d7c733a383a226361745f6e616d65223b6361745f6d6f64756c657c733a31303a226361745f6d6f64756c65223b5072645f7365617263685f6361747c733a31343a225072645f7365617263685f636174223b6361745f6e616d657c733a383a226361745f6e616d65223b),
-('mb90bkkudu5ka471odm4a6s61uhr6lnn', '::1', 1612868494, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323836383439343b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b6c616e67756167655f69647c733a33363a226c616e673637366239333035323034616632643963636634353039323862323065323731223b6361742d6d6f64756c657c733a31303a226361742d6d6f64756c65223b7365617263687465726d7c733a383a226361745f6e616d65223b6361745f6d6f64756c657c733a31303a226361745f6d6f64756c65223b5072645f7365617263685f6361747c733a31343a225072645f7365617263685f636174223b6361745f6e616d657c733a383a226361745f6e616d65223b),
-('skl3c63km2v0t6t6g31gp4lj45jdi0be', '::1', 1612868802, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323836383830323b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b6c616e67756167655f69647c733a33363a226c616e673637366239333035323034616632643963636634353039323862323065323731223b6361742d6d6f64756c657c733a31303a226361742d6d6f64756c65223b7365617263687465726d7c733a383a226361745f6e616d65223b6361745f6d6f64756c657c733a31303a226361745f6d6f64756c65223b5072645f7365617263685f6361747c733a31343a225072645f7365617263685f636174223b6361745f6e616d657c733a383a226361745f6e616d65223b),
-('9rst50hcggec6qjb6unumqa5gpnun66s', '::1', 1612869135, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323836393133353b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b6c616e67756167655f69647c733a33363a226c616e673637366239333035323034616632643963636634353039323862323065323731223b6361742d6d6f64756c657c733a31303a226361742d6d6f64756c65223b7365617263687465726d7c733a383a226361745f6e616d65223b6361745f6d6f64756c657c733a31303a226361745f6d6f64756c65223b5072645f7365617263685f6361747c733a31343a225072645f7365617263685f636174223b6361745f6e616d657c733a383a226361745f6e616d65223b737563636573737c733a33393a22436f6e646974696f6e20686173206265656e207375636365737366756c6c792075706461746564223b5f5f63695f766172737c613a313a7b733a373a2273756363657373223b733a333a226f6c64223b7d),
-('hrsfhepdv2rse05vpdmpsljie4e95sbn', '::1', 1612869455, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323836393435353b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b6c616e67756167655f69647c733a33363a226c616e673637366239333035323034616632643963636634353039323862323065323731223b6361742d6d6f64756c657c733a31303a226361742d6d6f64756c65223b7365617263687465726d7c733a383a226361745f6e616d65223b6361745f6d6f64756c657c733a31303a226361745f6d6f64756c65223b5072645f7365617263685f6361747c733a31343a225072645f7365617263685f636174223b6361745f6e616d657c733a383a226361745f6e616d65223b737563636573737c733a33333a22426c6f677320686173206265656e207375636365737366756c6c79206164646564223b5f5f63695f766172737c613a313a7b733a373a2273756363657373223b733a333a226f6c64223b7d),
-('sgp3d86l5576nkrce3e0cu0qhe43otqv', '::1', 1612870617, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323837303631373b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b6c616e67756167655f69647c733a33363a226c616e673637366239333035323034616632643963636634353039323862323065323731223b6361742d6d6f64756c657c733a31303a226361742d6d6f64756c65223b7365617263687465726d7c733a383a226361745f6e616d65223b6361745f6d6f64756c657c733a31303a226361745f6d6f64756c65223b5072645f7365617263685f6361747c733a31343a225072645f7365617263685f636174223b6361745f6e616d657c733a383a226361745f6e616d65223b),
-('cf7n2o7dtr11ra8edpstm00flh7k2ien', '::1', 1612870857, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323837303631373b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b6361742d6d6f64756c657c733a31303a226361742d6d6f64756c65223b7365617263687465726d7c733a343a226d61696e223b6361745f6d6f64756c657c733a31303a226361745f6d6f64756c65223b5072645f7365617263685f6361747c733a31343a225072645f7365617263685f636174223b6361745f6e616d657c733a383a226361745f6e616d65223b6d61696e7c733a343a226d61696e223b6c616e67756167655f69647c733a33363a226c616e673637366239333035323034616632643963636634353039323862323065323731223b),
-('c2fkh4pir9re1fhlukeuq9jnghh5crd4', '::1', 1612877243, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323837373234333b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b),
-('6fh9e7u5e75901jm13ifklhl4h297p78', '::1', 1612877697, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323837373639373b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b),
-('cmt15a4s2ur9h5vi70nj7m7jjfq105h8', '::1', 1612877906, 0x5f5f63695f6c6173745f726567656e65726174657c693a313631323837373639373b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b);
+('b4q93epa01idj7of7csnjun5ne3i49bj', '::1', 1634429794, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343432393438393b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b),
+('m4cvuhtv25jlq77pleh6i146nthaugiu', '::1', 1634429843, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343432393830323b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b),
+('123hoqqadmh116jtsq9h21qhmvhi9fbo', '::1', 1634430618, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343433303332363b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b),
+('9hqf4qhuc72kl7hevli38pph30r3pd1c', '::1', 1634430952, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343433303632383b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b),
+('iivcksj6hbr0bieln0lbc12ifihnjtfn', '::1', 1634431266, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343433303936313b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b),
+('0da5do7tsfphegukjqeesqhfb9igduhr', '::1', 1634431330, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343433313236363b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b),
+('buli5fsqvs23prqbqtkdaq7n89mas339', '::1', 1634432546, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343433313538323b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b),
+('gaavbiul5m60oefa3bpavcim8csrsp9h', '::1', 1634432881, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343433323537363b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b),
+('vurhbfmk2gej98c9jre1u6mt6ipljnqa', '::1', 1634433048, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343433323838313b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b),
+('q2qlr4bnunb5l4ik1kscbbuj4i582cad', '::1', 1634433639, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343433333335313b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b),
+('osknn3c0tutmona3fhflvqhdofnoqg55', '::1', 1634433925, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343433333635333b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b6c616e67756167655f69647c733a33363a226c616e673637366239333035323034616632643963636634353039323862323065323731223b),
+('o40nurblamqfvidt1glbkiko5tgdchmg', '::1', 1634434444, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343433343232353b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b6c616e67756167655f69647c733a33363a226c616e673637366239333035323034616632643963636634353039323862323065323731223b70726963655f717c733a373a2270726963655f71223b7365617263687465726d7c733a373a2270726963655f71223b),
+('10lemsdt68ei8baa38pdc30mh4eaq6gs', '::1', 1634434803, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343433343535373b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b6c616e67756167655f69647c733a33363a226c616e673637366239333035323034616632643963636634353039323862323065323731223b70726963655f717c733a373a2270726963655f71223b7365617263687465726d7c733a373a2270726963655f71223b),
+('mbogjk7v6i645g8f2njep6l0ijngnl5a', '::1', 1634435212, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343433343935383b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b6c616e67756167655f69647c733a33363a226c616e673637366239333035323034616632643963636634353039323862323065323731223b70726963655f717c733a373a2270726963655f71223b7365617263687465726d7c733a373a2270726963655f71223b),
+('ngm10uae1r2m1qhu12lqnv4e0bcodea9', '::1', 1634435567, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343433353236363b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b70726963655f717c733a373a2270726963655f71223b7365617263687465726d7c733a373a2270726963655f71223b),
+('an91juolgr6f54j3f3paub0573lp46lu', '::1', 1634435680, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343433353537383b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b70726963655f717c733a373a2270726963655f71223b7365617263687465726d7c733a373a2270726963655f71223b),
+('7esd4prkbrfd3fhs7f2dpnr4rnbslbhg', '::1', 1634436364, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343433363234323b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b70726963655f717c733a373a2270726963655f71223b7365617263687465726d7c733a373a2270726963655f71223b),
+('qgcth5fn4cgrnfu9b1235tpcc206rfjg', '::1', 1634436865, 0x5f5f63695f6c6173745f726567656e65726174657c693a313633343433363737333b757365725f69647c733a33323a226334636134323338613062393233383230646363353039613666373538343962223b726f6c655f69647c733a313a2231223b69735f7379735f61646d696e7c733a313a2231223b70726963655f717c733a373a2270726963655f71223b7365617263687465726d7c733a373a2270726963655f71223b);
 
 -- --------------------------------------------------------
 
@@ -6631,6 +7199,8 @@ INSERT INTO `core_users` (`user_id`, `user_is_sys_admin`, `facebook_id`, `google
 ('c4ca4238a0b923820dcc509a6f75849b', 1, '', '', '', '', 'Roy', 'admin@ps.com', '025874', 'UK', 'Liverpool', '21232f297a57a5a743894a0e4a801fc3', 'it is me', '', 'user.jpg', '1', 1, 0, '2017-10-28 07:48:42', 1508293102, '', '', 3.5, '', '', 0, 1, 0, 0, 0, 0, 0, 0, 0),
 ('usr0de8bc1f7f30cae3502313988566932b', 0, '', '', '', '', 'Hugo', 'hugo@gmail.com', '', '', '', '827ccb0eea8a706c4c34a16891f84e7b', '', '', '', '4', 1, 0, '2021-02-11 02:23:53', 1613030033, 'test ', '', 0, '', '', 0, 1, 1, 0, 0, 0, 0, 0, 0),
 ('usr2c4e051ec783b0de03411d580694c4a6', 0, '', '', '', '', 'Kevin', 'kevin@gmail.com', '', '', '', '827ccb0eea8a706c4c34a16891f84e7b', '', '', '', '4', 1, 0, '2021-01-28 02:06:17', 1611822977, '', '', 0, '', '', 1, 0, 1, 0, 0, 0, 0, 0, 0);
+
+-- --------------------------------------------------------
 
 --
 -- Indexes for dumped tables
@@ -6745,12 +7315,6 @@ ALTER TABLE `bs_items_currency`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `bs_item_locations`
---
-ALTER TABLE `bs_item_locations`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `bs_items_price`
 --
 ALTER TABLE `bs_items_price`
@@ -6772,6 +7336,21 @@ ALTER TABLE `bs_items_types`
 -- Indexes for table `bs_item_conditions`
 --
 ALTER TABLE `bs_item_conditions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `bs_item_locations`
+--
+ALTER TABLE `bs_item_locations`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `lat` (`lat`),
+  ADD UNIQUE KEY `lng` (`lng`),
+  ADD KEY `name` (`name`);
+
+--
+-- Indexes for table `bs_item_location_townships`
+--
+ALTER TABLE `bs_item_location_townships`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -6853,6 +7432,12 @@ ALTER TABLE `bs_touches`
   ADD PRIMARY KEY (`touch_id`);
 
 --
+-- Indexes for table `bs_user_bought`
+--
+ALTER TABLE `bs_user_bought`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `core_data_deletion`
 --
 ALTER TABLE `core_data_deletion`
@@ -6872,7 +7457,7 @@ ALTER TABLE `core_modules`
 -- AUTO_INCREMENT for table `core_modules`
 --
 ALTER TABLE `core_modules`
-  MODIFY `module_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `module_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

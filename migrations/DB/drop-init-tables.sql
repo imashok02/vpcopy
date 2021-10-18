@@ -51,3 +51,6 @@ DROP TABLE IF EXISTS `core_role_access`;
 DROP TABLE IF EXISTS `core_sessions`;
 DROP TABLE IF EXISTS `core_sessions`;
 DROP TABLE IF EXISTS `core_users`;
+DROP TABLE IF EXISTS `bs_item_location_townships`;
+DROP TABLE IF EXISTS `bs_price_quantities`;
+DROP TABLE IF EXISTS `bs_user_bought`;
