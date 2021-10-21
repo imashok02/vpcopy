@@ -210,6 +210,7 @@ class Items extends API_Controller
         	"description" => $this->post('description'),
         	"highlight_info" => $this->post('highlight_info'),
         	"price" => $this->post('price'),
+        	"price_qty" => $this->post('priceQty'),
         	"deal_option_id" => $this->post('deal_option_id'),
         	"brand" => $this->post('brand'),
         	"business_mode" => $this->post('business_mode'),

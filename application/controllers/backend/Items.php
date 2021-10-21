@@ -623,6 +623,7 @@ class Items extends BE_Controller {
 			'description' => $items->description,
 			'highlight_info' => $items->highlight_info,
 			'price' => $items->price,
+			'price_qty' => $items->priceQty,
 			'brand' => $items->brand,
 			'address' => $items->address,
 			'deal_option_id' => $items->deal_option_id,
