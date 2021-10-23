@@ -83,35 +83,28 @@ class Paid_items extends API_Controller
 		$start_date = $this->post('start_date');
 		$day = $this->post('how_many_day');
 		$start_timestamp = $this->post('start_timestamp');
-		$date = date("Y-m-d H:i:s");
-        $temp_start_date = date("Y-m-d H:i:s", substr($start_timestamp, 0, 10));
-        
-        log_message('error', "start date ==> ".$start_date);
-
-        $vardate = explode(' ',$temp_start_date,2);
-        $convert_start_date = $vardate[0];
+        $convert_start_date = date("Y-m-d H:i:s", substr($start_timestamp, 0,10));
 
         // when day value comes less than 1, we assume the time is in minutes.
         // So we multiply the time by 1440.(in a day there are 1440 minutes)
 
         if ($day < 1) {
         	$day = floor($day * 1440);
-        	$temp_end_date = date('Y-m-d H:i:s', strtotime($temp_start_date. ' + '.$day.' minutes'));
+        	$end_date = date('Y-m-d H:i:s', strtotime($temp_start_date. ' + '.$day.' minutes'));
         } else {
-        	$temp_end_date = date('Y-m-d H:i:s', strtotime($temp_start_date. ' + '.$day.' day'));
+        	$end_date = date('Y-m-d H:i:s', strtotime($temp_start_date. ' + '.$day.' day'));
         }
         
-        log_message('error', "temp_end_date ==> ".$temp_end_date);
+        log_message('error', "$convert_start_date ==> ".$convert_start_date);
 
-	  	$varenddate = explode(' ',$temp_end_date,2);
-	  	$end_date = $varenddate[0];
-	  	
-	  	log_message('error', "end_date ==> ".$end_date);
 	  	//print_r($end_date);die;
 
 	  	$d = DateTime::createFromFormat('Y-m-d H:i:s', $end_date);
-	$end_timestamp = $d->getTimestamp();
+	    $end_timestamp = $d->getTimestamp();
 		//print_r($end_timestamp);die;
+		
+		log_message('error', "end_date ==> ".$end_date);
+
 
 	  	$paid_data = array(
 	  		"item_id" => $item_id,

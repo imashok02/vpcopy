@@ -246,6 +246,12 @@ class Items extends BE_Controller {
 				$data['item_price_type_id'] = $this->get_data( 'item_price_type_id' );
 			}
 
+			// Price qty id
+		   	if ( $this->has_data( 'item_price_qty_id' )) {
+				$data['item_price_qty_id'] = $this->get_data( 'item_price_qty_id' );
+			}
+
+
 			// Currency id
 		   	if ( $this->has_data( 'item_currency_id' )) {
 				$data['item_currency_id'] = $this->get_data( 'item_currency_id' );
@@ -623,7 +629,7 @@ class Items extends BE_Controller {
 			'description' => $items->description,
 			'highlight_info' => $items->highlight_info,
 			'price' => $items->price,
-			'price_qty' => $items->priceQty,
+			'price_qty_id' => $items->priceQty,
 			'brand' => $items->brand,
 			'address' => $items->address,
 			'deal_option_id' => $items->deal_option_id,
