@@ -336,9 +336,13 @@ class PS_Model extends CI_Model {
 	 * @return     <type>   All by.
 	 */
 	function get_all_by( $conds = array(), $limit = false, $offset = false ) {
+		// REF: https://stackoverflow.com/questions/574691/mysql-great-circle-distance-haversine-formula
+		// To search by miles instead of kilometers, replace 6371 with 3959.
+
+		//Current distance is 25kms range
 
 		if($conds['lat'] != "" && $conds['lng'] != "") {
-			$this->db->select('*,( 3959
+			$this->db->select('*,( 6371
 		      * acos( cos( radians('. $conds['lat'] .') )
 		              * cos(  radians( lat )   )
 		              * cos(  radians( lng ) - radians('. $conds['lng'] .') )
@@ -348,7 +352,7 @@ class PS_Model extends CI_Model {
 		    ) as distance');
 
 		    if ($conds['miles'] == "") {
-		    	$conds['miles'] = 0;
+		    	$conds['miles'] = 100;
 		    	$this->db->having('distance < ' .  $conds['miles'] );
 		    } else {
 		    	$this->db->having('distance < ' .  $conds['miles'] );

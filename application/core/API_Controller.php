@@ -803,184 +803,193 @@ class API_Controller extends REST_Controller
 
 		$conds = array_merge( $default_conds, $user_conds );
 
-		// check empty condition
-		$final_conds = array();
-		foreach( $conds as $key => $value ) {
-    
-		    if($key != "status") {
-			    if ( !empty( $value )) {
-			     $final_conds[$key] = $value;
+		if ($conds['custom_sql']=="closer_cities") {
+			$conds['miles'] = 25; // denoting kms here
+
+			$data = $this->model->get_all_by($conds, 20)->result();
+
+
+		} else {
+
+			// check empty condition
+			$final_conds = array();
+			foreach( $conds as $key => $value ) {
+	    
+			    if($key != "status") {
+				    if ( !empty( $value )) {
+				     $final_conds[$key] = $value;
+				    }
 			    }
-		    }
 
-		    if($key == "status") {
-		    	$final_conds[$key] = $value;
-		    }
+			    if($key == "status") {
+			    	$final_conds[$key] = $value;
+			    }
 
 
-		}
-		$conds = $final_conds;
-		$limit = $this->get( 'limit' );
-		$offset = $this->get( 'offset' );
-
-		if ($conds['item_search']==1) {
-
-			/* For User Block */
-
-			//user block check with login_user_id
-			$conds_login_block['from_block_user_id'] = $this->get_login_user_id();
-			$login_block_count = $this->Block->count_all_by($conds_login_block);
-			//print_r($login_block_count);die;
-
-			// user blocked existed by login user
-			if ($login_block_count > 0) {
-				// get the blocked user by login user
-				$to_block_user_datas = $this->Block->get_all_by($conds_login_block)->result();
-
-				foreach ( $to_block_user_datas as $to_block_user_data ) {
-
-					$to_block_user_id .= "'" .$to_block_user_data->to_block_user_id . "',";
-			
-				}
-
-				// get block user's item
-
-				$result_users = rtrim($to_block_user_id,',');
-				$conds_user['added_user_id'] = $result_users;
-
-				$item_users = $this->Item->get_all_in_item( $conds_user )->result();
-
-				foreach ( $item_users as $item_user ) {
-
-					$id .= $item_user->id .",";
-				
-				}
-
-				// get all item without block user's item
-
-				$result_items = rtrim($id,',');
-				$item_id = explode(",", $result_items);
-				//print_r($item_id);die;
-				//$conds['id'] = $result_items;
-
-			}	
-
-			/* For Item Report */
-
-			//item report check with login_user_id
-			$conds_report['reported_user_id'] = $this->get_login_user_id();
-			$reported_data_count = $this->Itemreport->count_all_by($conds_report);
-
-			// item reported existed by login user
-			if ($reported_data_count > 0) {
-				// get the reported item data
-				$item_reported_datas = $this->Itemreport->get_all_by($conds_report)->result();
-
-				foreach ( $item_reported_datas as $item_reported_data ) {
-
-					$item_ids .= "'" .$item_reported_data->item_id . "',";
-			
-				}
-
-				// get block user's item
-
-				$result_reports = rtrim($item_ids,',');
-				$conds_item['id'] = $result_reports;
-
-				$item_reports = $this->Item->get_all_in_report( $conds_item )->result();
-
-				foreach ( $item_reports as $item_report ) {
-
-					$ids .= $item_report->id .",";
-				
-				}
-
-				// get all item without block user's item
-
-				$result_items = rtrim($ids,',');
-				$reported_item_id = explode(",", $result_items);
-				//$conds['id'] = $result_items;
 			}
+			$conds = $final_conds;
+			$limit = $this->get( 'limit' );
+			$offset = $this->get( 'offset' );
 
-			
-			if ($conds['is_paid'] == "only_paid_item") {
+			if ($conds['item_search']==1) {
 
-				$conds['item_id'] = $item_id;
-				$conds['reported_item_id'] = $reported_item_id;
-				$conds['is_paid'] = 1 ;
+				/* For User Block */
+
+				//user block check with login_user_id
+				$conds_login_block['from_block_user_id'] = $this->get_login_user_id();
+				$login_block_count = $this->Block->count_all_by($conds_login_block);
+				//print_r($login_block_count);die;
+
+				// user blocked existed by login user
+				if ($login_block_count > 0) {
+					// get the blocked user by login user
+					$to_block_user_datas = $this->Block->get_all_by($conds_login_block)->result();
+
+					foreach ( $to_block_user_datas as $to_block_user_data ) {
+
+						$to_block_user_id .= "'" .$to_block_user_data->to_block_user_id . "',";
 				
-				if ( !empty( $limit ) && !empty( $offset )) {
-				// if limit & offset is not empty
-				$data = $this->model->get_all_item_by_paid( $conds, $limit, $offset )->result();
+					}
 
+					// get block user's item
 
-				} else if ( !empty( $limit )) {
-					// if limit is not empty
-					$data = $this->model->get_all_item_by_paid( $conds, $limit )->result();
+					$result_users = rtrim($to_block_user_id,',');
+					$conds_user['added_user_id'] = $result_users;
 
-				} else {
-					// if both are empty
-					$data = $this->model->get_all_item_by_paid( $conds )->result();
+					$item_users = $this->Item->get_all_in_item( $conds_user )->result();
 
-				}
-			} elseif ($conds['is_paid'] == "paid_item_first") {
-				$result = "";
+					foreach ( $item_users as $item_user ) {
 
-				$conds['item_id'] = $item_id;
-				$conds['reported_item_id'] = $reported_item_id;
-				$conds['is_paid'] = 1;
+						$id .= $item_user->id .",";
+					
+					}
+
+					// get all item without block user's item
+
+					$result_items = rtrim($id,',');
+					$item_id = explode(",", $result_items);
+					//print_r($item_id);die;
+					//$conds['id'] = $result_items;
+
+				}	
+
+				/* For Item Report */
+
+				//item report check with login_user_id
+				$conds_report['reported_user_id'] = $this->get_login_user_id();
+				$reported_data_count = $this->Itemreport->count_all_by($conds_report);
+
+				// item reported existed by login user
+				if ($reported_data_count > 0) {
+					// get the reported item data
+					$item_reported_datas = $this->Itemreport->get_all_by($conds_report)->result();
+
+					foreach ( $item_reported_datas as $item_reported_data ) {
+
+						$item_ids .= "'" .$item_reported_data->item_id . "',";
 				
-				if ( !empty( $limit ) && !empty( $offset )) {
-					// if limit & offset is not empty
-					$data = $this->model->get_all_item_by_paid_date( $conds, $limit, $offset )->result();
+					}
 
+					// get block user's item
 
-				} else if ( !empty( $limit )) {
-					// if limit is not empty
-					$data = $this->model->get_all_item_by_paid_date( $conds, $limit )->result();
+					$result_reports = rtrim($item_ids,',');
+					$conds_item['id'] = $result_reports;
 
-				} else {
-					// if both are empty
-					$data_paid = $this->model->get_all_item_by_paid_date( $conds )->result();
+					$item_reports = $this->Item->get_all_in_report( $conds_item )->result();
 
+					foreach ( $item_reports as $item_report ) {
+
+						$ids .= $item_report->id .",";
+					
+					}
+
+					// get all item without block user's item
+
+					$result_items = rtrim($ids,',');
+					$reported_item_id = explode(",", $result_items);
+					//$conds['id'] = $result_items;
 				}
-			} else {
 
-				$conds['item_id'] = $item_id;
-				$conds['reported_item_id'] = $reported_item_id;
+				
+				if ($conds['is_paid'] == "only_paid_item") {
 
-
-				if ( !empty( $limit ) && !empty( $offset )) {
+					$conds['item_id'] = $item_id;
+					$conds['reported_item_id'] = $reported_item_id;
+					$conds['is_paid'] = 1 ;
+					
+					if ( !empty( $limit ) && !empty( $offset )) {
 					// if limit & offset is not empty
-					$data = $this->model->get_all_by_item( $conds, $limit, $offset )->result();
+					$data = $this->model->get_all_item_by_paid( $conds, $limit, $offset )->result();
 
 
 					} else if ( !empty( $limit )) {
 						// if limit is not empty
-						$data = $this->model->get_all_by_item( $conds, $limit )->result();
+						$data = $this->model->get_all_item_by_paid( $conds, $limit )->result();
 
 					} else {
 						// if both are empty
-						$data = $this->model->get_all_by_item( $conds )->result();
+						$data = $this->model->get_all_item_by_paid( $conds )->result();
 
 					}
+				} elseif ($conds['is_paid'] == "paid_item_first") {
+					$result = "";
+
+					$conds['item_id'] = $item_id;
+					$conds['reported_item_id'] = $reported_item_id;
+					$conds['is_paid'] = 1;
+					
+					if ( !empty( $limit ) && !empty( $offset )) {
+						// if limit & offset is not empty
+						$data = $this->model->get_all_item_by_paid_date( $conds, $limit, $offset )->result();
+
+
+					} else if ( !empty( $limit )) {
+						// if limit is not empty
+						$data = $this->model->get_all_item_by_paid_date( $conds, $limit )->result();
+
+					} else {
+						// if both are empty
+						$data_paid = $this->model->get_all_item_by_paid_date( $conds )->result();
+
+					}
+				} else {
+
+					$conds['item_id'] = $item_id;
+					$conds['reported_item_id'] = $reported_item_id;
+
+
+					if ( !empty( $limit ) && !empty( $offset )) {
+						// if limit & offset is not empty
+						$data = $this->model->get_all_by_item( $conds, $limit, $offset )->result();
+
+
+						} else if ( !empty( $limit )) {
+							// if limit is not empty
+							$data = $this->model->get_all_by_item( $conds, $limit )->result();
+
+						} else {
+							// if both are empty
+							$data = $this->model->get_all_by_item( $conds )->result();
+
+						}
+					
+					}	
 				
-				}	
-			
-		} else {
-			if ( !empty( $limit ) && !empty( $offset )) {
-			// if limit & offset is not empty
-			$data = $this->model->get_all_by( $conds, $limit, $offset )->result();
-
-
-			} else if ( !empty( $limit )) {
-				// if limit is not empty
-				$data = $this->model->get_all_by( $conds, $limit )->result();
-
 			} else {
-				// if both are empty
-				$data = $this->model->get_all_by( $conds )->result();
+				if ( !empty( $limit ) && !empty( $offset )) {
+				// if limit & offset is not empty
+				$data = $this->model->get_all_by( $conds, $limit, $offset )->result();
 
+
+				} else if ( !empty( $limit )) {
+					// if limit is not empty
+					$data = $this->model->get_all_by( $conds, $limit )->result();
+
+				} else {
+					// if both are empty
+					$data = $this->model->get_all_by( $conds )->result();
+
+				}
 			}
 		}
 
