@@ -38,7 +38,7 @@ class Itemlocations extends API_Controller
 
 			//$setting = $this->Api->get_one_by( array( 'api_constant' => SEARCH_WALLPAPERS ));
 
-            if ( $this->post('curr_location')) {
+            if ( !empty($this->post('curr_location')) ) {
                 
                 $json2 = json_encode($this->post('curr_location'));
                 // log_message('error', "post data");
@@ -80,14 +80,9 @@ class Itemlocations extends API_Controller
                 //     echo 'Message: ' .$e->getMessage();
                 // }
 
-                $conds['order_by'] = 1;
-                $conds['order_by_field']    = $this->post('order_by');
-                $conds['order_by_type']     = $this->post('order_type');
                 $conds['custom_sql']= "closer_cities";
                 $conds['lat'] = $json['coordinates']['latitude'];
                 $conds['lng'] = $json['coordinates']['longitude'];
-
-                return $conds;
 
             }
 

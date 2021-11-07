@@ -360,6 +360,8 @@ class PS_Model extends CI_Model {
 
 			    }
 			}
+
+			$this->db->order_by('distance', "ASC");
 		}
 
 		// where clause
