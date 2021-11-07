@@ -341,25 +341,25 @@ class PS_Model extends CI_Model {
 
 		//Current distance is 25kms range
 
-		if($conds['lat'] != "" && $conds['lng'] != "") {
-			$this->db->select('*,( 6371
-		      * acos( cos( radians('. $conds['lat'] .') )
-		              * cos(  radians( lat )   )
-		              * cos(  radians( lng ) - radians('. $conds['lng'] .') )
-		            + sin( radians('. $conds['lat'] .') )
-		              * sin( radians( lat ) )
-		            )
-		    ) as distance');
+		if (isset($conds['lat']) && isset($conds['lng'])) {
+			if($conds['lat'] != "" && $conds['lng'] != "") {
+				$this->db->select('*,( 6371
+			      * acos( cos( radians('. $conds['lat'] .') )
+			              * cos(  radians( lat )   )
+			              * cos(  radians( lng ) - radians('. $conds['lng'] .') )
+			            + sin( radians('. $conds['lat'] .') )
+			              * sin( radians( lat ) )
+			            )
+			    ) as distance');
 
-		    if ($conds['miles'] == "") {
-		    	$conds['miles'] = 100;
-		    	$this->db->having('distance < ' .  $conds['miles'] );
-		    } else {
-		    	$this->db->having('distance < ' .  $conds['miles'] );
+			    if ($conds['miles'] == "") {
+			    	$conds['miles'] = 100;
+			    	$this->db->having('distance < ' .  $conds['miles'] );
+			    } else {
+			    	$this->db->having('distance < ' .  $conds['miles'] );
 
-		    }
-
-		   
+			    }
+			}
 		}
 
 		// where clause
