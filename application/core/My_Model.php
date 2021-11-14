@@ -361,7 +361,7 @@ class PS_Model extends CI_Model {
 			    }
 			}
 
-			$this->db->order_by('distance', "ASC");
+			$this->db->order_by('`', "ASC");
 		}
 
 		// where clause
@@ -401,12 +401,16 @@ class PS_Model extends CI_Model {
 		    ) as distance');
 
 		    if ($conds['miles'] == "") {
-		    	$conds['miles'] = 0;
-		    	$this->db->having('distance < ' .  $conds['miles'] );
+		    	// $conds['miles'] = 0;
+		    	// $this->db->having('distance < ' .  $conds['miles'] );
+		    	unset($conds['miles']);
 		    } else {
 		    	$this->db->having('distance < ' .  $conds['miles'] );
 
 		    }
+
+
+			$this->db->order_by('`', "ASC");
 
 		   
 		}
@@ -1462,8 +1466,9 @@ class PS_Model extends CI_Model {
 		    ) as distance');
 
 		    if ($conds['miles'] == "") {
-		    	$conds['miles'] = 0;
-		    	$this->db->having('distance < ' .  $conds['miles'] );
+		    	// $conds['miles'] = 0;
+		    	// $this->db->having('distance < ' .  $conds['miles'] );
+		    	unset($conds['miles']);
 		    } else {
 		    	$this->db->having('distance < ' .  $conds['miles'] );
 
@@ -1684,8 +1689,9 @@ class PS_Model extends CI_Model {
 		    ) as distance');
 
 		    if ($conds['miles'] == "") {
-		    	$conds['miles'] = 0;
-		    	$this->db->having('distance < ' .  $conds['miles'] );
+		    	// $conds['miles'] = 0;
+		    	// $this->db->having('distance < ' .  $conds['miles'] );
+		    	unset($conds['miles']);
 		    } else {
 		    	$this->db->having('distance < ' .  $conds['miles'] );
 
