@@ -61,7 +61,8 @@ class Itemtype extends PS_Model {
 			$this->db->order_by( 'bs_items_types.'.$order_by_field, $order_by_type );
 		} else {
 
-			$this->db->order_by( 'added_date' );
+			// $this->db->order_by( 'added_date' );
+			$this->db->order_by( 'ordering' );
 		}
 	}
 }
