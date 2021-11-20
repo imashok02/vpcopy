@@ -56,7 +56,6 @@
               		</div>
 
               	</div>
-              	
 
                 <div class="col-md-6"  style="padding-left: 50px;">
 	                <?php if ( !isset( $category )): ?>
@@ -68,6 +67,10 @@
 								<span class='glyphicon glyphicon-info-sign menu-icon'>
 							</a>
 						</label>
+
+                        <p class="mb-0 d-inline-block">
+                            (<?php echo get_msg('recommended_size_img')?>)
+                        </p>
 
 						<br/>
 
@@ -85,6 +88,12 @@
 					<div class="btn btn-sm btn-primary btn-upload pull-right" data-toggle="modal" data-target="#uploadImage">
 						<?php echo get_msg('btn_replace_photo')?>
 					</div>
+
+                    <br>
+
+                    <p class="mb-0">
+                        <?php echo get_msg('recommended_size_img')?>
+                    </p>
 					
 					<hr/>
 				
@@ -141,6 +150,10 @@
 							<?php echo get_msg('cat_icon')?> 
 						</label>
 
+                        <p class="mb-0 d-inline-block">
+                            (<?php echo get_msg('recommended_size_icon')?>)
+                        </p>
+
 						<br/>
 
 						<input class="btn btn-sm" type="file" name="icon" id="icon">
@@ -154,6 +167,12 @@
 					<div class="btn btn-sm btn-primary btn-upload pull-right" data-toggle="modal" data-target="#uploadIcon">
 						<?php echo get_msg('btn_replace_icon')?>
 					</div>
+
+                    <br>
+
+                    <p class="mb-0 d-inline-block">
+                        <?php echo get_msg('recommended_size_icon')?>
+                    </p>
 					
 					<hr/>
 					

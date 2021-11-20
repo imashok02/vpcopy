@@ -1,4 +1,4 @@
-<div class="modal fade"  id="uploadIcon">
+<div class="modal fade"  id="uploadvideo">
 
 	<div class="modal-dialog">
 
@@ -16,18 +16,18 @@
 
 			<?php
 				$attributes = array('id' => 'upload-form','enctype' => 'multipart/form-data');
-				echo form_open( $module_site_url ."/replace_cover_photo/". $img_type ."/". $img_parent_id, $attributes);
+				echo form_open( $module_site_url ."/replace_video_upload/". $img_type ."/". $img_parent_id, $attributes);
 			?>
 
 				<div class="modal-body">
 
 					<div class="form-group">
 
-						<label class="form-control-label"><?php echo get_msg('about_upload_icon')?></label>
+						<label class="form-control-label"><?php echo get_msg('upload_video')?></label>
 						
 						<br/>
 						
-						<input type="file" name="images1">
+						<input type="file" name="video" accept="video/*">
 
 					</div>
 
@@ -35,7 +35,7 @@
 
 				<div class="modal-footer">
 
-					<input type="submit" value="<?php echo get_msg('btn_upload') ?>" class="btn btn-sm btn-primary"/>
+					<input type="submit" value="Upload" class="btn btn-sm btn-primary"/>
 
 					<a href='#' class="btn btn-sm btn-primary" data-dismiss="modal"><?php echo get_msg('btn_cancel')?></a>
 

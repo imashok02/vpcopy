@@ -130,6 +130,10 @@ class Items extends API_Controller
 				$conds['status']   = 1;
 			}
 
+			if($this->post('is_sold_out') != "") {
+				$conds['is_sold_out']   = $this->post('is_sold_out');
+			}
+
 			$conds['item_search'] = 1;
 			$conds['order_by'] = 1;
 			$conds['order_by_field']    = $this->post('order_by');

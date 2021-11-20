@@ -36,6 +36,10 @@ class Categories extends API_Controller
 
 		if ( $this->is_search ) {
 
+			if($this->post('keyword') != "") {
+				$conds['keyword']   = $this->post('keyword');
+			}
+
 			$conds['order_by'] = 1;
 			$conds['order_by_field']    = $this->post('order_by');
 			$conds['order_by_type']     = $this->post('order_type');

@@ -7,6 +7,7 @@ require_once( APPPATH .'libraries/REST_Controller.php' );
 class Images extends API_Controller
 {
 
+
 	/**
 	 * Constructs Parent Constructor
 	 */
@@ -171,7 +172,7 @@ class Images extends API_Controller
 					   	//for deeplinking image url update by PP
 						$description = $this->Item->get_one($item_id)->description;
 						$title = $this->Item->get_one($item_id)->title;
-						$conds_img = array( 'img_type' => 'item', 'img_parent_id' => $item_id );
+						$conds_img = array( 'img_type' => 'item', 'img_parent_id' => $item_id, 'ordering' => '1' );
 				        $images = $this->Image->get_all_by( $conds_img )->result();
 						$img = $this->ps_image->upload_url . $images[0]->img_path;
 						$deep_link = deep_linking_shorten_url($description,$title,$img,$item_id);
@@ -251,7 +252,7 @@ class Images extends API_Controller
 			   		//for deeplinking image url update by PP
 					$description = $this->Item->get_one($item_id)->description;
 					$title = $this->Item->get_one($item_id)->title;
-					$conds_img = array( 'img_type' => 'item', 'img_parent_id' => $item_id );
+					$conds_img = array( 'img_type' => 'item', 'img_parent_id' => $item_id, 'ordering' => '1' );
 			        $images = $this->Image->get_all_by( $conds_img )->result();
 					$img = $this->ps_image->upload_url . $images[0]->img_path;
 					$deep_link = deep_linking_shorten_url($description,$title,$img,$item_id);
@@ -289,84 +290,133 @@ class Images extends API_Controller
         );
 
 		$chat_history_data = $this->Chat->get_one_by($chat_data);
+		$is_user_online = $this->post('is_user_online');
 		//////
 		if($chat_history_data->id == "") {
+
+
 			if ( $type == "to_buyer" ) {
 
-				//prepare data for noti
-		    	$user_ids[] = $this->post('buyer_user_id');
-		    	$devices = $this->Noti->get_all_device_in($user_ids)->result();
-
-		    	$device_ids = array();
-		    	if ( count( $devices ) > 0 ) {
-					foreach ( $devices as $device ) {
-						$device_ids[] = $device->device_token;
-					}
-				}
-
-				$user_id = $this->post('buyer_user_id');
-	       		$user_name = $this->User->get_one($user_id)->user_name;
-
-	       		$data['message'] = "Image!";
-		    	$data['buyer_user_id'] = $this->post('buyer_user_id');
-		    	$data['seller_user_id'] = $this->post('seller_user_id');
-		    	$data['sender_name'] = $user_name;
-		    	$data['item_id'] = $this->post('item_id');
+				
 
 		    	$buyer_unread_count = $chat_history_data->buyer_unread_count;
 
-		    	$chat_data = array(
+		    	if ($is_user_online == '1') {
+		    		//if user is online, no need to send noti and no need to add unread count
 
-		        	"item_id" => $this->post('item_id'), 
-		        	"buyer_user_id" => $this->post('buyer_user_id'), 
-		        	"seller_user_id" => $this->post('seller_user_id'),
-		        	"buyer_unread_count" => $buyer_unread_count + 1,
-		        	"added_date" => date("Y-m-d H:i:s"),
+		    		$chat_data = array(
 
-		        );
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"buyer_unread_count" => $buyer_unread_count,
+			        	"added_date" => date("Y-m-d H:i:s"),
+
+			        );
+		    	} else {
+		    		//if user is offline, send noti and add unread count
+
+		    		$chat_data = array(
+
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"buyer_unread_count" => $buyer_unread_count + 1,
+			        	"added_date" => date("Y-m-d H:i:s"),
+
+			        );
+
+			        //prepare data for noti
+			    	$user_ids[] = $this->post('buyer_user_id');
+			    	$devices = $this->Noti->get_all_device_in($user_ids)->result();
+
+			    	$device_ids = array();
+			    	if ( count( $devices ) > 0 ) {
+						foreach ( $devices as $device ) {
+							$device_ids[] = $device->device_token;
+						}
+					}
+
+					$user_id = $this->post('seller_user_id');
+		       		$user_name = $this->User->get_one($user_id)->user_name;
+
+		       		$data['message'] = "Image!";
+			    	$data['buyer_user_id'] = $this->post('buyer_user_id');
+			    	$data['seller_user_id'] = $this->post('seller_user_id');
+			    	$data['sender_name'] = $user_name;
+			    	$data['item_id'] = $this->post('item_id');
+
+	    			$status = send_android_fcm_chat( $device_ids, $data );
+
+		    	}
+
+		    	
 
 			} elseif ( $type == "to_seller" ) {
-				//prepare data for noti
-		    	$user_ids[] = $this->post('seller_user_id');
-
-
-	        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
-	        	//print_r($devices);die;	
-
-				$device_ids = array();
-				if ( count( $devices ) > 0 ) {
-					foreach ( $devices as $device ) {
-						$device_ids[] = $device->device_token;
-					}
-				}
-
-
-				$user_id = $this->post('seller_user_id');
-	       		$user_name = $this->User->get_one($user_id)->user_name;
-
-		    	$data['message'] = "Image!";
-		    	$data['buyer_user_id'] = $this->post('buyer_user_id');
-		    	$data['seller_user_id'] = $this->post('seller_user_id');
-		    	$data['sender_name'] = $user_name;
-		    	$data['item_id'] = $this->post('item_id');	
+				
 
 		    	$seller_unread_count = $chat_history_data->seller_unread_count;
 
-		    	$chat_data = array(
+		    	if ($is_user_online == '1') {
+		    		//if user is online, no need to send noti and no need to add unread count
 
-		        	"item_id" => $this->post('item_id'), 
-		        	"buyer_user_id" => $this->post('buyer_user_id'), 
-		        	"seller_user_id" => $this->post('seller_user_id'),
-		        	"seller_unread_count" => $seller_unread_count + 1,
-		        	"added_date" => date("Y-m-d H:i:s"),
+		    		$chat_data = array(
 
-		        );
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"seller_unread_count" => $seller_unread_count,
+			        	"added_date" => date("Y-m-d H:i:s"),
+
+			        );
+
+		    	} else {
+		    		//if user is offline, send noti and add unread count
+
+		    		$chat_data = array(
+
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"seller_unread_count" => $seller_unread_count + 1,
+			        	"added_date" => date("Y-m-d H:i:s"),
+
+		        	);
+
+		        	//prepare data for noti
+			    	$user_ids[] = $this->post('seller_user_id');
+
+
+		        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
+		        	//print_r($devices);die;	
+
+					$device_ids = array();
+					if ( count( $devices ) > 0 ) {
+						foreach ( $devices as $device ) {
+							$device_ids[] = $device->device_token;
+						}
+					}
+
+
+					$user_id = $this->post('buyer_user_id');
+		       		$user_name = $this->User->get_one($user_id)->user_name;
+
+			    	$data['message'] = "Image!";
+			    	$data['buyer_user_id'] = $this->post('buyer_user_id');
+			    	$data['seller_user_id'] = $this->post('seller_user_id');
+			    	$data['sender_name'] = $user_name;
+			    	$data['item_id'] = $this->post('item_id');	
+
+	    			$status = send_android_fcm_chat( $device_ids, $data );
+
+
+		    	}
+
+		    	
 
 			}
 
-			//sending noti
-	    	$status = send_android_fcm_chat( $device_ids, $data );
-
+			$this->Chat->Save( $chat_data );
 	    	if ( !$sender_id ) {
 				$this->custom_response( get_msg('sender_id_required') ) ;
 			}
@@ -429,78 +479,128 @@ class Images extends API_Controller
 		} else {
 
 			if ( $type == "to_buyer" ) {
-				//prepare data for noti
-		    	$user_ids[] = $this->post('buyer_user_id');
-
-
-	        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
-	        	//print_r($devices);die;	
-
-				$device_ids = array();
-				if ( count( $devices ) > 0 ) {
-					foreach ( $devices as $device ) {
-						$device_ids[] = $device->device_token;
-					}
-				}
-
-
-				$user_id = $this->post('buyer_user_id');
-	       		$user_name = $this->User->get_one($user_id)->user_name;
-
-		    	$data['message'] = "Image!";
-		    	$data['buyer_user_id'] = $this->post('buyer_user_id');
-		    	$data['seller_user_id'] = $this->post('seller_user_id');
-		    	$data['sender_name'] = $user_name;
-		    	$data['item_id'] = $this->post('item_id');
+				
 
 		    	$buyer_unread_count = $chat_history_data->buyer_unread_count;
 
-		    	$chat_data = array(
+		    	if ($is_user_online == '1') {
 
-		        	"item_id" => $this->post('item_id'), 
-		        	"buyer_user_id" => $this->post('buyer_user_id'), 
-		        	"seller_user_id" => $this->post('seller_user_id'),
-		        	"buyer_unread_count" => $buyer_unread_count + 1,
-		        	"added_date" => date("Y-m-d H:i:s"),
+		    		//if user is online, no need to send noti and no need to add unread count
 
-		        );
+		    		$chat_data = array(
+
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"buyer_unread_count" => $buyer_unread_count,
+			        	"added_date" => date("Y-m-d H:i:s"),
+
+			        );
+
+		    	} else {
+		    		//if user is offline, send noti and add unread count
+
+			    	$chat_data = array(
+
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"buyer_unread_count" => $buyer_unread_count + 1,
+			        	"added_date" => date("Y-m-d H:i:s"),
+
+		        	);
+
+		        	//prepare data for noti
+			    	$user_ids[] = $this->post('buyer_user_id');
+
+
+		        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
+		        	//print_r($devices);die;	
+
+					$device_ids = array();
+					if ( count( $devices ) > 0 ) {
+						foreach ( $devices as $device ) {
+							$device_ids[] = $device->device_token;
+						}
+					}
+
+
+					$user_id = $this->post('seller_user_id');
+		       		$user_name = $this->User->get_one($user_id)->user_name;
+
+			    	$data['message'] = "Image!";
+			    	$data['buyer_user_id'] = $this->post('buyer_user_id');
+			    	$data['seller_user_id'] = $this->post('seller_user_id');
+			    	$data['sender_name'] = $user_name;
+			    	$data['item_id'] = $this->post('item_id');
+
+	    			$status = send_android_fcm_chat( $device_ids, $data );
+
+
+		    	}
+
+		    	
 
 			} elseif ( $type == "to_seller" ) {
-				//prepare data for noti
-		    	$user_ids[] = $this->post('seller_user_id');
-
-
-	        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
-	        	//print_r($devices);die;	
-
-				$device_ids = array();
-				if ( count( $devices ) > 0 ) {
-					foreach ( $devices as $device ) {
-						$device_ids[] = $device->device_token;
-					}
-				}
-
-
-				$user_id = $this->post('seller_user_id');
-	       		$user_name = $this->User->get_one($user_id)->user_name;
-
-		    	$data['message'] = "Image!";
-		    	$data['buyer_user_id'] = $this->post('buyer_user_id');
-		    	$data['seller_user_id'] = $this->post('seller_user_id');
-		    	$data['sender_name'] = $user_name;
-		    	$data['item_id'] = $this->post('item_id');	
+					
 
 		    	$seller_unread_count = $chat_history_data->seller_unread_count;
 
-		    	$chat_data = array(
+		    	if ($is_user_online == '1') {
+		    		//if user is online, no need to send noti and add unread count
 
-		        	"item_id" => $this->post('item_id'), 
-		        	"buyer_user_id" => $this->post('buyer_user_id'), 
-		        	"seller_user_id" => $this->post('seller_user_id'),
-		        	"seller_unread_count" => $seller_unread_count + 1,
-		        	"added_date" => date("Y-m-d H:i:s"),
+		    		$chat_data = array(
 
-		        );
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"seller_unread_count" => $seller_unread_count,
+			        	"added_date" => date("Y-m-d H:i:s"),
+
+			        );
+
+		    	} else {
+		    		//if user is offline, send noti and add unread count
+
+		    		$chat_data = array(
+
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"seller_unread_count" => $seller_unread_count + 1,
+			        	"added_date" => date("Y-m-d H:i:s"),
+
+		        	);
+
+		        	//prepare data for noti
+			    	$user_ids[] = $this->post('seller_user_id');
+
+
+		        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
+		        	//print_r($devices);die;	
+
+					$device_ids = array();
+					if ( count( $devices ) > 0 ) {
+						foreach ( $devices as $device ) {
+							$device_ids[] = $device->device_token;
+						}
+					}
+
+
+					$user_id = $this->post('buyer_user_id');
+		       		$user_name = $this->User->get_one($user_id)->user_name;
+
+			    	$data['message'] = "Image!";
+			    	$data['buyer_user_id'] = $this->post('buyer_user_id');
+			    	$data['seller_user_id'] = $this->post('seller_user_id');
+			    	$data['sender_name'] = $user_name;
+			    	$data['item_id'] = $this->post('item_id');
+
+	    			$status = send_android_fcm_chat( $device_ids, $data );
+
+		    	}
+
+		    	
 
 			}
 
@@ -511,8 +611,6 @@ class Images extends API_Controller
 	    	
 	    	} else {
 
-	    		//sending noti
-	    		$status = send_android_fcm_chat( $device_ids, $data );
 
 	    		if ( !$sender_id ) {
 					$this->custom_response( get_msg('sender_id_required') ) ;
@@ -797,7 +895,7 @@ class Images extends API_Controller
 // 	}
 
 
-// 	/** Get Item Gallery Image */
+ 	/** Get Item Gallery Image */
 
 	function get_item_gallery_get()
 	{
@@ -837,5 +935,292 @@ class Images extends API_Controller
 		}
 
 		$this->custom_response( $data , $offset );
+	}
+
+	/** Upload Video */
+
+	function video_upload_post()
+	{
+		$item_id = $this->post('item_id');
+		$uploaddir = 'uploads/';
+		
+		$path_parts = pathinfo( $_FILES['file']['name'] );
+
+		//for space video file name
+		$result_filename = preg_replace("/[^a-zA-Z0-9]+/", "", $path_parts['filename']);
+		$res = $result_filename .'.'. $path_parts['extension'];
+
+		$video = $res;
+
+		if(isset($video)) {
+			$img_id = $this->post('img_id');
+
+            $_FILES['file']['name'] = $res;
+
+
+			if (trim($img_id) == "") {
+
+				if (move_uploaded_file($_FILES['file']['tmp_name'], $uploaddir . $video)) {
+					$video_data = array( 
+					   	'img_parent_id'=> $item_id,
+						'img_path' => $video,
+						'img_type' => "video",
+						'img_width'=> 0,
+						'img_height'=> 0
+				   	);
+				   	if ( !$this->Image->save( $video_data ) ) {
+				   		$this->error_response( get_msg('file_na') );
+				   	}
+					
+				   	$video = $this->Image->get_one( $video_data['img_id'] );
+				   	$this->custom_response( $video );
+
+				}
+			} else {
+
+
+				if (move_uploaded_file($_FILES['file']['tmp_name'], $uploaddir . $video)) {
+					$video_data = array( 
+                        'img_id' => $img_id,
+					   	'img_parent_id'=> $item_id,
+						'img_path' => $video,
+						'img_type' => "video",
+						'img_width'=> 0,
+						'img_height'=> 0
+				   	);
+				   	if ( !$this->Image->save( $video_data,$img_id ) ) {
+				   		$this->error_response( get_msg('file_na') );
+				   	}
+					
+				   	$video = $this->Image->get_one( $video_data['img_id'] );
+
+				   	$this->custom_response( $video );
+
+				}
+
+			}
+		} else {
+			$this->error_response( get_msg('file_na') );
+		}
+	}
+
+	/**
+	 * Delete Video by id and type
+	 *
+	 * @param      <type>  $conds  The conds
+	 */
+	function delete_videos_by( $conds )
+	{
+		/**
+		 * Delete Video from folder
+		 *
+		 */
+	
+		$videos = $this->Image->get_all_by( $conds );
+	
+		if ( !empty( $videos )) {
+
+			foreach ( $videos->result() as $vid ) {
+				
+				if ( ! $this->ps_image->delete_images( $vid->img_path ) ) {
+				// if there is an error in deleting images
+
+					$this->set_flash_msg( 'error', get_msg( 'err_del_image' ));
+					return false;
+				}
+			}
+		}
+
+		/**
+		 * Delete images from database table
+		 */
+		if ( ! $this->Image->delete_by( $conds )) {
+
+			$this->set_flash_msg( 'error', get_msg( 'err_model' ));
+			return false;
+		}
+
+		return true;
+	}
+
+	/** delete item video */
+
+	function delete_video_and_icon_post(){
+
+		$rules = array(
+			array(
+	        	'field' => 'img_id',
+	        	'rules' => 'required'
+	        )
+	    );    
+
+	    // exit if there is an error in validation,
+        if ( !$this->is_valid( $rules )) exit;
+
+        $img_id = $this->post('img_id');
+        $img_data = $this->Image->get_one($img_id);
+        //print_r($img_data->is_empty_object);die;
+
+        $img_type = $this->Image->get_one($img_id)->img_type;
+
+        if ($img_type == "video") {
+        	$success_delete = get_msg( 'success_video_delete' );
+        } else {
+        	$success_delete = get_msg( 'success_video_icon_delete' );
+        }
+
+        if ($img_data->is_empty_object != 1) {
+        	if ( !$this->ps_delete->delete_images_by( array( 'img_id' => $img_id ))) {
+
+        	$this->error_response( get_msg( 'err_model' ));
+
+        	
+	        }else{
+
+	        	$this->success_response( $success_delete );
+
+	        }
+        } else {
+        	$this->error_response( get_msg( 'invalid_img_id' ));
+        }
+
+        
+
+	}
+
+	/** upload video icon */
+
+	function upload_video_icon_post()
+	{
+
+
+		$item_id = $this->post('item_id');
+		$files = $this->post('file');
+		$img_id = $this->post('img_id');
+
+			if (trim($img_id) == "") {
+
+				$path_parts = pathinfo( $_FILES['file']['name'] );
+
+				if(strtolower($path_parts['extension']) != "jpeg" && strtolower($path_parts['extension']) != "png" && strtolower($path_parts['extension']) != "jpg") {
+
+
+					$uploaddir = 'uploads/';
+
+					$path_parts = pathinfo( $_FILES['file']['name'] );
+					
+					$filename = $path_parts['filename'] . date( 'YmdHis' ) .'.'. $path_parts['extension'];
+
+
+
+					// upload image to "uploads" folder
+					if (move_uploaded_file($_FILES['file']['tmp_name'], $uploaddir . $filename)) {
+
+						//move uploaded image to thumbnail folder
+					    $item_img_data = array( 
+						   	'img_parent_id'=> $item_id,
+							'img_path' => $filename,
+							'img_type' => "video-icon",
+							'img_width'=> 0,
+							'img_height'=> 0,
+							'ordering' => $this->post('ordering')
+					   	);
+
+					}
+
+				} else {
+					//if image is JPG or PNG (Not heic format)	
+					$upload_data = $this->ps_image->upload( $_FILES );
+
+
+					foreach ( $upload_data as $upload ) {
+					   	$item_img_data = array( 
+						   	'img_parent_id'=> $item_id,
+							'img_path' => $upload['file_name'],
+							'img_type' => "video-icon",
+							'img_width'=> $upload['image_width'],
+							'img_height'=> $upload['image_height'],
+							'ordering' => $this->post('ordering')
+					   	);
+					}
+
+
+				}
+
+
+			    if ( $this->Image->save( $item_img_data) ) {
+
+				   	$image = $this->Image->get_one( $item_img_data['img_id'] );
+
+				   	$this->ps_adapter->convert_image( $image );
+				   	
+				   	$this->custom_response( $image );
+			    } else {
+				   	$this->error_response( get_msg('file_na') );
+			    }
+				
+				   
+			} else {
+				
+				$path_parts = pathinfo( $_FILES['file']['name'] );
+				
+				if($path_parts['extension'] == "heic" or $path_parts['extension'] == "HEIC") {
+					
+					$uploaddir = 'uploads/';
+
+					$path_parts = pathinfo( $_FILES['file']['name'] );
+					
+					$filename = $path_parts['filename'] . date( 'YmdHis' ) .'.'. $path_parts['extension'];
+
+
+
+					// upload image to "uploads" folder
+					if (move_uploaded_file($_FILES['file']['tmp_name'], $uploaddir . $filename)) {
+
+					    //copy success file
+					    $item_img_data = array( 
+						   	'img_parent_id'=> $item_id,
+							'img_path' => $filename,
+							'img_type' => "video-icon",
+							'img_width'=> 0,
+							'img_height'=> 0,
+							'ordering' => $this->post('ordering')
+					   	);
+
+					}
+
+				} else {
+
+					// upload images
+					$upload_data = $this->ps_image->upload( $_FILES );
+
+					foreach ( $upload_data as $upload ) {
+					   	$item_img_data = array( 
+					   		'img_id' => $img_id,
+						   	'img_parent_id'=> $item_id,
+							'img_path' => $upload['file_name'],
+							'img_width'=> $upload['image_width'],
+							'img_height'=> $upload['image_height'],
+							'ordering' => $this->post('ordering')
+					   	);
+					}
+
+				}
+
+
+
+			   	if ( $this->Image->save( $item_img_data, $img_id ) ) {
+			   		
+				   	$image = $this->Image->get_one( $item_img_data['img_id'] );
+
+				   	$this->ps_adapter->convert_image( $image );
+				   	
+				   	$this->custom_response( $image );
+			   	} else {
+				   	$this->error_response( get_msg('file_na') );
+			   	}
+			
+			}
+
 	}
 }

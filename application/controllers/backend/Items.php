@@ -222,9 +222,9 @@ class Items extends BE_Controller {
 			}
 
 			// Main Category id
-		   	if ( $this->has_data( 'main_cat_id' )) {
-				$data['main_cat_id'] = $this->get_data( 'main_cat_id' );
-			}
+            if ( $this->has_data( 'main_cat_id' )) {
+            	$data['main_cat_id'] = $this->get_data( 'main_cat_id' );
+            }
 
 		   	// Category id
 		   	if ( $this->has_data( 'cat_id' )) {
@@ -247,10 +247,9 @@ class Items extends BE_Controller {
 			}
 
 			// Price qty id
-		   	if ( $this->has_data( 'item_price_qty_id' )) {
-				$data['item_price_qty_id'] = $this->get_data( 'item_price_qty_id' );
-			}
-
+	        if ( $this->has_data( 'item_price_qty_id' )) {
+	            $data['item_price_qty_id'] = $this->get_data( 'item_price_qty_id' );
+	        }
 
 			// Currency id
 		   	if ( $this->has_data( 'item_currency_id' )) {
@@ -371,9 +370,30 @@ class Items extends BE_Controller {
 			if ( !$id ) {
 			// if id is false, this is adding new record
 
-				if ( ! $this->insert_images( $_FILES, 'item', $data['id'] )) {
-				// if error in saving image
 
+				if ( ! $this->insert_video_and_img( $_FILES, 'item', $data['id'], "cover" )) {
+					// if error in saving image
+					// commit the transaction
+					$this->db->trans_rollback();
+					
+					return;
+
+				}
+
+				if ( ! $this->insert_video_and_img( $_FILES, 'video', $data['id'],"video")) {
+				// if error in saving image
+					// commit the transaction
+					$this->db->trans_rollback();
+					
+					return;
+				}
+
+				if ( ! $this->insert_video_and_img( $_FILES, 'video-icon', $data['id'],"video-icon")) {
+				// if error in saving image
+					// commit the transaction
+					$this->db->trans_rollback();
+					
+					return;
 				}
 
 				
@@ -432,14 +452,15 @@ class Items extends BE_Controller {
 
 	//get all categories when select main category
 	function get_all_main_categories( $main_cat_id )
-    {
+   {
 
-    	$this->db->select('*');
-	    $this->db->from('bs_categories');
-	    $this->db->where('bs_categories.main_cat_id', $main_cat_id);
-	    $query = $this->db->get();       
-		echo json_encode($query->result());
-    }
+      $this->db->select('*');
+      $this->db->from('bs_categories');
+      $this->db->where('bs_categories.main_cat_id', $main_cat_id);
+      $query = $this->db->get();
+      echo json_encode($query->result());
+   }
+
 
 	//get all subcategories when select category
 

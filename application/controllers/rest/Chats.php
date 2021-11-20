@@ -15,6 +15,7 @@ class Chats extends API_Controller
 		parent::__construct( 'Chat' );
 
 	}
+	
 
 	/**
 	 * Add Chat History
@@ -34,6 +35,10 @@ class Chats extends API_Controller
 	        array(
 	        	'field' => 'seller_user_id',
 	        	'rules' => 'required'
+	        ),
+	        array(
+	        	'field' => 'is_user_online',
+	        	'rules' => 'required'
 	        )
 
         );
@@ -41,6 +46,7 @@ class Chats extends API_Controller
         $item_id = $this->post('item_id');
         $seller_user_id = $this->post('seller_user_id');
         $buyer_user_id = $this->post('buyer_user_id');
+        $is_user_online = $this->post('is_user_online');
 
         $status = $this->Item->get_one($item_id)->status;
         $chk_seller_info = $this->User->get_one($seller_user_id);
@@ -77,8 +83,23 @@ class Chats extends API_Controller
         	if ( $type == "to_buyer" ) {
 
 		    	$buyer_unread_count = $chat_history_data->buyer_unread_count;
-		    	
-		    	$chat_data = array(
+
+		    	if ($is_user_online == '1') {
+		    		//if user is online, no need to send noti and no need to add unread count
+
+		    		$chat_data = array(
+
+		        	"item_id" => $this->post('item_id'), 
+		        	"buyer_user_id" => $this->post('buyer_user_id'), 
+		        	"seller_user_id" => $this->post('seller_user_id'),
+		        	"buyer_unread_count" => $buyer_unread_count,
+		        	"added_date" => date("Y-m-d H:i:s"),
+		        	"offer_status" => 1
+
+		        	);
+		    	} else {
+		    		//if user is offline, send noti and add unread count
+		    		$chat_data = array(
 
 		        	"item_id" => $this->post('item_id'), 
 		        	"buyer_user_id" => $this->post('buyer_user_id'), 
@@ -87,24 +108,96 @@ class Chats extends API_Controller
 		        	"added_date" => date("Y-m-d H:i:s"),
 		        	"offer_status" => 1
 
-		        );
+		        	);
 
-		    	} elseif ( $type == "to_seller" ) {
+		        	$user_ids[] = $buyer_user_id;
 
-		    	$seller_unread_count = $chat_history_data->seller_unread_count;
-		    	
-		    	$chat_data = array(
+			        $devices = $this->Noti->get_all_device_in($user_ids)->result();
 
-		        	"item_id" => $this->post('item_id'), 
-		        	"buyer_user_id" => $this->post('buyer_user_id'), 
-		        	"seller_user_id" => $this->post('seller_user_id'),
-		        	"seller_unread_count" => $seller_unread_count + 1,
-		        	"added_date" => date("Y-m-d H:i:s"),
-		        	"offer_status" => 1
+					$device_ids = array();
+					if ( count( $devices ) > 0 ) {
+						foreach ( $devices as $device ) {
+							$device_ids[] = $device->device_token;
+						}
+					}
 
-		        );
+					$user_id = $seller_user_id;
+	        		$user_name = $this->User->get_one($user_id)->user_name;
+	        		$user_profile_photo = $this->User->get_one($user_id)->user_profile_photo;
+
+					$data['message'] = $this->post('message');
+			    	$data['buyer_user_id'] = $buyer_user_id;
+			    	$data['seller_user_id'] = $seller_user_id;
+			    	$data['sender_name'] = $user_name;
+			    	$data['item_id'] = $item_id;
+			    	$data['sender_profle_photo'] = $user_profile_photo;
+
+					$status = send_android_fcm_chat( $device_ids, $data );
 
 		    	}
+		    	
+		    	
+
+		    } elseif ( $type == "to_seller" ) {
+
+		    	$seller_unread_count = $chat_history_data->seller_unread_count;
+
+		    	if ($is_user_online == '1') {
+		    		//if user is online, no need to send noti and no need to add unread count
+
+		    		$chat_data = array(
+
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"seller_unread_count" => $seller_unread_count,
+			        	"added_date" => date("Y-m-d H:i:s"),
+			        	"offer_status" => 1
+
+		        	);
+		    	} else {
+		    		//if user is offline, send noti and add unread count
+		    		$chat_data = array(
+
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"seller_unread_count" => $seller_unread_count + 1,
+			        	"added_date" => date("Y-m-d H:i:s"),
+			        	"offer_status" => 1
+
+		        	);
+
+		        	$user_ids[] = $seller_user_id;
+
+			        $devices = $this->Noti->get_all_device_in($user_ids)->result();
+
+					$device_ids = array();
+					if ( count( $devices ) > 0 ) {
+						foreach ( $devices as $device ) {
+							$device_ids[] = $device->device_token;
+						}
+					}
+
+					$user_id = $buyer_user_id;
+	        		$user_name = $this->User->get_one($user_id)->user_name;
+	        		$user_profile_photo = $this->User->get_one($user_id)->user_profile_photo;
+
+					$data['message'] = $this->post('message');
+			    	$data['buyer_user_id'] = $buyer_user_id;
+			    	$data['seller_user_id'] = $seller_user_id;
+			    	$data['sender_name'] = $user_name;
+			    	$data['item_id'] = $item_id;
+			    	$data['sender_profle_photo'] = $user_profile_photo;
+
+					$status = send_android_fcm_chat( $device_ids, $data );
+
+
+		    	}
+		    	
+		    	
+
+		    }
 
 	        if ( !$this->Chat->save($chat_data)) {
 	        	
@@ -125,36 +218,126 @@ class Chats extends API_Controller
 		    	$buyer_unread_count = $chat_history_data->buyer_unread_count;
 		    	$is_accept = $chat_history_data->is_accept;
 		    	$offer_status = $chat_history_data->offer_status;
-		    	
-		    	$chat_data = array(
 
-		        	"item_id" => $this->post('item_id'), 
-		        	"buyer_user_id" => $this->post('buyer_user_id'), 
-		        	"seller_user_id" => $this->post('seller_user_id'),
-		        	"buyer_unread_count" => $buyer_unread_count + 1,
-		        	"added_date" => date("Y-m-d H:i:s"),
-		        	"offer_status" => $offer_status,
-		        	"is_accept" => $is_accept
+		    	if ($is_user_online == '1') {
+		    		//if user is online, no need to send noti and no need to add unread count
 
-		        );
+		    		$chat_data = array(
 
-		    	} elseif ( $type == "to_seller" ) {
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"buyer_unread_count" => $buyer_unread_count,
+			        	"added_date" => date("Y-m-d H:i:s"),
+			        	"offer_status" => $offer_status,
+			        	"is_accept" => $is_accept
 
-		    	$seller_unread_count = $chat_history_data->seller_unread_count;
-		    	
-		    	$chat_data = array(
+		        	);
+		    	} else {
+		    		//if user is offline, send noti and add unread count
 
-		        	"item_id" => $this->post('item_id'), 
-		        	"buyer_user_id" => $this->post('buyer_user_id'), 
-		        	"seller_user_id" => $this->post('seller_user_id'),
-		        	"seller_unread_count" => $seller_unread_count + 1,
-		        	"added_date" => date("Y-m-d H:i:s"),
-		        	"offer_status" => $offer_status,
-		        	"is_accept" => $is_accept
+		    		$chat_data = array(
 
-		        );
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"buyer_unread_count" => $buyer_unread_count + 1,
+			        	"added_date" => date("Y-m-d H:i:s"),
+			        	"offer_status" => $offer_status,
+			        	"is_accept" => $is_accept
+
+			        );
+
+			        $user_ids[] = $buyer_user_id;
+
+			        $devices = $this->Noti->get_all_device_in($user_ids)->result();
+
+					$device_ids = array();
+					if ( count( $devices ) > 0 ) {
+						foreach ( $devices as $device ) {
+							$device_ids[] = $device->device_token;
+						}
+					}
+
+					$user_id = $seller_user_id;
+	        		$user_name = $this->User->get_one($user_id)->user_name;
+	        		$user_profile_photo = $this->User->get_one($user_id)->user_profile_photo;
+
+					$data['message'] = $this->post('message');
+			    	$data['buyer_user_id'] = $buyer_user_id;
+			    	$data['seller_user_id'] = $seller_user_id;
+			    	$data['sender_name'] = $user_name;
+			    	$data['item_id'] = $item_id;
+			    	$data['sender_profle_photo'] = $user_profile_photo;
+
+					$status = send_android_fcm_chat( $device_ids, $data );
+
 
 		    	}
+		    	
+		    	
+
+		    } elseif ( $type == "to_seller" ) {
+
+		    	$seller_unread_count = $chat_history_data->seller_unread_count;
+
+		    	if ($is_user_online == '1') {
+		    		//if user is online, no need to send noti and no need to add unread count
+		    		$chat_data = array(
+
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"seller_unread_count" => $seller_unread_count,
+			        	"added_date" => date("Y-m-d H:i:s"),
+			        	"offer_status" => $offer_status,
+			        	"is_accept" => $is_accept
+
+			        );
+
+		    	} else {
+		    		//if user is offline, need to send noti and add unread count
+		    		$chat_data = array(
+
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"seller_unread_count" => $seller_unread_count + 1,
+			        	"added_date" => date("Y-m-d H:i:s"),
+			        	"offer_status" => $offer_status,
+			        	"is_accept" => $is_accept
+
+			        );
+
+			        $user_ids[] = $seller_user_id;
+
+			        $devices = $this->Noti->get_all_device_in($user_ids)->result();
+
+					$device_ids = array();
+					if ( count( $devices ) > 0 ) {
+						foreach ( $devices as $device ) {
+							$device_ids[] = $device->device_token;
+						}
+					}
+
+					$user_id = $buyer_user_id;
+	        		$user_name = $this->User->get_one($user_id)->user_name;
+	        		$user_profile_photo = $this->User->get_one($user_id)->user_profile_photo;
+
+					$data['message'] = $this->post('message');
+			    	$data['buyer_user_id'] = $buyer_user_id;
+			    	$data['seller_user_id'] = $seller_user_id;
+			    	$data['sender_name'] = $user_name;
+			    	$data['item_id'] = $item_id;
+			    	$data['sender_profle_photo'] = $user_profile_photo;
+
+					$status = send_android_fcm_chat( $device_ids, $data );
+
+
+		    	}
+		    	
+		    	
+		    }
 	    	
 
 	    	if ( $this->Chat->save($chat_data,$chat_history_data->id)) {
@@ -193,6 +376,10 @@ class Chats extends API_Controller
 	        array(
 	        	'field' => 'nego_price',
 	        	'rules' => 'required'
+	        ),
+	        array(
+	        	'field' => 'is_user_online',
+	        	'rules' => 'required'
 	        )
         );
 
@@ -200,6 +387,7 @@ class Chats extends API_Controller
         if ( !$this->is_valid( $rules )) exit;
 
         $type = $this->post('type');
+        $is_user_online = $this->post('is_user_online');
 
         $chat_data = array(
 
@@ -216,25 +404,7 @@ class Chats extends API_Controller
 
         	if ( $type == "to_buyer" ) {
 
-        		//prepare data for noti
-		    	$user_ids[] = $this->post('buyer_user_id');
-
-
-	        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
-	        	//print_r($devices);die;	
-
-				$device_ids = array();
-				if ( count( $devices ) > 0 ) {
-					foreach ( $devices as $device ) {
-						$device_ids[] = $device->device_token;
-					}
-				}
-
-
-				$user_id = $this->post('buyer_user_id');
-	       		$user_name = $this->User->get_one($user_id)->user_name;
-
-		    	$price = $this->post('nego_price');
+        		$price = $this->post('nego_price');
 	       		if ( $price == 0) {
 		    		$data['message'] = "Offer Rejected!";
 		    		$offer_status = 4;
@@ -242,51 +412,74 @@ class Chats extends API_Controller
 		    		$data['message'] = "Make Offer!";
 		    		$offer_status = 2;
 		    	}
-		    	$data['buyer_user_id'] = $this->post('buyer_user_id');
-		    	$data['seller_user_id'] = $this->post('seller_user_id');
-		    	$data['sender_name'] = $user_name;
-		    	$data['item_id'] = $this->post('item_id');
 
-        		
 		    	$buyer_unread_count = $chat_history_data->buyer_unread_count;
+
+		    	if ($is_user_online == '1') {
+		    		//if user is online, no need to send noti and no need to add unread count
+
+		    		$chat_data = array(
+
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"buyer_unread_count" => $buyer_unread_count,
+			        	"added_date" => date("Y-m-d H:i:s"),
+			        	"nego_price" => $this->post('nego_price'),
+			        	"offer_status" => $offer_status,
+			        	"is_accept" => 0
+
+			        );
+
+
+		    	} else {
+		    		//if user is offline, send noti and add unread count
+
+		    		$chat_data = array(
+
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"buyer_unread_count" => $buyer_unread_count + 1,
+			        	"added_date" => date("Y-m-d H:i:s"),
+			        	"nego_price" => $this->post('nego_price'),
+			        	"offer_status" => $offer_status,
+			        	"is_accept" => 0
+
+			        );
+
+		    		$user_ids[] = $this->post('buyer_user_id');
+
+
+		        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
+		        	//print_r($devices);die;	
+
+					$device_ids = array();
+					if ( count( $devices ) > 0 ) {
+						foreach ( $devices as $device ) {
+							$device_ids[] = $device->device_token;
+						}
+					}
+
+
+					$user_id = $this->post('seller_user_id');
+		       		$user_name = $this->User->get_one($user_id)->user_name;
+
+			    	$data['buyer_user_id'] = $this->post('buyer_user_id');
+			    	$data['seller_user_id'] = $this->post('seller_user_id');
+			    	$data['sender_name'] = $user_name;
+			    	$data['item_id'] = $this->post('item_id');
+
+	    			$status = send_android_fcm_chat( $device_ids, $data );
+
+		    	}
 		    	
-		    	$chat_data = array(
-
-		        	"item_id" => $this->post('item_id'), 
-		        	"buyer_user_id" => $this->post('buyer_user_id'), 
-		        	"seller_user_id" => $this->post('seller_user_id'),
-		        	"buyer_unread_count" => $buyer_unread_count + 1,
-		        	"added_date" => date("Y-m-d H:i:s"),
-		        	"nego_price" => $this->post('nego_price'),
-		        	"offer_status" => $offer_status,
-		        	"is_accept" => 0
-
-		        );
-
-
-		       
+		    	
 
 	    	} elseif ( $type == "to_seller" ) {
+			    $seller_unread_count = $chat_history_data->seller_unread_count;
 
-	    		//prepare data for noti
-		    	$user_ids[] = $this->post('seller_user_id');
-
-
-	        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
-	        	//print_r($devices);die;	
-
-				$device_ids = array();
-				if ( count( $devices ) > 0 ) {
-					foreach ( $devices as $device ) {
-						$device_ids[] = $device->device_token;
-					}
-				}
-
-
-				$user_id = $this->post('seller_user_id');
-	       		$user_name = $this->User->get_one($user_id)->user_name;
-
-		    	$price = $this->post('nego_price');
+			    $price = $this->post('nego_price');
 	       		if ( $price == 0) {
 		    		$data['message'] = "Offer Rejected!";
 		    		$offer_status = 4;
@@ -294,30 +487,69 @@ class Chats extends API_Controller
 		    		$data['message'] = "Make Offer!";
 		    		$offer_status = 2;
 		    	}
-		    	$data['buyer_user_id'] = $this->post('buyer_user_id');
-		    	$data['seller_user_id'] = $this->post('seller_user_id');
-		    	$data['sender_name'] = $user_name;
-		    	$data['item_id'] = $this->post('item_id');
 
-		    	$seller_unread_count = $chat_history_data->seller_unread_count;
-		    	
-		    	$chat_data = array(
+		    	if ($is_user_online == '1') {
+		    		//if user is online, no need to send noti and no need to add unread count
+		    		$chat_data = array(
 
-		        	"item_id" => $this->post('item_id'), 
-		        	"buyer_user_id" => $this->post('buyer_user_id'), 
-		        	"seller_user_id" => $this->post('seller_user_id'),
-		        	"seller_unread_count" => $seller_unread_count + 1,
-		        	"added_date" => date("Y-m-d H:i:s"),
-		        	"nego_price" => $this->post('nego_price'),
-		        	"offer_status" => $offer_status,
-		        	"is_accept" => 0
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"seller_unread_count" => $seller_unread_count,
+			        	"added_date" => date("Y-m-d H:i:s"),
+			        	"nego_price" => $this->post('nego_price'),
+			        	"offer_status" => $offer_status,
+			        	"is_accept" => 0
 
-		        );
+			        );
+		    	} else {
+		    		//if user is offline, send noti and add unread count
+
+		    		
+
+		    		$chat_data = array(
+
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"seller_unread_count" => $seller_unread_count + 1,
+			        	"added_date" => date("Y-m-d H:i:s"),
+			        	"nego_price" => $this->post('nego_price'),
+			        	"offer_status" => $offer_status,
+			        	"is_accept" => 0
+
+		        	);
+
+		        	$user_ids[] = $this->post('seller_user_id');
+
+
+		        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
+		        	//print_r($devices);die;	
+
+					$device_ids = array();
+					if ( count( $devices ) > 0 ) {
+						foreach ( $devices as $device ) {
+							$device_ids[] = $device->device_token;
+						}
+					}
+
+
+					$user_id = $this->post('buyer_user_id');
+		       		$user_name = $this->User->get_one($user_id)->user_name;
+
+			    	
+			    	$data['buyer_user_id'] = $this->post('buyer_user_id');
+			    	$data['seller_user_id'] = $this->post('seller_user_id');
+			    	$data['sender_name'] = $user_name;
+			    	$data['item_id'] = $this->post('item_id');
+
+
+	    			$status = send_android_fcm_chat( $device_ids, $data );
+
+
+		    	}
 
 	    	}
-
-	       	//sending noti
-	    	$status = send_android_fcm_chat( $device_ids, $data );
 
 	        $this->Chat->save($chat_data);	
 	        $obj = $this->Chat->get_one_by($chat_data);
@@ -327,28 +559,11 @@ class Chats extends API_Controller
 
 	    } else {
 
-		    	if ( $type == "to_buyer" ) {
+	    	if ( $type == "to_buyer" ) {
 
+	    		$buyer_unread_count = $chat_history_data->buyer_unread_count;
 
-		    	//prepare data for noti
-		    	$user_ids[] = $this->post('buyer_user_id');
-
-
-	        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
-	        	//print_r($devices);die;	
-
-				$device_ids = array();
-				if ( count( $devices ) > 0 ) {
-					foreach ( $devices as $device ) {
-						$device_ids[] = $device->device_token;
-					}
-				}
-
-
-				$user_id = $this->post('buyer_user_id');
-	       		$user_name = $this->User->get_one($user_id)->user_name;
-
-		    	$price = $this->post('nego_price');
+	    		$price = $this->post('nego_price');
 	       		if ( $price == 0) {
 		    		$data['message'] = "Offer Rejected!";
 		    		$offer_status = 4;
@@ -356,76 +571,144 @@ class Chats extends API_Controller
 		    		$data['message'] = "Make Offer!";
 		    		$offer_status = 2;
 		    	}
-		    	$data['buyer_user_id'] = $this->post('buyer_user_id');
-		    	$data['seller_user_id'] = $this->post('seller_user_id');
-		    	$data['sender_name'] = $user_name;
-		    	$data['item_id'] = $this->post('item_id');
 
+		    	if ($is_user_online == '1') {
+		    		//if user is online, no need to send noti and no need to add unread count
 
-		    	$buyer_unread_count = $chat_history_data->buyer_unread_count;
-		    	
-		    	$chat_data = array(
+		    		$chat_data = array(
 
-		        	"item_id" => $this->post('item_id'), 
-		        	"buyer_user_id" => $this->post('buyer_user_id'), 
-		        	"seller_user_id" => $this->post('seller_user_id'),
-		        	"buyer_unread_count" => $buyer_unread_count + 1,
-		        	"added_date" => date("Y-m-d H:i:s"),
-		        	"nego_price" => $this->post('nego_price'),
-		        	"offer_status" => $offer_status,
-		        	"is_accept" => 0
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"buyer_unread_count" => $buyer_unread_count,
+			        	"added_date" => date("Y-m-d H:i:s"),
+			        	"nego_price" => $this->post('nego_price'),
+			        	"offer_status" => $offer_status,
+			        	"is_accept" => 0
 
-		        );
-
-		    	} elseif ( $type == "to_seller" ) {
-
-
-		    	$user_ids[] = $this->post('seller_user_id');
-
-	        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
-	        
-
-
-				$device_ids = array();
-				if ( count( $devices ) > 0 ) {
-					foreach ( $devices as $device ) {
-						$device_ids[] = $device->device_token;
-					}
-				}
-
-
-				$user_id = $this->post('seller_user_id');
-	       		$user_name = $this->User->get_one($user_id)->user_name;
-
-		    	$price = $this->post('nego_price');
-	       		if ( $price == 0) {
-		    		$data['message'] = "Offer Rejected!";
-		    		$offer_status = 4;
+		        	);
 		    	} else {
-		    		$data['message'] = "Make Offer!";
-		    		$offer_status = 2;
-		    	}
-		    	$data['buyer_user_id'] = $this->post('buyer_user_id');
-		    	$data['seller_user_id'] = $this->post('seller_user_id');
-		    	$data['sender_name'] = $user_name;
-		    	$data['item_id'] = $this->post('item_id');
+		    		//if user is offline,send noti and add unread count
+		    		
 
+		    		$chat_data = array(
+
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"buyer_unread_count" => $buyer_unread_count + 1,
+			        	"added_date" => date("Y-m-d H:i:s"),
+			        	"nego_price" => $this->post('nego_price'),
+			        	"offer_status" => $offer_status,
+			        	"is_accept" => 0
+
+		        	);	
+
+		        	//prepare data for noti
+			    	$user_ids[] = $this->post('buyer_user_id');
+
+
+		        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
+		        	//print_r($devices);die;	
+
+					$device_ids = array();
+					if ( count( $devices ) > 0 ) {
+						foreach ( $devices as $device ) {
+							$device_ids[] = $device->device_token;
+						}
+					}
+
+
+					$user_id = $this->post('seller_user_id');
+		       		$user_name = $this->User->get_one($user_id)->user_name;
+
+			    	
+			    	$data['buyer_user_id'] = $this->post('buyer_user_id');
+			    	$data['seller_user_id'] = $this->post('seller_user_id');
+			    	$data['sender_name'] = $user_name;
+			    	$data['item_id'] = $this->post('item_id');
+
+
+	    			$status = send_android_fcm_chat( $device_ids, $data );
+
+
+		    	}
+	    	
+	    	
+
+	    	} elseif ( $type == "to_seller" ) {
+
+
+	    	
 		    	$seller_unread_count = $chat_history_data->seller_unread_count;
-		    	
-		    	$chat_data = array(
 
-		        	"item_id" => $this->post('item_id'), 
-		        	"buyer_user_id" => $this->post('buyer_user_id'), 
-		        	"seller_user_id" => $this->post('seller_user_id'),
-		        	"seller_unread_count" => $seller_unread_count + 1,
-		        	"added_date" => date("Y-m-d H:i:s"),
-		        	"nego_price" => $this->post('nego_price'),
-		        	"offer_status" => $offer_status,
-		        	"is_accept" => 0
-
-		        );
-
+		    	$price = $this->post('nego_price');
+	       		if ( $price == 0) {
+		    		$data['message'] = "Offer Rejected!";
+		    		$offer_status = 4;
+		    	} else {
+		    		$data['message'] = "Make Offer!";
+		    		$offer_status = 2;
 		    	}
+
+		    	if ($is_user_online == '1') {
+		    		//if user is online, no need to send noti and no need to add unread count
+		    		$chat_data = array(
+
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"seller_unread_count" => $seller_unread_count,
+			        	"added_date" => date("Y-m-d H:i:s"),
+			        	"nego_price" => $this->post('nego_price'),
+			        	"offer_status" => $offer_status,
+			        	"is_accept" => 0
+
+		        	);
+
+		    	} else {
+		    		//if user is offline, send noti and add unread count
+
+		    		$chat_data = array(
+
+			        	"item_id" => $this->post('item_id'), 
+			        	"buyer_user_id" => $this->post('buyer_user_id'), 
+			        	"seller_user_id" => $this->post('seller_user_id'),
+			        	"seller_unread_count" => $seller_unread_count + 1,
+			        	"added_date" => date("Y-m-d H:i:s"),
+			        	"nego_price" => $this->post('nego_price'),
+			        	"offer_status" => $offer_status,
+			        	"is_accept" => 0
+
+			        );
+
+			        $user_ids[] = $this->post('seller_user_id');
+
+		        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
+		        
+
+
+					$device_ids = array();
+					if ( count( $devices ) > 0 ) {
+						foreach ( $devices as $device ) {
+							$device_ids[] = $device->device_token;
+						}
+					}
+
+
+					$user_id = $this->post('buyer_user_id');
+		       		$user_name = $this->User->get_one($user_id)->user_name;
+
+			    	
+			    	$data['buyer_user_id'] = $this->post('buyer_user_id');
+			    	$data['seller_user_id'] = $this->post('seller_user_id');
+			    	$data['sender_name'] = $user_name;
+			    	$data['item_id'] = $this->post('item_id');	
+
+			    	$status = send_android_fcm_chat( $device_ids, $data );
+		    	}
+	    	
+			}
 
 	    	
 
@@ -436,8 +719,6 @@ class Chats extends API_Controller
 	    	
 	    	} else {
 
-	    		//sending noti
-	    		$status = send_android_fcm_chat( $device_ids, $data );
 
 	    		$obj = $this->Chat->get_one_by($chat_data);
 				$this->ps_adapter->convert_chathistory( $obj );
@@ -559,12 +840,17 @@ class Chats extends API_Controller
 	        array(
 	        	'field' => 'nego_price',
 	        	'rules' => 'required'
+	        ),
+	        array(
+	        	'field' => 'is_user_online',
+	        	'rules' => 'required'
 	        )
         );
 
 		// exit if there is an error in validation,
         if ( !$this->is_valid( $rules )) exit;
         $type = $this->post('type');
+        $is_user_online = $this->post('is_user_online');
 
         $chat_data = array(
 
@@ -612,92 +898,144 @@ class Chats extends API_Controller
 
 	        	if ( $type == "to_buyer" ) {
 
-	        		//prepare data for noti
-			    	$user_ids[] = $this->post('buyer_user_id');
-
-
-		        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
-		        	//print_r($devices);die;	
-
-					$device_ids = array();
-					if ( count( $devices ) > 0 ) {
-						foreach ( $devices as $device ) {
-							$device_ids[] = $device->device_token;
-						}
-					}
-
-
-					$user_id = $this->post('buyer_user_id');
-		       		$user_name = $this->User->get_one($user_id)->user_name;
-		       		$price = $this->post('nego_price');
-		       		
-			    	$data['message'] = "Offer Accepted!";
-			    	$data['buyer_user_id'] = $this->post('buyer_user_id');
-			    	$data['seller_user_id'] = $this->post('seller_user_id');
-			    	$data['sender_name'] = $user_name;
-			    	$data['item_id'] = $this->post('item_id');
+	        		
 
 			    	$buyer_unread_count = $chat_history_data->buyer_unread_count;
-			    	
-			    	$chat_data = array(
 
-			        	"item_id" => $this->post('item_id'), 
-			        	"buyer_user_id" => $this->post('buyer_user_id'), 
-			        	"seller_user_id" => $this->post('seller_user_id'),
-			        	"buyer_unread_count" => $buyer_unread_count + 1,
-			        	"added_date" => date("Y-m-d H:i:s"),
-			        	"nego_price" => $this->post('nego_price'),
-			        	"is_accept" => 1,
-			        	"offer_status" => 3
+			    	if ($is_user_online == '1') {
+			    		//if user is online, no need to send noti and no need to add unread count
 
-			        );
+				    	$chat_data = array(
 
-			    	} elseif ( $type == "to_seller" ) {
+				        	"item_id" => $this->post('item_id'), 
+				        	"buyer_user_id" => $this->post('buyer_user_id'), 
+				        	"seller_user_id" => $this->post('seller_user_id'),
+				        	"buyer_unread_count" => $buyer_unread_count,
+				        	"added_date" => date("Y-m-d H:i:s"),
+				        	"nego_price" => $this->post('nego_price'),
+				        	"is_accept" => 1
+				        	//"offer_status" => 3
 
-			    	//prepare data for noti
-			    	$user_ids[] = $this->post('seller_user_id');
+				        );
+
+			    	} else {
+
+			    		$chat_data = array(
+
+				        	"item_id" => $this->post('item_id'), 
+				        	"buyer_user_id" => $this->post('buyer_user_id'), 
+				        	"seller_user_id" => $this->post('seller_user_id'),
+				        	"buyer_unread_count" => $buyer_unread_count + 1,
+				        	"added_date" => date("Y-m-d H:i:s"),
+				        	"nego_price" => $this->post('nego_price'),
+				        	"is_accept" => 1
+				        	//"offer_status" => 3
+
+				        );
+
+				        //prepare data for noti
+				    	$user_ids[] = $this->post('buyer_user_id');
 
 
-		        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
-		        	//print_r($devices);die;	
+			        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
+			        	//print_r($devices);die;	
 
-					$device_ids = array();
-					if ( count( $devices ) > 0 ) {
-						foreach ( $devices as $device ) {
-							$device_ids[] = $device->device_token;
+						$device_ids = array();
+						if ( count( $devices ) > 0 ) {
+							foreach ( $devices as $device ) {
+								$device_ids[] = $device->device_token;
+							}
 						}
-					}
 
 
-					$user_id = $this->post('seller_user_id');
-		       		$user_name = $this->User->get_one($user_id)->user_name;
+						$user_id = $this->post('seller_user_id');
+			       		$user_name = $this->User->get_one($user_id)->user_name;
+			       		$price = $this->post('nego_price');
+			       		
+				    	$data['message'] = "Offer Accepted!";
+				    	$data['buyer_user_id'] = $this->post('buyer_user_id');
+				    	$data['seller_user_id'] = $this->post('seller_user_id');
+				    	$data['sender_name'] = $user_name;
+				    	$data['item_id'] = $this->post('item_id');
 
-			    	$data['message'] = "Offer Accepted!";
-			    	$data['buyer_user_id'] = $this->post('buyer_user_id');
-			    	$data['seller_user_id'] = $this->post('seller_user_id');
-			    	$data['sender_name'] = $user_name;
-			    	$data['item_id'] = $this->post('item_id');	
+		    			$status = send_android_fcm_chat( $device_ids, $data );	
 
-			    	$seller_unread_count = $chat_history_data->seller_unread_count;
-			    	
-			    	$chat_data = array(
-
-			        	"item_id" => $this->post('item_id'), 
-			        	"buyer_user_id" => $this->post('buyer_user_id'), 
-			        	"seller_user_id" => $this->post('seller_user_id'),
-			        	"seller_unread_count" => $seller_unread_count + 1,
-			        	"added_date" => date("Y-m-d H:i:s"),
-			        	"nego_price" => $this->post('nego_price'),
-			        	"is_accept" => 1,
-			        	"offer_status" => 3
-
-
-			        );
 
 			    	}
+			    	
+			    	
+			    } elseif ( $type == "to_seller" ) {
 
-			    //sending noti
-		    	$status = send_android_fcm_chat( $device_ids, $data );	
+			    		
+
+			    	$seller_unread_count = $chat_history_data->seller_unread_count;
+
+			    	if ($is_user_online == '1') {
+			    		// if user is online, no need to send noti and no need to add noti count
+
+			    		$chat_data = array(
+
+				        	"item_id" => $this->post('item_id'), 
+				        	"buyer_user_id" => $this->post('buyer_user_id'), 
+				        	"seller_user_id" => $this->post('seller_user_id'),
+				        	"seller_unread_count" => $seller_unread_count,
+				        	"added_date" => date("Y-m-d H:i:s"),
+				        	"nego_price" => $this->post('nego_price'),
+				        	"is_accept" => 1
+				        	//"offer_status" => 3
+
+
+				        );
+			    	} else {
+			    		// if user is offline,send noti and add noti count
+
+			    		$chat_data = array(
+
+				        	"item_id" => $this->post('item_id'), 
+				        	"buyer_user_id" => $this->post('buyer_user_id'), 
+				        	"seller_user_id" => $this->post('seller_user_id'),
+				        	"seller_unread_count" => $seller_unread_count + 1,
+				        	"added_date" => date("Y-m-d H:i:s"),
+				        	"nego_price" => $this->post('nego_price'),
+				        	"is_accept" => 1
+				        	//"offer_status" => 3
+
+
+				        );
+
+				        //prepare data for noti
+				    	$user_ids[] = $this->post('seller_user_id');
+
+
+			        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
+			        	//print_r($devices);die;	
+
+						$device_ids = array();
+						if ( count( $devices ) > 0 ) {
+							foreach ( $devices as $device ) {
+								$device_ids[] = $device->device_token;
+							}
+						}
+
+
+						$user_id = $this->post('buyer_user_id');
+			       		$user_name = $this->User->get_one($user_id)->user_name;
+
+				    	$data['message'] = "Offer Accepted!";
+				    	$data['buyer_user_id'] = $this->post('buyer_user_id');
+				    	$data['seller_user_id'] = $this->post('seller_user_id');
+				    	$data['sender_name'] = $user_name;
+				    	$data['item_id'] = $this->post('item_id');
+
+		    			$status = send_android_fcm_chat( $device_ids, $data );	
+
+
+			    	}
+			    	
+			    	
+
+			    }
+
 
 		        $this->Chat->save($chat_data);	
 		        $obj = $this->Chat->get_one_by($chat_data);
@@ -732,93 +1070,142 @@ class Chats extends API_Controller
 		    	if( $accept_flag == 1 ) {
 
 		    		$this->error_response( get_msg( 'err_accept_offer' ));
-		    	}
-
-		    	else {
+		    	} else {
 
 		    		if ( $type == "to_buyer" ) {
 
-		    		//prepare data for noti
-			    	$user_ids[] = $this->post('buyer_user_id');
+				    	$buyer_unread_count = $chat_history_data->buyer_unread_count;
+
+				    	if ($is_user_online == '1') {
+
+				    		//if user is online, no need to send noti and no need to add unread count
+
+				    		$chat_data = array(
+
+					        	"item_id" => $this->post('item_id'), 
+					        	"buyer_user_id" => $this->post('buyer_user_id'), 
+					        	"seller_user_id" => $this->post('seller_user_id'),
+					        	"buyer_unread_count" => $buyer_unread_count,
+					        	"added_date" => date("Y-m-d H:i:s"),
+					        	"nego_price" => $this->post('nego_price'),
+					        	"is_accept"	 => 1
+					        	//"offer_status" => 3	
+
+					        );
+				    	} else {
+				    		//if user is offline, send noit and add unread count
+
+				    		$chat_data = array(
+
+					        	"item_id" => $this->post('item_id'), 
+					        	"buyer_user_id" => $this->post('buyer_user_id'), 
+					        	"seller_user_id" => $this->post('seller_user_id'),
+					        	"buyer_unread_count" => $buyer_unread_count + 1,
+					        	"added_date" => date("Y-m-d H:i:s"),
+					        	"nego_price" => $this->post('nego_price'),
+					        	"is_accept"	 => 1
+					        	//"offer_status" => 3	
+
+					        );
+
+					        //prepare data for noti
+					    	$user_ids[] = $this->post('buyer_user_id');
 
 
-		        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
-		        	//print_r($devices);die;	
+				        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
+				        	//print_r($devices);die;	
 
-					$device_ids = array();
-					if ( count( $devices ) > 0 ) {
-						foreach ( $devices as $device ) {
-							$device_ids[] = $device->device_token;
-						}
-					}
-
-
-					$user_id = $this->post('buyer_user_id');
-		       		$user_name = $this->User->get_one($user_id)->user_name;
-		       		
-		       		$data['message'] = "Offer Accepted!";
-			    	$data['buyer_user_id'] = $this->post('buyer_user_id');
-			    	$data['seller_user_id'] = $this->post('seller_user_id');
-			    	$data['sender_name'] = $user_name;
-			    	$data['item_id'] = $this->post('item_id');
-
-			    	$buyer_unread_count = $chat_history_data->buyer_unread_count;
+							$device_ids = array();
+							if ( count( $devices ) > 0 ) {
+								foreach ( $devices as $device ) {
+									$device_ids[] = $device->device_token;
+								}
+							}
 
 
-			    	$chat_data = array(
+							$user_id = $this->post('seller_user_id');
+				       		$user_name = $this->User->get_one($user_id)->user_name;
+				       		
+				       		$data['message'] = "Offer Accepted!";
+					    	$data['buyer_user_id'] = $this->post('buyer_user_id');
+					    	$data['seller_user_id'] = $this->post('seller_user_id');
+					    	$data['sender_name'] = $user_name;
+					    	$data['item_id'] = $this->post('item_id');
 
-			        	"item_id" => $this->post('item_id'), 
-			        	"buyer_user_id" => $this->post('buyer_user_id'), 
-			        	"seller_user_id" => $this->post('seller_user_id'),
-			        	"buyer_unread_count" => $buyer_unread_count + 1,
-			        	"added_date" => date("Y-m-d H:i:s"),
-			        	"nego_price" => $this->post('nego_price'),
-			        	"is_accept"	 => 1,
-			        	"offer_status" => 3	
+		    				$status = send_android_fcm_chat( $device_ids, $data );	
 
-			        );
+
+				    	}
+
+				    	
 
 
 			    	} elseif ( $type == "to_seller" ) {
 
-			    	//prepare data for noti
-			    	$user_ids[] = $this->post('seller_user_id');
+				    		
+
+				    	$seller_unread_count = $chat_history_data->seller_unread_count;
+
+				    	if ($is_user_online == '1') {
+				    		//if user is online, no need to send noti and no need to add unread count
+
+				    		$chat_data = array(
+
+					        	"item_id" => $this->post('item_id'), 
+					        	"buyer_user_id" => $this->post('buyer_user_id'), 
+					        	"seller_user_id" => $this->post('seller_user_id'),
+					        	"seller_unread_count" => $seller_unread_count,
+					        	"added_date" => date("Y-m-d H:i:s"),
+					        	"nego_price" => $this->post('nego_price'),
+					        	"is_accept"	 => 1
+					        	//"offer_status" => 3
+
+					        );
+				    	} else {
+				    		//if user is offline, send noti and add unread count
+
+				    		$chat_data = array(
+
+					        	"item_id" => $this->post('item_id'), 
+					        	"buyer_user_id" => $this->post('buyer_user_id'), 
+					        	"seller_user_id" => $this->post('seller_user_id'),
+					        	"seller_unread_count" => $seller_unread_count + 1,
+					        	"added_date" => date("Y-m-d H:i:s"),
+					        	"nego_price" => $this->post('nego_price'),
+					        	"is_accept"	 => 1
+					        	//"offer_status" => 3
+
+					        );
+
+					        //prepare data for noti
+					    	$user_ids[] = $this->post('seller_user_id');
 
 
-		        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
-		        	//print_r($devices);die;	
+				        	$devices = $this->Noti->get_all_device_in($user_ids)->result();
+				        	//print_r($devices);die;	
 
-					$device_ids = array();
-					if ( count( $devices ) > 0 ) {
-						foreach ( $devices as $device ) {
-							$device_ids[] = $device->device_token;
-						}
-					}
+							$device_ids = array();
+							if ( count( $devices ) > 0 ) {
+								foreach ( $devices as $device ) {
+									$device_ids[] = $device->device_token;
+								}
+							}
 
 
-					$user_id = $this->post('seller_user_id');
-		       		$user_name = $this->User->get_one($user_id)->user_name;
+							$user_id = $this->post('buyer_user_id');
+				       		$user_name = $this->User->get_one($user_id)->user_name;
 
-			    	$data['message'] = "Offer Accepted!";
-			    	$data['buyer_user_id'] = $this->post('buyer_user_id');
-			    	$data['seller_user_id'] = $this->post('seller_user_id');
-			    	$data['sender_name'] = $user_name;
-			    	$data['item_id'] = $this->post('item_id');	
+					    	$data['message'] = "Offer Accepted!";
+					    	$data['buyer_user_id'] = $this->post('buyer_user_id');
+					    	$data['seller_user_id'] = $this->post('seller_user_id');
+					    	$data['sender_name'] = $user_name;
+					    	$data['item_id'] = $this->post('item_id');
 
-			    	$seller_unread_count = $chat_history_data->seller_unread_count;
-			    	
-			    	$chat_data = array(
+		    				$status = send_android_fcm_chat( $device_ids, $data );	
 
-			        	"item_id" => $this->post('item_id'), 
-			        	"buyer_user_id" => $this->post('buyer_user_id'), 
-			        	"seller_user_id" => $this->post('seller_user_id'),
-			        	"seller_unread_count" => $seller_unread_count + 1,
-			        	"added_date" => date("Y-m-d H:i:s"),
-			        	"nego_price" => $this->post('nego_price'),
-			        	"is_accept"	 => 1,
-			        	"offer_status" => 3
-
-			        );
+				    	}
+				    	
+				    	
 
 			    	}
 		    	}
@@ -830,8 +1217,6 @@ class Chats extends API_Controller
 		    	
 		    	} else {
 
-		    		//sending noti
-		    		$status = send_android_fcm_chat( $device_ids, $data );
 		    		$obj = $this->Chat->get_one_by($chat_data);
 					$this->ps_adapter->convert_chathistory( $obj );
 					$this->custom_response( $obj );
@@ -1374,7 +1759,7 @@ class Chats extends API_Controller
     */
     function is_user_bought_post()
     {
-    			// validation rules for chat history
+    	// validation rules for chat history
 		$rules = array(
 			array(
 	        	'field' => 'item_id',
@@ -1387,6 +1772,10 @@ class Chats extends API_Controller
 	        array(
 	        	'field' => 'seller_user_id',
 	        	'rules' => 'required'
+	        ),
+	        array(
+	        	'field' => 'is_user_online',
+	        	'rules' => 'required'
 	        )
 
         );
@@ -1394,44 +1783,10 @@ class Chats extends API_Controller
         $item_id = $this->post('item_id');
         $seller_user_id = $this->post('seller_user_id');
         $buyer_user_id = $this->post('buyer_user_id');
+        $is_user_online = $this->post('is_user_online');
 
 		// exit if there is an error in validation,
         if ( !$this->is_valid( $rules )) exit;
-
-
-
-
-        /** send noti to seller */
-
-        $item_name = $this->Item->get_one($item_id)->title;
-        $buyer_name = $this->User->get_one($buyer_user_id)->user_name;
-        $message = $buyer_name . ' ' . get_msg('bought_your_item') . ' ' . $item_name ;
-
-        $devices = $this->Noti->get_all_device_in($seller_user_id)->result();
-
-		$device_ids = array();
-			if ( count( $devices ) > 0 ) {
-				foreach ( $devices as $device ) {
-					$device_ids[] = $device->device_token;
-				}
-			}
-
-		$status = $this->send_android_fcm( $device_ids, $message );
-
-		/** send noti to buyer */
-
-        $message = get_msg('you_bought') . ' ' . $item_name ;
-
-        $devices = $this->Noti->get_all_device_in($buyer_user_id)->result();
-
-		$device_ids = array();
-			if ( count( $devices ) > 0 ) {
-				foreach ( $devices as $device ) {
-					$device_ids[] = $device->device_token;
-				}
-			}
-
-		$status = $this->send_android_fcm( $device_ids, $message );
 
 		/** save bought data */
 
@@ -1444,12 +1799,62 @@ class Chats extends API_Controller
 
         );
 
-        if (!$this->User_bought->save($bought_data)) {
-        	$this->success_response( get_msg( 'err_user_bought' ));
-        } else {
-        	$this->success_response( get_msg( 'success_user_bought' ));
+        /** update accept offer status */
 
-        }
+        $conds_chat['buyer_user_id'] = $this->post('buyer_user_id');
+		$conds_chat['seller_user_id'] = $this->post('seller_user_id');
+		$conds_chat['item_id'] = $this->post('item_id');
+
+		//print_r($conds_chat);
+
+		$id = $this->Chat->get_one_by($conds_chat)->id;
+		$buyer_unread_count = $this->Chat->get_one_by($conds_chat)->buyer_unread_count;
+
+		if ($is_user_online == '1') {
+			//if user is online, no need to send noti and no need to add unread count
+
+			$chat_data = array(
+				"offer_status" => 3
+
+			);
+		} else {
+			//if user is offline, send noti and add noti count
+
+			/** send noti to buyer */
+
+	        $message = get_msg('you_bought') . ' ' . $item_name ;
+
+	        $devices = $this->Noti->get_all_device_in($buyer_user_id)->result();
+
+			$device_ids = array();
+			if ( count( $devices ) > 0 ) {
+				foreach ( $devices as $device ) {
+					$device_ids[] = $device->device_token;
+				}
+			}
+
+			$status = $this->send_android_fcm( $device_ids, $message );
+
+			//add buyer unread count
+
+			$chat_data = array(
+				"offer_status" => 3,
+				"buyer_unread_count" => $buyer_unread_count + 1
+
+			);
+		}
+
+		
+
+		$this->Chat->save($chat_data,$id);
+
+		//save user bought data
+		$this->User_bought->save($bought_data);
+
+		$obj = $this->Chat->get_one($id);
+		$this->ps_adapter->convert_chathistory( $obj );
+		$this->custom_response( $obj );
+
 
 
     }

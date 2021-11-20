@@ -360,7 +360,7 @@ class PS_Image
 			$data['error'] = "Choose file to upload";
 			return $data;
 		}
-		
+
 		// loop if the files array
 		foreach ( $files as $field => $file ) {
 
@@ -806,6 +806,59 @@ class PS_Image
 		}
 
 		return true;
+	}
+
+	// video upload
+
+	function upload_video( $files )
+	{
+		// empty array to return processed data
+		$data = array();
+
+		if ( empty( $files )) {
+		// if there is no file, show error
+			
+			$data['error'] = "Choose file to upload";
+			return $data;
+		}
+		
+		// loop if the files array
+		foreach ( $files as $field => $file ) {
+
+			if($field == "video") {
+
+				// assign the file name
+				$_FILES[$field]['name'] = $_FILES[$field]['name'];
+					
+				if ( $file['error'] == 0 ) {    
+				// if there is no error in file,		
+						
+					if ( $this->CI->upload->do_upload( $field )) {
+					// if file uploading is success
+
+						// get uploaded data
+						$uploaded_data = $this->CI->upload->data();
+							
+						$data[] = $uploaded_data;
+						//End Modify
+
+
+					} else {
+					// if file uploading is fail,	
+						
+						// return error
+						$data['error'] = $this->CI->upload->display_errors();
+					}
+				}
+
+			}
+		}
+
+		if ( empty( $data )) {
+			$data['error'] = "No file is uploaded";
+		}
+			
+		return $data;
 	}
 }
 ?>

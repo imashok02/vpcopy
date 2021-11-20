@@ -28,13 +28,9 @@ class Category extends PS_Model {
 
 		// main category id condition
 		if ( isset( $conds['main_cat_id'] )) {
-
-
 			if ($conds['main_cat_id'] != "" || $conds['main_cat_id'] != 0) {
-
-				$this->db->where( 'main_cat_id', $conds['main_cat_id'] );	
-
-			}			
+				$this->db->where( 'main_cat_id', $conds['main_cat_id'] );
+			}
 		}
 
 		// cat_id condition
@@ -50,6 +46,11 @@ class Category extends PS_Model {
 		// searchterm
 		if ( isset( $conds['searchterm'] )) {
 			$this->db->like( 'cat_name', $conds['searchterm'] );
+		}
+
+		// keyword
+		if ( isset( $conds['keyword'] )) {
+			$this->db->like( 'cat_name', $conds['keyword'] );
 		}
 
 		// order_by

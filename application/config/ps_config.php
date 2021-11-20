@@ -15,7 +15,7 @@ $config['reset_url'] = "reset_email";
 $config['themes'] = array( 'default', 'green', 'blue', 'orange', 'blue-grey' );
 
 /** System Email */
-$config['version_no'] = "2.7"; 
+$config['version_no'] = "2.9"; 
 
 /** Validation */
 $config['client_side_validation'] = true;
@@ -48,7 +48,7 @@ $config['upload_path'] = 'uploads/';
 $config['upload_thumbnail_path'] = 'uploads/thumbnail/';
 $config['upload_thumbnail_2x_path'] = 'uploads/thumbnail2x/';
 $config['upload_thumbnail_3x_path'] = 'uploads/thumbnail3x/';
-$config['image_type'] = 'jpg|jpeg|png|csv|ico';
+$config['image_type'] = 'jpg|jpeg|png|csv|ico|mp4';
 
 /** Pagination */
 $config['pagination']['per_page'] = 20;

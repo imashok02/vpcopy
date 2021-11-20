@@ -696,7 +696,6 @@ class BE_Controller extends PS_Controller {
 
 	function insert_icon_images( $files, $img_type, $img_parent_id, $type )
 	{
-		
 		// return false if the image type is empty
 		if ( empty( $img_type )) return false;
 
@@ -776,7 +775,6 @@ class BE_Controller extends PS_Controller {
 	*/
 	function send_android_fcm( $registatoin_ids, $message) 
     {
-    	echo "aaaaaaa";die;
     	//Google cloud messaging GCM-API url
     	$url = 'https://fcm.googleapis.com/fcm/send';
 
@@ -828,4 +826,283 @@ class BE_Controller extends PS_Controller {
 
     	return $result;
     }
+
+    /**
+	 * Insert the image records to image table
+	 *
+	 * @param      <type>   $upload_data    The upload data
+	 * @param      <type>   $img_type       The image type
+	 * @param      <type>   $img_parent_id  The image parent identifier
+	 *
+	 * @return     boolean  ( description_of_the_return_value )
+	 */
+	function insert_video_and_img( $files, $img_type, $img_parent_id, $type )
+	{
+
+		//print_r($img_type);
+		//print_r($img_parent_id);
+
+		// return false if the image type is empty
+		if ( empty( $img_type )) return false;
+
+		// return false if the parent id is empty
+		if ( empty( $img_parent_id )) return false;
+
+		// upload images
+
+		if ($img_type == "video") {
+			// File upload configuration
+	        $config_video['upload_path'] = $this->config->item('upload_path');
+	        $config_video['allowed_types'] = $this->config->item('video_type');
+			$config_video['max_size'] = $this->config->item('max_size');
+			$config_video['overwrite'] = FALSE;
+			$config_video['remove_spaces'] = TRUE;
+			//$this->load->library('upload', $config_video);
+			//$this->upload->initialize($config_video);
+
+			$upload_data = $this->ps_image->upload_video( $files );
+
+			if ( isset( $upload_data['error'] )) {
+			// if there is an error in uploading
+
+				// set error message
+				$this->data['error'] = $upload_data['error'];
+				
+				return;
+			}
+
+			// save video 
+			foreach ( $upload_data as $upload ) {
+				
+				// prepare video data
+				$video = array(
+					'img_parent_id'=> $img_parent_id,
+					'img_type' => $img_type,
+					'img_desc' => "",
+					'img_path' => $upload['file_name'],
+					'img_width'=> "",
+					'img_height'=> ""
+				);
+				
+				if ( ! $this->Image->save( $video )) {
+				// if error in saving video
+					
+					// set error message
+					$this->data['error'] = get_msg( 'err_model' );
+					
+					return false;
+				}
+
+			}
+
+
+		} else if ($img_type == "video-icon") {
+			
+			// File upload configuration
+	        $config['upload_path'] = $this->config->item('upload_path');
+	        $config['allowed_types'] = $this->config->item('image_type');
+
+	        //$this->load->library('upload', $config);
+			//$this->upload->initialize($config);
+
+			$upload_data = $this->ps_image->upload_icon( $files );
+		
+			if ( isset( $upload_data['error'] )) {
+			// if there is an error in uploading
+
+				// set error message
+				$this->data['error'] = $upload_data['error'];
+				
+				return;
+			}
+
+			// save video 
+			foreach ( $upload_data as $upload ) {
+				
+				// prepare video data
+				$video_icon = array(
+					'img_parent_id'=> $img_parent_id,
+					'img_type' => $img_type,
+					'img_desc' => "",
+					'img_path' => $upload['file_name'],
+					'img_width'=> $upload['image_width'],
+					'img_height'=> $upload['image_height']
+				);
+
+				if ( ! $this->Image->save( $video_icon )) {
+				// if error in saving video
+					
+					// set error message
+					$this->data['error'] = get_msg( 'err_model' );
+					
+					return false;
+				}
+
+			}
+
+		} else if($type == "cover") {
+
+			// upload images
+			$upload_data = $this->ps_image->upload_cover( $files );
+				
+			if ( isset( $upload_data['error'] )) {
+			// if there is an error in uploading
+
+				// set error message
+				$this->data['error'] = $upload_data['error'];
+				
+				return;
+			}
+			$image = array(
+				'img_parent_id'=> $img_parent_id,
+				'img_type' => $img_type,
+				'img_desc' => "",
+				'img_path' => $upload_data[0]['file_name'],
+				'img_width'=> $upload_data[0]['image_width'],
+				'img_height'=> $upload_data[0]['image_height']
+			);
+			if ( ! $this->Image->save( $image )) {
+			// if error in saving image
+				
+				// set error message
+				$this->data['error'] = get_msg( 'err_model' );
+				
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * replace video
+	 *
+	 * @param      integer  $id  The category identifier
+	 */
+	function replace_video_upload( $img_type, $id )
+	{
+
+		// check edit access
+		$this->check_access( EDIT );
+
+		// start the db transaction
+		$this->db->trans_start();
+
+		/**
+		 * Delete Images
+		 */
+
+		// prepare condition
+		$conds = array( 'img_type' => $img_type, 'img_parent_id' => $id );
+
+		if ( !$this->delete_videos_by( $conds )) {
+		// if error in deleting image, redirect
+
+			// rollback
+			$this->db->trans_rollback();
+
+			redirect( $this->module_site_url( '/edit/'. $id ));
+		}
+		
+		/**
+		 * Insert New Image
+		 */
+		if ( ! $this->insert_video_and_img( $_FILES, $img_type, $id, "video" )) {
+
+		// if error in saving image
+
+			// commit the transaction
+			$this->db->trans_rollback();
+			
+			redirect( $this->module_site_url( '/edit/'. $id ));
+		}
+
+		// commit the transaction
+		if ( ! $this->check_trans()) {
+        	
+			// set flash error message
+			$this->set_flash_msg( 'error', get_msg( 'err_model' ));
+		} else {
+
+			$this->set_flash_msg( 'success', get_msg( 'success_video_upload' ));
+		}
+
+		redirect( $this->module_site_url( '/edit/'. $id ));
+	}
+
+	/**
+	 * Delete Video by id and type
+	 *
+	 * @param      <type>  $conds  The conds
+	 */
+	function delete_videos_by( $conds )
+	{
+		/**
+		 * Delete Video from folder
+		 *
+		 */
+	
+		$videos = $this->Image->get_all_by( $conds );
+	
+		if ( !empty( $videos )) {
+
+			foreach ( $videos->result() as $vid ) {
+				
+				if ( ! $this->ps_image->delete_images( $vid->img_path ) ) {
+				// if there is an error in deleting images
+
+					$this->set_flash_msg( 'error', get_msg( 'err_del_image' ));
+					return false;
+				}
+			}
+		}
+
+		/**
+		 * Delete images from database table
+		 */
+		if ( ! $this->Image->delete_by( $conds )) {
+
+			$this->set_flash_msg( 'error', get_msg( 'err_model' ));
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Delete Video
+	 *
+	 * @param      <type>  $img_id  The image identifier
+	 */
+	function delete_video( $img_id, $id )
+	{
+		// check edit access
+		$this->check_access( EDIT );
+
+		// start the db transaction
+		$this->db->trans_start();
+
+		// delete image
+		if ( !$this->delete_videos_by( array( 'img_id' => $img_id ))) {
+
+			// rollback
+			$this->trans_rollback();
+
+			//redirect
+			redirect( $this->module_site_url( '/edit/'. $id ));
+		}
+
+
+		// commit the transaction
+		if ( ! $this->check_trans()) {
+        	
+			// set flash error message
+			$this->set_flash_msg( 'error', get_msg( 'err_model' ));
+		} else {
+
+			$this->set_flash_msg( 'success', get_msg( 'success_video_delete' ));
+		}
+
+		redirect( $this->module_site_url( '/edit/'. $id ));
+	}
 }

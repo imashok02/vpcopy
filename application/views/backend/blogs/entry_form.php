@@ -33,6 +33,30 @@
 
 					</div>
             	</div>
+            	<div class="col-md-8">
+            		<div class="form-group">
+			            <label> <span style="font-size: 17px; color: red;"></span>
+			                <?php echo get_msg('select_location_label')?>
+			            </label>
+
+			            <?php
+			              
+			                $options=array();
+			                $options[1]=get_msg('all_location_label');
+			                $locations = $this->Itemlocation->get_all();
+			                foreach($locations->result() as $location) {
+			                    $options[$location->id]=$location->name;
+			                }
+
+			                echo form_dropdown(
+			                  'item_location_id',
+			                  $options,
+			                  set_value( 'item_location_id', show_data( @$blog->item_location_id), false ),
+			                  'class="form-control form-control-sm mr-3" id="item_location_id"'
+			                );
+			            ?>
+			        </div>
+            	</div>
 				
             	<div class="col-md-8">
             		<div class="form-group">

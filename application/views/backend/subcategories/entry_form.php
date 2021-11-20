@@ -89,7 +89,7 @@
 										set_value( 'cat_id', show_data( @$subcategory->cat_id), false ),
 										'class="form-control form-control-sm mr-3" id="cat_id"'
 									);
-								?> -->
+								?>
 
 							</div>
 
@@ -118,6 +118,10 @@
 									<?php echo get_msg('subcat_img')?> 
 								</label>
 
+                                <p class="mb-0 d-inline-block">
+                                    (<?php echo get_msg('recommended_size_img')?>)
+                                </p>
+
 								<br/>
 
 								<input class="btn btn-sm" type="file" name="cover" id="cover">
@@ -132,6 +136,12 @@
 								<div class="btn btn-sm btn-primary btn-upload pull-right" data-toggle="modal" data-target="#uploadImage">
 									<?php echo get_msg('btn_replace_photo')?>
 								</div>
+
+                                <br>
+
+                                <p class="mb-0">
+                                    <?php echo get_msg('recommended_size_img')?>
+                                </p>
 								
 								<hr/>
 								
@@ -190,6 +200,10 @@
 										<?php echo get_msg('subcat_icon')?> 
 									</label>
 
+                                    <p class="mb-0 d-inline-block">
+                                        (<?php echo get_msg('recommended_size_icon')?>)
+                                    </p>
+
 									<br/>
 
 									<input class="btn btn-sm" type="file" name="icon" id="icon">
@@ -205,6 +219,12 @@
 								<div class="btn btn-sm btn-primary btn-upload pull-right" data-toggle="modal" data-target="#uploadIcon">
 									<?php echo get_msg('btn_replace_icon')?>
 								</div>
+
+                                <br>
+
+                                <p class="mb-0">
+                                    <?php echo get_msg('recommended_size_icon')?>
+                                </p>
 								
 								<hr/>
 								

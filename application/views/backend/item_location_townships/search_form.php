@@ -17,26 +17,7 @@
 
 	  	</div>
 
-	  	<div class="form-group" style="padding-right: 3px;">
-
-			<?php
-				$options=array();
-				$options[0]=get_msg('location_name');
-				$cities = $this->Itemlocation->get_all();
-					foreach($cities->result() as $item_loc) {
-						$options[$item_loc->id]=$item_loc->name;
-				}
-
-				echo form_dropdown(
-					'city_id',
-					$options,
-					set_value( 'city_id', show_data( @$item_location_township->city_id), false ),
-					'class="form-control form-control-sm mr-3" id="city_id"'
-				);
-			?>
-
-	  	</div>
-
+	  
 		<div class="form-group">
 		  	<button type="submit" class="btn btn-sm btn-primary">
 		  		<?php echo get_msg( 'btn_search' )?>

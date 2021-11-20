@@ -3,6 +3,7 @@
 		<tr>
 			<th><?php echo get_msg('no'); ?></th>
 			<th><?php echo get_msg('blog_name'); ?></th>
+			<th><?php echo get_msg('city_name_label'); ?></th>
 			
 			<?php if ( $this->ps_auth->has_access( EDIT )): ?>
 				
@@ -34,6 +35,11 @@
 			<tr>
 				<td><?php echo ++$count;?></td>
 				<td><?php echo $blog->name;?></td>
+				<?php if ($blog->item_location_id == 1) : ?>
+					<td><?php echo "All"; ?></td>
+				<?php else : ?>		
+					<td><?php echo $this->Itemlocation->get_one( $blog->item_location_id )->name; ?></td>
+				<?php endif; ?>	
 
 				<?php if ( $this->ps_auth->has_access( EDIT )): ?>
 			

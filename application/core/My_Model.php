@@ -335,34 +335,40 @@ class PS_Model extends CI_Model {
 	 *
 	 * @return     <type>   All by.
 	 */
+
+
 	function get_all_by( $conds = array(), $limit = false, $offset = false ) {
+
 		// REF: https://stackoverflow.com/questions/574691/mysql-great-circle-distance-haversine-formula
-		// To search by miles instead of kilometers, replace 6371 with 3959.
+              // To search by miles instead of kilometers, replace 6371 with 3959.
 
-		//Current distance is 25kms range
+              //Current distance is 25kms range
 
-		if (isset($conds['lat']) && isset($conds['lng'])) {
-			if($conds['lat'] != "" && $conds['lng'] != "") {
-				$this->db->select('*,( 6371
-			      * acos( cos( radians('. $conds['lat'] .') )
-			              * cos(  radians( lat )   )
-			              * cos(  radians( lng ) - radians('. $conds['lng'] .') )
-			            + sin( radians('. $conds['lat'] .') )
-			              * sin( radians( lat ) )
-			            )
-			    ) as distance');
+              if (isset($conds['lat']) && isset($conds['lng'])) {
+                      if($conds['lat'] != "" && $conds['lng'] != "") {
+                              $this->db->select('*,( 6371
+                            * acos( cos( radians('. $conds['lat'] .') )
+                                    * cos(  radians( lat )   )
+                                    * cos(  radians( lng ) radians('. $conds['lng'] .') )
+                                  + sin( radians('. $conds['lat'] .') )
+                                    * sin( radians( lat ) )
+                                  )
+                          ) as distance');
 
-			    if ($conds['miles'] == "") {
-			    	$conds['miles'] = 100;
-			    	$this->db->having('distance < ' .  $conds['miles'] );
-			    } else {
-			    	$this->db->having('distance < ' .  $conds['miles'] );
+                          if ($conds['miles'] == "") {
+                             // $conds['miles'] = 0;
+		    				// $this->db->having('distance < ' .  $conds['miles'] );
+		    	unset($conds['miles']);
+                          } else {
+                              $this->db->having('distance < ' .  $conds['miles'] );
 
-			    }
-			}
+                          }
+                      }
 
-			$this->db->order_by('distance', "ASC");
-		}
+                      $this->db->order_by('distance', "ASC");
+                  }
+
+
 
 		// where clause
 		$this->custom_conds( $conds );
@@ -381,11 +387,12 @@ class PS_Model extends CI_Model {
 			
 			$this->db->offset($offset);
 		}
-		
-	 	return $this->db->get();
-		// print_r($this->db->last_query());die;
-	
+//        print_r($this->db->last_query());die;
+
+        return $this->db->get();
+
 	}
+	
 
 	function get_all_by_item( $conds = array(), $limit = false, $offset = false ) {
 		//print_r($conds);die;
@@ -409,8 +416,7 @@ class PS_Model extends CI_Model {
 
 		    }
 
-
-			$this->db->order_by('distance', "ASC");
+		    $this->db->order_by('distance' );
 
 		   
 		}
@@ -1473,6 +1479,7 @@ class PS_Model extends CI_Model {
 		    	$this->db->having('distance < ' .  $conds['miles'] );
 
 		    }
+		    $this->db->order_by('distance' );
 		}
 		//End - Modify By PPH @ 12 May 2020
 
@@ -1640,6 +1647,11 @@ class PS_Model extends CI_Model {
 			}			
 		}
 
+		// is_sold_out id condition
+		if ( isset( $conds['is_sold_out'] )) {
+			$this->db->where( 'is_sold_out', $conds['is_sold_out'] );
+		}
+
 		// searchterm
 		if ( isset( $conds['searchterm'] )) {
 			$this->db->group_start();
@@ -1696,6 +1708,8 @@ class PS_Model extends CI_Model {
 		    	$this->db->having('distance < ' .  $conds['miles'] );
 
 		    }
+
+		    $this->db->order_by('distance' );
 		}
 
 		// default where clause
@@ -1858,6 +1872,11 @@ class PS_Model extends CI_Model {
 				}
 
 			}			
+		}
+
+		// is_sold_out id condition
+		if ( isset( $conds['is_sold_out'] )) {
+			$this->db->where( 'is_sold_out', $conds['is_sold_out'] );
 		}
 
 		// searchterm

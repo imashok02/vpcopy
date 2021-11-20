@@ -176,7 +176,7 @@
 			});
 		});
 
-		 $('.delete-img').click(function(e){
+		$('.delete-img').click(function(e){
 			e.preventDefault();
 
 			// get id and image
@@ -187,11 +187,24 @@
 			console.log( action );
 			$('.btn-delete-image').attr('href', action);
 		});
+
+
+		$('.delete-video').click(function(e){
+			e.preventDefault();
+
+			// get id and image
+			var id = $(this).attr('id');
+
+			// do action
+			var action = '<?php echo $module_site_url .'/delete_video/'; ?>' + id + '/<?php echo @$item->id; ?>';
+			console.log( action );
+			$('.btn-delete-video').attr('href', action);
+		});
 	}
 
 </script>
 <?php 
-	// replace cover photo modal
+	// replace and delete item image
 	$data = array(
 		'title' => get_msg('upload_photo'),
 		'img_type' => 'item',
@@ -200,6 +213,30 @@
 
 	$this->load->view( $template_path .'/components/photo_upload_modal', $data );
 
-	// delete cover photo modal
 	$this->load->view( $template_path .'/components/delete_cover_photo_modal' ); 
+
+	// replace and delete video icon
+
+	$data = array(
+		'title' => get_msg('upload_photo'),
+		'img_type' => 'video-icon',
+		'img_parent_id' => @$item->id
+	);
+
+
+	$this->load->view( $template_path .'/components/icon_upload_modal', $data );
+
+	$this->load->view( $template_path .'/components/delete_cover_photo_modal' ); 
+
+	// replace and delete video
+	$data = array(
+		'title' => get_msg('upload_video'),
+		'img_type' => 'video',
+		'img_parent_id' => @$item->id
+	);
+
+	$this->load->view( $template_path .'/components/video_upload_modal', $data );
+
+	// delete cover photo modal
+	$this->load->view( $template_path .'/components/delete_video_modal' );
 ?>

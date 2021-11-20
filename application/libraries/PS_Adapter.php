@@ -168,6 +168,10 @@ class PS_Adapter {
 		$obj->photo_count = $this->CI->Image->count_all_by(array('img_parent_id' => $obj->id));
 		// set default photo
 		$obj->default_photo = $this->get_item_default_photo( $obj->id, 'item' );
+		// set video obj
+		$obj->default_video = $this->get_default_photo( $obj->id, 'video' );
+		// set video icon obj
+		$obj->default_video_icon = $this->get_default_photo( $obj->id, 'video-icon' );
 
 		// category object
 		if ( isset( $obj->cat_id )) {
@@ -187,16 +191,6 @@ class PS_Adapter {
 			$this->convert_subcategory( $tmp_sub_category );
 
 			$obj->sub_category = $tmp_sub_category;
-		}
-
-		// Price Quantity Object
-
-		if ( isset( $obj->price_qty_id )) {
-			$tmp_price_qty = $this->CI->Pricequantity->get_one( $obj->price_qty_id );
-
-			$this->convert_price_quantity( $tmp_price_qty );
-
-			$obj->price_qty = $tmp_price_qty;
 		}
 
 		// Itemtype Object
@@ -740,17 +734,6 @@ class PS_Adapter {
 		$obj->default_photo = $this->get_default_photo( $obj->id, 'sub_category' );
 	}
 
-	/**
-	 * Customize request price_quantity object
-	 *
-	 * @param      <type>  $obj    The object
-	 */
-	function convert_price_quantity( &$obj )
-	{
-		// set default photo
-		$obj->default_photo = $this->get_default_photo( $obj->id, 'price_quantity' );
-	}
-
 	/*
 	 * Customize feed object
 	 *
@@ -760,6 +743,13 @@ class PS_Adapter {
 	{
 		// set default photo
 		$obj->default_photo = $this->get_default_photo( $obj->id, 'blog' );
+
+		// location Object
+		if ( isset( $obj->item_location_id )) {
+
+			$tmp_blog_city= $this->CI->Itemlocation->get_one( $obj->item_location_id );
+			$obj->blog_city = $tmp_blog_city;
+		}
 
 	}
 

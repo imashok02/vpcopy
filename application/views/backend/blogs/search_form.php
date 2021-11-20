@@ -17,6 +17,8 @@
 
 	  	</div>
 
+	  	
+
 		<div class="form-group" style="padding-right: 2px;">
 		  	<button type="submit" class="btn btn-sm btn-primary">
 		  		<?php echo get_msg( 'btn_search' )?>

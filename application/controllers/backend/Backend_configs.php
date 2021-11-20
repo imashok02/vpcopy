@@ -251,6 +251,13 @@ class Backend_configs extends BE_Controller {
 			$data['ios_appstore_id'] = $this->get_data( 'ios_appstore_id' );
 		}
 
+		// if 'user_social_info_override' is checked,
+		if ( $this->has_data( 'user_social_info_override' )) {
+			$data['user_social_info_override'] = 1;
+		} else {
+			$data['user_social_info_override'] = 0;
+		}
+
         // print_r($data);die;
 
 		// save backend config

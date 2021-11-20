@@ -32,6 +32,20 @@ class Feed extends PS_Model {
 			$this->db->where( 'name', $conds['name'] );
 		}
 
+		// lcoation id condition
+		if ( isset( $conds['item_location_id'] )) {
+			
+			if ($conds['item_location_id'] != "") {
+				if($conds['item_location_id'] != '0'){
+					if($conds['item_location_id'] != '1'){
+				
+						$this->db->where( 'item_location_id', $conds['item_location_id'] );	
+					}	
+				}
+
+			}			
+		}
+
 		// feed_desc condition
 		if ( isset( $conds['description'] )) {
 			$this->db->where( 'description', $conds['description'] );

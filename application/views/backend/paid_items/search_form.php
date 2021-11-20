@@ -141,63 +141,7 @@
 
 		  	</div>
 
-		  	<div class="form-group" style="padding-top: 3px;padding-right: 2px;">
-
-				<?php
-					$options=array();
-					$options[0]=get_msg('itm_select_location');
-					
-					$locations = $this->Itemlocation->get_all( );
-					foreach($locations->result() as $location) {
-						
-						$options[$location->id]=$location->name;
-					}
-					
-					echo form_dropdown(
-						'item_location_id',
-						$options,
-						set_value( 'item_location_id', show_data( $item_location_id ), false ),
-						'class="form-control form-control-sm mr-2" id="item_location_id"'
-					);
-				?> 
-
-		  	</div>
-
-		  	<div class="form-group" style="padding-top: 3px;">
-
-				<?php
-					if($selected_location_city_id != "") {
-						$options=array();
-						$options[0]=get_msg('Prd_search_location_township');
-						$conds['city_id'] = $selected_location_city_id;
-						$townships = $this->Item_location_township->get_all_by($conds);
-						foreach($townships->result() as $township) {
-							$options[$township->id]=$township->township_name;
-						}
-						echo form_dropdown(
-							'item_location_township_id',
-							$options,
-							set_value( 'item_location_township_id', show_data( $item_location_township_id ), false ),
-							'class="form-control form-control-sm mr-2" id="item_location_township_id"'
-						);
-
-					} else {
-
-						$conds['city_id'] = $selected_location_city_id;
-						$options=array();
-						$options[0]=get_msg('Prd_search_location_township');
-
-						echo form_dropdown(
-							'item_location_township_id',
-							$options,
-							set_value( 'item_location_township_id', show_data( $item_location_township_id ), false ),
-							'class="form-control form-control-sm mr-2" id="item_location_township_id"'
-						);
-					}
-				?>
-
-		  	</div>
-
+		  	
 		  	<div class="form-group" style="padding-top: 3px;padding-right: 2px;">
 						
 				<select class="form-control form-control-sm mr-3" name="status" id="status">

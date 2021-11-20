@@ -394,39 +394,24 @@ class Offline_paids extends BE_Controller {
 	function delete( $id ) 
 	{
 		// start the transaction
-		$this->db->trans_start();
-
-		// check access
-		$this->check_access( DEL );
-
-		// delete categories and images
-		$enable_trigger = true; 
 		
-		// delete categories and images
-		//if ( !$this->ps_delete->delete_product( $id, $enable_trigger )) {
-		$type = "item";
+		$conds['item_id'] = $id;
 
-		if ( !$this->ps_delete->delete_history( $id, $type, $enable_trigger )) {
+		// update at item
+		$itm_data = array(
+	  		"payment_type" => 0
+	  	);
 
-			// set error message
-			$this->set_flash_msg( 'error', get_msg( 'err_model' ));
+		$this->Item->save($itm_data,$id);
 
-			// rollback
-			$this->trans_rollback();
-
-			// redirect to list view
-			redirect( $this->module_site_url());
-		}
-		/**
-		 * Check Transcation Status
-		 */
-		if ( !$this->check_trans()) {
+		if ( !$this->Paid_item->delete_by( $conds )) {
 
 			$this->set_flash_msg( 'error', get_msg( 'err_model' ));	
 		} else {
         	
 			$this->set_flash_msg( 'success', get_msg( 'success_prd_delete' ));
 		}
+		
 		
 		redirect( $this->module_site_url());
 	}

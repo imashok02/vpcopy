@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
 /**
  * Read More
  *
@@ -341,12 +342,16 @@ if ( ! function_exists( 'get_default_photo' ))
 		$CI =& get_instance();
 
 		// get all images
-		$img = $CI->Image->get_all_by( array( 'img_parent_id' => $id, 'img_type' => $type ))->result();
+		$img = $CI->Image->get_all_by( array( 'img_parent_id' => $id, 'img_type' => $type, 'ordering' => '1'))->result();
+
+		$img1 = $CI->Image->get_all_by( array( 'img_parent_id' => $id, 'img_type' => $type))->result();
 
 		if ( count( $img ) > 0 ) {
 		// if there are images for news,
 			
 			$default_photo = $img[0];
+		} elseif ( count( $img1 ) > 0) {
+			$default_photo = $img1[0];
 		} else {
 		// if no image, return empty object
 
@@ -450,8 +455,6 @@ if ( ! function_exists( 'send_android_fcm_chat' ))
     	    )
 
     	);
-
-    	
 
     	// Update your Google Cloud Messaging API Key
     	//define("GOOGLE_API_KEY", "AIzaSyAzKBPuzGuR0nlvY0AxPrXsEMBuRUxO4WE");
@@ -611,8 +614,8 @@ if ( ! function_exists( 'deep_linking_shorten_url' ))
 	function deep_linking_shorten_url ($description,$title,$img,$id) {
 		// get ci instance
 		$CI =& get_instance();
-
-		$longUrl = $CI->Backend_config->get_one('be1')->dyn_link_deep_url.$id;
+		
+		$longUrl = $CI->Backend_config->get_one('be1')->dyn_link_deep_url.$id."&itemName=".$title;
 	  
 		//Web API Key From Firebase   
 		$key = $CI->Backend_config->get_one('be1')->dyn_link_key;

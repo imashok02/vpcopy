@@ -108,8 +108,11 @@ class User extends PS_Model {
 
 		// searchterm
 		if ( isset( $conds['searchterm'] )) {
-			$this->db->like( 'user_name', $conds['searchterm'] );
-			$this->db->or_like( 'user_email', $conds['searchterm'] );
+		    $this->db->group_start();
+            $this->db->like( 'user_name', $conds['searchterm'] );
+            $this->db->or_like( 'blue_mark_note', $conds['searchterm'] );
+            $this->db->or_like( 'user_email', $conds['searchterm'] );
+            $this->db->group_end();
 		}
 		
 		// user_is_sys_admin condition
@@ -179,9 +182,27 @@ class User extends PS_Model {
 			$this->db->where( 'status', 1 );
 		}
 
-		// user added_date_timestamp condition
+        // verify blue mark id condition
+        if ( isset( $conds['is_verify_blue_mark'] )) {
+
+            if ($conds['is_verify_blue_mark'] != "") {
+                if($conds['is_verify_blue_mark'] != '0'){
+                    $this->db->where( 'is_verify_blue_mark', $conds['is_verify_blue_mark'] );
+                }
+
+            }
+        }
+
+
+
+        // user added_date_timestamp condition
 		if ( isset($conds['added_date_timestamp'] )) {
 			$this->db->where( 'added_date_timestamp' , $conds['added_date_timestamp'] );
+		}
+
+		// user user_social_info_override condition
+		if ( isset($conds['user_social_info_override'] )) {
+			$this->db->where( 'user_social_info_override' , $conds['user_social_info_override'] );
 		}
 
 		$this->db->order_by('added_date', 'desc');

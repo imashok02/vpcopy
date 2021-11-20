@@ -802,6 +802,7 @@ class API_Controller extends REST_Controller
 		$user_conds = $this->get();
 
 		$conds = array_merge( $default_conds, $user_conds );
+		//print_r($conds);die;
 
 		if ($conds['custom_sql']=="closer_cities") {
 			$conds['miles'] = 25; // denoting kms here
@@ -811,19 +812,27 @@ class API_Controller extends REST_Controller
 
 		} else {
 
-			// check empty condition
+		// check empty condition
 			$final_conds = array();
 			foreach( $conds as $key => $value ) {
-	    
-			    if($key != "status") {
-				    if ( !empty( $value )) {
-				     $final_conds[$key] = $value;
-				    }
-			    }
 
-			    if($key == "status") {
-			    	$final_conds[$key] = $value;
-			    }
+				if (isset($conds['is_sold_out'])) {
+					$final_conds[$key] = $value;
+
+				} else {
+
+					if($key != "status") {
+					    if ( !empty( $value )) {
+					     $final_conds[$key] = $value;
+					    }
+				    }
+
+				    if($key == "status") {
+				    	$final_conds[$key] = $value;
+				    }
+
+				}	
+			   
 
 
 			}
@@ -956,7 +965,6 @@ class API_Controller extends REST_Controller
 
 					$conds['item_id'] = $item_id;
 					$conds['reported_item_id'] = $reported_item_id;
-
 
 					if ( !empty( $limit ) && !empty( $offset )) {
 						// if limit & offset is not empty

@@ -57,9 +57,16 @@ class Item extends PS_Model {
 			$this->db->where( 'title', $conds['title'] );
 		}
 
-		// id condition
+		// added_user_id condition
 		if ( isset( $conds['added_user_id'] )) {
 			$this->db->where( 'added_user_id', $conds['added_user_id'] );
+		}
+
+		// main category id condition
+		if ( isset( $conds['main_cat_id'] )) {
+			if ($conds['main_cat_id'] != "" || $conds['main_cat_id'] != 0) {
+				$this->db->where( 'main_cat_id', $conds['main_cat_id'] );
+			}
 		}
 
 		// category id condition
@@ -69,17 +76,6 @@ class Item extends PS_Model {
 				if($conds['cat_id'] != '0'){
 					$this->db->where( 'cat_id', $conds['cat_id'] );	
 				}
-
-			}			
-		}
-
-		// main category id condition
-		if ( isset( $conds['main_cat_id'] )) {
-
-
-			if ($conds['main_cat_id'] != "" || $conds['main_cat_id'] != 0) {
-
-				$this->db->where( 'main_cat_id', $conds['main_cat_id'] );	
 
 			}			
 		}
@@ -208,9 +204,9 @@ class Item extends PS_Model {
 			$this->db->like( 'payment_type', $conds['payment_type'] );
 		}
 
-		// is_paid condition
-		if ( isset( $conds['is_paid'] )) {
-			$this->db->like( 'is_paid', $conds['is_paid'] );
+		// is_sold_out condition
+		if ( isset( $conds['is_sold_out'] )) {
+			$this->db->where( 'is_sold_out', $conds['is_sold_out'] );
 		}
 
 		// searchterm

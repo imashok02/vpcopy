@@ -417,6 +417,8 @@ class Users extends API_Controller
 	        	'field' => 'is_show_phone',
 	        	'rules' => 'required'
 	        )
+
+	        
         );
 
 		// exit if there is an error in validation,
@@ -856,132 +858,188 @@ class Users extends API_Controller
 
         	//User already exist in DB
         	$conds['facebook_id'] = $this->post( 'facebook_id' );
-        	$conds1['facebook_id'] = $this->post( 'facebook_id' );
-        	$user_profile_photo = $this->User->get_one_by($conds['facebook_id'])->user_profile_photo;
+        	$user_social_info_override = $this->Backend_config->get_one('be1')->user_social_info_override;
+        	
 
-        	//Delete existing image 
-        	@unlink('./uploads/'.$user_profile_photo);
-			@unlink('./uploads/thumbnail/'.$user_profile_photo);
-			//Download again
-			$fb_id = $this->post( 'profile_img_id' );
-			$url = "https://graph.facebook.com/$fb_id/picture?width=350&height=500";
-		  	$data = file_get_contents($url);
-		  	
-		  	// for uploads
-		  	
-		  	$dir = "uploads/";
-			$img = md5(time()).'.jpg';
-		  	$ch = curl_init($url);
-			$fp = fopen( 'uploads/'. $img, 'wb' );
-			curl_setopt($ch, CURLOPT_FILE, $fp);
-			curl_setopt($ch, CURLOPT_HEADER, 0);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-			curl_exec($ch);
-			curl_close($ch);
-			fclose($fp);
+        	if ($user_social_info_override == '1') {
 
-			// for thumbnail 
+	        	$conds1['facebook_id'] = $this->post( 'facebook_id' );
+	        	$user_profile_photo = $this->User->get_one_by($conds['facebook_id'])->user_profile_photo;
 
-			$dir = "uploads/thumbnail/";
-			$ch = curl_init($url);
-			$fp = fopen( 'uploads/thumbnail/'. $img, 'wb' );
-			curl_setopt($ch, CURLOPT_FILE, $fp);
-			curl_setopt($ch, CURLOPT_HEADER, 0);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-			curl_exec($ch);
-			curl_close($ch);
-			fclose($fp);
+	        	//Delete existing image 
+	        	@unlink('./uploads/'.$user_profile_photo);
+				@unlink('./uploads/thumbnail/'.$user_profile_photo);
+				//Download again
+				$fb_id = $this->post( 'profile_img_id' );
+				$url = "https://graph.facebook.com/$fb_id/picture?width=350&height=500";
+			  	$data = file_get_contents($url);
+			  	
+			  	// for uploads
+			  	
+			  	$dir = "uploads/";
+				$img = md5(time()).'.jpg';
+			  	$ch = curl_init($url);
+				$fp = fopen( 'uploads/'. $img, 'wb' );
+				curl_setopt($ch, CURLOPT_FILE, $fp);
+				curl_setopt($ch, CURLOPT_HEADER, 0);
+				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+				curl_exec($ch);
+				curl_close($ch);
+				fclose($fp);
 
-			$user_data = array(
-				'user_name'    	=> $this->post('user_name'), 
-				'user_email'    => $this->post('user_email'),
-				'user_profile_photo' => $img,
-				'device_token'  => $this->post('device_token')
-			);
+				// for thumbnail 
 
-			//for user name and user email
-			$user_name = $this->post('user_name');
-			$user_email = $this->post('user_email');
+				$dir = "uploads/thumbnail/";
+				$ch = curl_init($url);
+				$fp = fopen( 'uploads/thumbnail/'. $img, 'wb' );
+				curl_setopt($ch, CURLOPT_FILE, $fp);
+				curl_setopt($ch, CURLOPT_HEADER, 0);
+				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+				curl_exec($ch);
+				curl_close($ch);
+				fclose($fp);
 
-			if ($user_name == "" && $user_email == "") {
 				$user_data = array(
-				'device_token'  => $this->post('device_token'),
-				'user_profile_photo' => $user_data['user_profile_photo'], 
+					'user_name'    	=> $this->post('user_name'), 
+					'user_email'    => $this->post('user_email'),
+					'user_profile_photo' => $img,
+					'device_token'  => $this->post('device_token')
 				);
-			}else if ($user_name == "") {
-				$user_data = array(
-				'user_email'    => $user_data['user_email'],
-				'device_token'  => $user_data['device_token'],
-				'user_profile_photo' => $user_data['user_profile_photo'], 
-				);
-			}else if ($user_email == "") {
-				$user_data = array(
-				'user_name'    => $user_data['user_name'],
-				'device_token'  => $user_data['device_token'], 
-				'user_profile_photo' => $user_data['user_profile_photo'],
-				);
-			}else{
-				$user_data = array(
-				'user_name'    => $user_data['user_name'],
-				'user_email'    => $user_data['user_email'],
-				'device_token'  => $user_data['device_token'],
-				'user_profile_photo' => $user_data['user_profile_photo'], 
-				);
-			}	
 
+				//for user name and user email
+				$user_name = $this->post('user_name');
+				$user_email = $this->post('user_email');
 
-			$users_data = $this->User->get_one_by($conds1);
-			$user_id = $users_data->user_id;
-
-			$conds['facebook_id'] = $this->post( 'facebook_id' );
-			$user_datas = $this->User->get_one_by($conds);
-			$user_id = $user_datas->user_id;
-
-			if ( $user_datas->is_banned == 1 ) {
-
-				$this->error_response( get_msg( 'err_user_banned' ));
-			} else {
-				if ( !$this->User->save($user_data,$user_id)) {
-        			$this->error_response( get_msg( 'err_user_register' ));
-        		}
-
-        		$noti_token = array(
-    				"device_token" => $this->post( 'device_token' )
-    			);
-    	        
-        		$noti_count = $this->Noti->count_all_by($noti_token);
-
-				if ($noti_count == 1) {
-					if ( $this->Noti->exists( $noti_token )) {
-	        			$noti_id = $this->Noti->get_one_by($noti_token);
-	        			$push_noti_token_id = $noti_id->push_noti_token_id;
-	        			$noti_data = array(
-
-							"user_id" => $user_id
-							
-						);
-			        	$this->Noti->save( $noti_data, $push_noti_token_id );
-			        } else {
-			            $noti_data = array(
-
-							"user_id" => $user_id,
-							"device_token" => $this->post( 'device_token' )
-							
-						);
-			        	$this->Noti->save( $noti_data, $push_noti_token_id );
-			        }
+				if ($user_name == "" && $user_email == "") {
+					$user_data = array(
+					'device_token'  => $this->post('device_token'),
+					'user_profile_photo' => $user_data['user_profile_photo'], 
+					);
+				}else if ($user_name == "") {
+					$user_data = array(
+					'user_email'    => $user_data['user_email'],
+					'device_token'  => $user_data['device_token'],
+					'user_profile_photo' => $user_data['user_profile_photo'], 
+					);
+				}else if ($user_email == "") {
+					$user_data = array(
+					'user_name'    => $user_data['user_name'],
+					'device_token'  => $user_data['device_token'], 
+					'user_profile_photo' => $user_data['user_profile_photo'],
+					);
 				}else{
-					$this->Noti->delete_by($noti_token);
-						$noti_data = array(
+					$user_data = array(
+					'user_name'    => $user_data['user_name'],
+					'user_email'    => $user_data['user_email'],
+					'device_token'  => $user_data['device_token'],
+					'user_profile_photo' => $user_data['user_profile_photo'], 
+					);
+				}	
 
-							"user_id" => $user_id,
-							"device_token" => $this->post( 'device_token' )
-							
-						);
-			        	$this->Noti->save( $noti_data, $push_noti_token_id );
 
-				} 
+				$users_data = $this->User->get_one_by($conds1);
+				$user_id = $users_data->user_id;
 
+				$conds['facebook_id'] = $this->post( 'facebook_id' );
+				$user_datas = $this->User->get_one_by($conds);
+				$user_id = $user_datas->user_id;
+
+				if ( $user_datas->is_banned == 1 ) {
+
+					$this->error_response( get_msg( 'err_user_banned' ));
+				} else {
+					if ( !$this->User->save($user_data,$user_id)) {
+	        			$this->error_response( get_msg( 'err_user_register' ));
+	        		}
+
+	        		$noti_token = array(
+	    				"device_token" => $this->post( 'device_token' )
+	    			);
+	    	        
+	        		$noti_count = $this->Noti->count_all_by($noti_token);
+
+					if ($noti_count == 1) {
+						if ( $this->Noti->exists( $noti_token )) {
+		        			$noti_id = $this->Noti->get_one_by($noti_token);
+		        			$push_noti_token_id = $noti_id->push_noti_token_id;
+		        			$noti_data = array(
+
+								"user_id" => $user_id
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+				        } else {
+				            $noti_data = array(
+
+								"user_id" => $user_id,
+								"device_token" => $this->post( 'device_token' )
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+				        }
+					}else{
+						$this->Noti->delete_by($noti_token);
+							$noti_data = array(
+
+								"user_id" => $user_id,
+								"device_token" => $this->post( 'device_token' )
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+
+					} 
+
+				}
+			} else {
+				$user_datas = $this->User->get_one_by($conds);
+				$user_id = $user_datas->user_id;
+
+				if ( $user_datas->is_banned == 1 ) {
+
+					$this->error_response( get_msg( 'err_user_banned' ));
+				} else {
+					if ( !$this->User->save($user_datas,$user_id)) {
+	        			$this->error_response( get_msg( 'err_user_register' ));
+	        		}
+
+	        		$noti_token = array(
+	    				"device_token" => $this->post( 'device_token' )
+	    			);
+	    	        
+	        		$noti_count = $this->Noti->count_all_by($noti_token);
+
+					if ($noti_count == 1) {
+						if ( $this->Noti->exists( $noti_token )) {
+		        			$noti_id = $this->Noti->get_one_by($noti_token);
+		        			$push_noti_token_id = $noti_id->push_noti_token_id;
+		        			$noti_data = array(
+
+								"user_id" => $user_id
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+				        } else {
+				            $noti_data = array(
+
+								"user_id" => $user_id,
+								"device_token" => $this->post( 'device_token' )
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+				        }
+					}else{
+						$this->Noti->delete_by($noti_token);
+							$noti_data = array(
+
+								"user_id" => $user_id,
+								"device_token" => $this->post( 'device_token' )
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+
+					} 
+
+				}
 			}
 
         	$this->custom_response($this->User->get_one($user_datas->user_id));
@@ -1520,139 +1578,196 @@ class Users extends API_Controller
 
         	//User already exist in DB
         	$conds['google_id'] = $this->post( 'google_id' );
-        	$user_profile_photo = $this->User->get_one_by($conds['google_id'])->user_profile_photo;
+        	$user_social_info_override = $this->Backend_config->get_one('be1')->user_social_info_override;
 
-        	//Delete existing image 
-        	@unlink('./uploads/'.$user_profile_photo);
-			@unlink('./uploads/thumbnail/'.$user_profile_photo);
-			//Download again
-			$gg_id = $this->post( 'google_id' ) ;
-			$url = $this->post('profile_photo_url');
-		  	
-			if($url != "") {
-			  	$data = file_get_contents($url);
+        	if ($user_social_info_override == '1') {
+        		$user_profile_photo = $this->User->get_one_by($conds)->user_profile_photo;
+
+	        	//Delete existing image 
+	        	@unlink('./uploads/'.$user_profile_photo);
+				@unlink('./uploads/thumbnail/'.$user_profile_photo);
+				//Download again
+				$gg_id = $this->post( 'google_id' ) ;
+				$url = $this->post('profile_photo_url');
 			  	
-			  	// for uploads
+				if($url != "") {
+				  	$data = file_get_contents($url);
+				  	
+				  	// for uploads
 
-			  	$dir = "uploads/";
-				$img = md5(time()).'.jpg';
-			  	$ch = curl_init($url);
-				$fp = fopen( 'uploads/'. $img, 'wb' );
-				curl_setopt($ch, CURLOPT_FILE, $fp);
-				curl_setopt($ch, CURLOPT_HEADER, 0);
-				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-				curl_exec($ch);
-				curl_close($ch);
-				fclose($fp);
+				  	$dir = "uploads/";
+					$img = md5(time()).'.jpg';
+				  	$ch = curl_init($url);
+					$fp = fopen( 'uploads/'. $img, 'wb' );
+					curl_setopt($ch, CURLOPT_FILE, $fp);
+					curl_setopt($ch, CURLOPT_HEADER, 0);
+					curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+					curl_exec($ch);
+					curl_close($ch);
+					fclose($fp);
 
-				// for thumbnail
-				
-				$dir = "uploads/thumbnail/";
-			  	$ch = curl_init($url);
-				$fp = fopen( 'uploads/thumbnail/'. $img, 'wb' );
-				curl_setopt($ch, CURLOPT_FILE, $fp);
-				curl_setopt($ch, CURLOPT_HEADER, 0);
-				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-				curl_exec($ch);
-				curl_close($ch);
-				fclose($fp);
+					// for thumbnail
+					
+					$dir = "uploads/thumbnail/";
+				  	$ch = curl_init($url);
+					$fp = fopen( 'uploads/thumbnail/'. $img, 'wb' );
+					curl_setopt($ch, CURLOPT_FILE, $fp);
+					curl_setopt($ch, CURLOPT_HEADER, 0);
+					curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+					curl_exec($ch);
+					curl_close($ch);
+					fclose($fp);
 
-				$user_data = array(
-					'user_name'    	=> $this->post('user_name'), 
-					'user_email'    => $this->post('user_email'),
-					'device_token'  => $this->post('device_token'), 
-					'user_profile_photo' => $img	
-				);
-			} else {
+					$user_data = array(
+						'user_name'    	=> $this->post('user_name'), 
+						'user_email'    => $this->post('user_email'),
+						'device_token'  => $this->post('device_token'), 
+						'user_profile_photo' => $img	
+					);
+				} else {
 
-				$user_data = array(
-					'user_name'    	=> $this->post('user_name'), 
-					'user_email'    => $this->post('user_email'),
-					'device_token'  => $this->post('device_token')
-				);
-			}
-
-			//for user name and user email
-			$user_name = $this->post('user_name');
-			$user_email = $this->post('user_email');
-
-			if ($user_name == "" && $user_email == "") {
-				$user_data = array(
-				'device_token'  => $this->post('device_token'),
-				'user_profile_photo' => $user_data['user_profile_photo'], 
-				);
-			}else if ($user_name == "") {
-				$user_data = array(
-				'user_email'    => $user_data['user_email'],
-				'device_token'  => $user_data['device_token'], 
-				'user_profile_photo' => $user_data['user_profile_photo'],
-				);
-			}else if ($user_email == "") {
-				$user_data = array(
-				'user_name'    => $user_data['user_name'],
-				'device_token'  => $user_data['device_token'], 
-				'user_profile_photo' => $user_data['user_profile_photo'],
-				);
-			}else{
-				$user_data = array(
-				'user_name'    => $user_data['user_name'],
-				'user_email'    => $user_data['user_email'],
-				'device_token'  => $user_data['device_token'], 
-				'user_profile_photo' => $user_data['user_profile_photo'],
-				);
-			}	
-
-			$conds['google_id'] = $this->post( 'google_id' );
-			$user_datas = $this->User->get_one_by($conds);
-			$user_id = $user_datas->user_id;
-			//print_r($user_id);die;
-
-			if ( $user_datas->is_banned == 1 ) {
-
-				$this->error_response( get_msg( 'err_user_banned' ));
-			} else {
-				if ( !$this->User->save($user_data,$user_id)) {
-	        		$this->error_response( get_msg( 'err_user_register' ));
-	        	}
-
-	        	$noti_token = array(
-    				"device_token" => $this->post( 'device_token' )
-    			);
-
-	        	$noti_count = $this->Noti->count_all_by($noti_token);
-
-				if ($noti_count == 1) {
-					if ( $this->Noti->exists( $noti_token )) {
-	        			$noti_id = $this->Noti->get_one_by($noti_token);
-	        			$push_noti_token_id = $noti_id->push_noti_token_id;
-	        			$noti_data = array(
-
-							"user_id" => $user_id
-							
-						);
-			        	$this->Noti->save( $noti_data, $push_noti_token_id );
-			        } else {
-			            $noti_data = array(
-
-							"user_id" => $user_id,
-							"device_token" => $this->post( 'device_token' )
-							
-						);
-			        	$this->Noti->save( $noti_data, $push_noti_token_id );
-			        }
-				}else{
-					$this->Noti->delete_by($noti_token);
-						$noti_data = array(
-
-							"user_id" => $user_id,
-							"device_token" => $this->post( 'device_token' )
-							
-						);
-			        	$this->Noti->save( $noti_data, $push_noti_token_id );
-
+					$user_data = array(
+						'user_name'    	=> $this->post('user_name'), 
+						'user_email'    => $this->post('user_email'),
+						'device_token'  => $this->post('device_token')
+					);
 				}
 
-			}
+				//for user name and user email
+				$user_name = $this->post('user_name');
+				$user_email = $this->post('user_email');
+
+				if ($user_name == "" && $user_email == "") {
+					$user_data = array(
+					'device_token'  => $this->post('device_token'),
+					'user_profile_photo' => $user_data['user_profile_photo'], 
+					);
+				}else if ($user_name == "") {
+					$user_data = array(
+					'user_email'    => $user_data['user_email'],
+					'device_token'  => $user_data['device_token'], 
+					'user_profile_photo' => $user_data['user_profile_photo'],
+					);
+				}else if ($user_email == "") {
+					$user_data = array(
+					'user_name'    => $user_data['user_name'],
+					'device_token'  => $user_data['device_token'], 
+					'user_profile_photo' => $user_data['user_profile_photo'],
+					);
+				}else{
+					$user_data = array(
+					'user_name'    => $user_data['user_name'],
+					'user_email'    => $user_data['user_email'],
+					'device_token'  => $user_data['device_token'], 
+					'user_profile_photo' => $user_data['user_profile_photo'],
+					);
+				}	
+
+				$conds['google_id'] = $this->post( 'google_id' );
+				$user_datas = $this->User->get_one_by($conds);
+				$user_id = $user_datas->user_id;
+				//print_r($user_id);die;
+
+				if ( $user_datas->is_banned == 1 ) {
+
+					$this->error_response( get_msg( 'err_user_banned' ));
+				} else {
+					if ( !$this->User->save($user_data,$user_id)) {
+		        		$this->error_response( get_msg( 'err_user_register' ));
+		        	}
+
+		        	$noti_token = array(
+	    				"device_token" => $this->post( 'device_token' )
+	    			);
+
+		        	$noti_count = $this->Noti->count_all_by($noti_token);
+
+					if ($noti_count == 1) {
+						if ( $this->Noti->exists( $noti_token )) {
+		        			$noti_id = $this->Noti->get_one_by($noti_token);
+		        			$push_noti_token_id = $noti_id->push_noti_token_id;
+		        			$noti_data = array(
+
+								"user_id" => $user_id
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+				        } else {
+				            $noti_data = array(
+
+								"user_id" => $user_id,
+								"device_token" => $this->post( 'device_token' )
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+				        }
+					}else{
+						$this->Noti->delete_by($noti_token);
+							$noti_data = array(
+
+								"user_id" => $user_id,
+								"device_token" => $this->post( 'device_token' )
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+
+					}
+
+				}
+        	} else {
+        		$user_datas = $this->User->get_one_by($conds);
+				$user_id = $user_datas->user_id;
+				//print_r($user_id);die;
+
+				if ( $user_datas->is_banned == 1 ) {
+
+					$this->error_response( get_msg( 'err_user_banned' ));
+				} else {
+					if ( !$this->User->save($user_datas,$user_id)) {
+		        		$this->error_response( get_msg( 'err_user_register' ));
+		        	}
+
+		        	$noti_token = array(
+	    				"device_token" => $this->post( 'device_token' )
+	    			);
+
+		        	$noti_count = $this->Noti->count_all_by($noti_token);
+
+					if ($noti_count == 1) {
+						if ( $this->Noti->exists( $noti_token )) {
+		        			$noti_id = $this->Noti->get_one_by($noti_token);
+		        			$push_noti_token_id = $noti_id->push_noti_token_id;
+		        			$noti_data = array(
+
+								"user_id" => $user_id
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+				        } else {
+				            $noti_data = array(
+
+								"user_id" => $user_id,
+								"device_token" => $this->post( 'device_token' )
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+				        }
+					}else{
+						$this->Noti->delete_by($noti_token);
+							$noti_data = array(
+
+								"user_id" => $user_id,
+								"device_token" => $this->post( 'device_token' )
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+
+					}
+
+				}
+        	}
+
+        	
 
         	$this->custom_response($this->User->get_one($user_datas->user_id));
 
@@ -1855,91 +1970,150 @@ class Users extends API_Controller
         	$this->custom_response($this->User->get_one($user_infos[0]->user_id));
 
         } else {
-        	//update
-        	//User already exist in DB
-			$user_data = array(
-				"user_name"    	=> $this->post('user_name'), 
-				"user_phone"    => $this->post('user_phone'),
-				"device_token" => $this->post('device_token')
-			);
 
-			//for user name and user email
-			$user_name = $this->post('user_name');
-			$user_phone = $this->post('user_phone');
+        	$conds['phone_id'] = $this->post( 'phone_id' );
+        	$user_social_info_override = $this->Backend_config->get_one('be1')->user_social_info_override;
 
-			if ($user_name == "" && $user_phone == "") {
+
+        	if ($user_social_info_override == '1') {
+
+	        	//update
+	        	//User already exist in DB
 				$user_data = array(
-				'device_token'  => $this->post('device_token'), 
+					"user_name"    	=> $this->post('user_name'), 
+					"user_phone"    => $this->post('user_phone'),
+					"device_token" => $this->post('device_token')
 				);
-			}else if ($user_name == "") {
-				$user_data = array(
-				'user_phone'    => $user_data['user_phone'],
-				'device_token'  => $user_data['device_token'], 
-				);
-			}else if ($user_phone == "") {
-				$user_data = array(
-				'user_name'    => $user_data['user_name'],
-				'device_token'  => $user_data['device_token'], 
-				);
-			}else{
-				$user_data = array(
-				'user_name'    => $user_data['user_name'],
-				'user_phone'    => $user_data['user_phone'],
-				'device_token'  => $user_data['device_token'], 
-				);
-			}
 
-			$conds['phone_id'] = $this->post( 'phone_id' );
-			$user_datas = $this->User->get_one_by($conds);
-			$user_id = $user_datas->user_id;
+				//for user name and user email
+				$user_name = $this->post('user_name');
+				$user_phone = $this->post('user_phone');
 
-			if ( $user_datas->is_banned == 1 ) {
-
-				$this->error_response( get_msg( 'err_user_banned' ));
-				
-			} else {
-				if ( !$this->User->save($user_data,$user_id)) {
-	        		$this->error_response( get_msg( 'err_user_register' ));
-	        	}
-
-	        	$noti_token = array(
-    				"device_token" => $this->post( 'device_token' )
-    			);
-
-	        	$noti_count = $this->Noti->count_all_by($noti_token);
-
-				if ($noti_count == 1) {
-					if ( $this->Noti->exists( $noti_token )) {
-	        			$noti_id = $this->Noti->get_one_by($noti_token);
-	        			$push_noti_token_id = $noti_id->push_noti_token_id;
-	        			$noti_data = array(
-
-							"user_id" => $user_id
-							
-						);
-			        	$this->Noti->save( $noti_data, $push_noti_token_id );
-			        } else {
-			            $noti_data = array(
-
-							"user_id" => $user_id,
-							"device_token" => $this->post( 'device_token' )
-							
-						);
-			        	$this->Noti->save( $noti_data, $push_noti_token_id );
-			        }
+				if ($user_name == "" && $user_phone == "") {
+					$user_data = array(
+					'device_token'  => $this->post('device_token'), 
+					);
+				}else if ($user_name == "") {
+					$user_data = array(
+					'user_phone'    => $user_data['user_phone'],
+					'device_token'  => $user_data['device_token'], 
+					);
+				}else if ($user_phone == "") {
+					$user_data = array(
+					'user_name'    => $user_data['user_name'],
+					'device_token'  => $user_data['device_token'], 
+					);
 				}else{
-					$this->Noti->delete_by($noti_token);
-						$noti_data = array(
+					$user_data = array(
+					'user_name'    => $user_data['user_name'],
+					'user_phone'    => $user_data['user_phone'],
+					'device_token'  => $user_data['device_token'], 
+					);
+				}
 
-							"user_id" => $user_id,
-							"device_token" => $this->post( 'device_token' )
-							
-						);
-			        	$this->Noti->save( $noti_data, $push_noti_token_id );
+				$conds['phone_id'] = $this->post( 'phone_id' );
+				$user_datas = $this->User->get_one_by($conds);
+				$user_id = $user_datas->user_id;
 
-				} 
+				if ( $user_datas->is_banned == 1 ) {
 
-			}
+					$this->error_response( get_msg( 'err_user_banned' ));
+					
+				} else {
+					if ( !$this->User->save($user_data,$user_id)) {
+		        		$this->error_response( get_msg( 'err_user_register' ));
+		        	}
+
+		        	$noti_token = array(
+	    				"device_token" => $this->post( 'device_token' )
+	    			);
+
+		        	$noti_count = $this->Noti->count_all_by($noti_token);
+
+					if ($noti_count == 1) {
+						if ( $this->Noti->exists( $noti_token )) {
+		        			$noti_id = $this->Noti->get_one_by($noti_token);
+		        			$push_noti_token_id = $noti_id->push_noti_token_id;
+		        			$noti_data = array(
+
+								"user_id" => $user_id
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+				        } else {
+				            $noti_data = array(
+
+								"user_id" => $user_id,
+								"device_token" => $this->post( 'device_token' )
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+				        }
+					}else{
+						$this->Noti->delete_by($noti_token);
+							$noti_data = array(
+
+								"user_id" => $user_id,
+								"device_token" => $this->post( 'device_token' )
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+
+					} 
+
+				}
+			} else {
+				$user_datas = $this->User->get_one_by($conds);
+				$user_id = $user_datas->user_id;
+
+				if ( $user_datas->is_banned == 1 ) {
+
+					$this->error_response( get_msg( 'err_user_banned' ));
+					
+				} else {
+					if ( !$this->User->save($user_datas,$user_id)) {
+		        		$this->error_response( get_msg( 'err_user_register' ));
+		        	}
+
+		        	$noti_token = array(
+	    				"device_token" => $this->post( 'device_token' )
+	    			);
+
+		        	$noti_count = $this->Noti->count_all_by($noti_token);
+
+					if ($noti_count == 1) {
+						if ( $this->Noti->exists( $noti_token )) {
+		        			$noti_id = $this->Noti->get_one_by($noti_token);
+		        			$push_noti_token_id = $noti_id->push_noti_token_id;
+		        			$noti_data = array(
+
+								"user_id" => $user_id
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+				        } else {
+				            $noti_data = array(
+
+								"user_id" => $user_id,
+								"device_token" => $this->post( 'device_token' )
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+				        }
+					}else{
+						$this->Noti->delete_by($noti_token);
+							$noti_data = array(
+
+								"user_id" => $user_id,
+								"device_token" => $this->post( 'device_token' )
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+
+					} 
+
+				}
+			}	
 
         	$this->custom_response($this->User->get_one($user_datas->user_id));
 
@@ -2137,90 +2311,146 @@ class Users extends API_Controller
 
         } else {
 
-        	//User already exist in DB
-        	$user_data = array(
-					'user_name'    	=> $this->post('user_name'), 
+        	$conds['apple_id'] = $this->post( 'apple_id' );
+        	$user_social_info_override = $this->Backend_config->get_one('be1')->user_social_info_override;
+
+        	if ($user_social_info_override == '1') {
+
+	        	//User already exist in DB
+	        	$user_data = array(
+						'user_name'    	=> $this->post('user_name'), 
+						'user_email'    => $this->post('user_email'),
+						'device_token'  => $this->post('device_token')
+					);
+
+				//for user name
+				$user_name = $this->post('user_name');
+				$user_email = $this->post('user_email');
+
+				if ($user_name == "" && $user_email == "") {
+					$user_data = array(
+					'device_token'  => $this->post('device_token'), 
+					);
+				}else if ($user_name == "") {
+					$user_data = array(
 					'user_email'    => $this->post('user_email'),
-					'device_token'  => $this->post('device_token')
-				);
-
-			//for user name
-			$user_name = $this->post('user_name');
-			$user_email = $this->post('user_email');
-
-			if ($user_name == "" && $user_email == "") {
-				$user_data = array(
-				'device_token'  => $this->post('device_token'), 
-				);
-			}else if ($user_name == "") {
-				$user_data = array(
-				'user_email'    => $this->post('user_email'),
-				'device_token'  => $this->post('device_token'), 
-				);
-			}else if ($user_email == "") {
-				$user_data = array(
-				'user_name'    => $this->post('user_name'),
-				'device_token'  => $this->post('device_token'), 
-				);
-			}else{
-				$user_data = array(
-				'user_name'    => $this->post('user_name'),
-				'user_email'    => $this->post('user_email'),
-				'device_token'  => $this->post('device_token'), 
-				);
-			}
-
-
-			$conds['apple_id'] = $this->post( 'apple_id' );
-			$user_datas = $this->User->get_one_by($conds);
-			$user_id = $user_datas->user_id;
-
-			if ( $user_datas->is_banned == 1 ) {
-
-				$this->error_response( get_msg( 'err_user_banned' ));
-			} else {
-				if ( !$this->User->save($user_data,$user_id)) {
-	        		$this->error_response( get_msg( 'err_user_register' ));
-	        	}
-
-	        	$noti_token = array(
-    				"device_token" => $this->post( 'device_token' )
-    			);
-
-	        	$noti_count = $this->Noti->count_all_by($noti_token);
-
-				if ($noti_count == 1) {
-					if ( $this->Noti->exists( $noti_token )) {
-	        			$noti_id = $this->Noti->get_one_by($noti_token);
-	        			$push_noti_token_id = $noti_id->push_noti_token_id;
-	        			$noti_data = array(
-
-							"user_id" => $user_id
-							
-						);
-			        	$this->Noti->save( $noti_data, $push_noti_token_id );
-			        } else {
-			            $noti_data = array(
-
-							"user_id" => $user_id,
-							"device_token" => $this->post( 'device_token' )
-							
-						);
-			        	$this->Noti->save( $noti_data, $push_noti_token_id );
-			        }
+					'device_token'  => $this->post('device_token'), 
+					);
+				}else if ($user_email == "") {
+					$user_data = array(
+					'user_name'    => $this->post('user_name'),
+					'device_token'  => $this->post('device_token'), 
+					);
 				}else{
-					$this->Noti->delete_by($noti_token);
-						$noti_data = array(
+					$user_data = array(
+					'user_name'    => $this->post('user_name'),
+					'user_email'    => $this->post('user_email'),
+					'device_token'  => $this->post('device_token'), 
+					);
+				}
 
-							"user_id" => $user_id,
-							"device_token" => $this->post( 'device_token' )
-							
-						);
-			        	$this->Noti->save( $noti_data, $push_noti_token_id );
 
-				} 
+				$conds['apple_id'] = $this->post( 'apple_id' );
+				$user_datas = $this->User->get_one_by($conds);
+				$user_id = $user_datas->user_id;
 
-			}
+				if ( $user_datas->is_banned == 1 ) {
+
+					$this->error_response( get_msg( 'err_user_banned' ));
+				} else {
+					if ( !$this->User->save($user_data,$user_id)) {
+		        		$this->error_response( get_msg( 'err_user_register' ));
+		        	}
+
+		        	$noti_token = array(
+	    				"device_token" => $this->post( 'device_token' )
+	    			);
+
+		        	$noti_count = $this->Noti->count_all_by($noti_token);
+
+					if ($noti_count == 1) {
+						if ( $this->Noti->exists( $noti_token )) {
+		        			$noti_id = $this->Noti->get_one_by($noti_token);
+		        			$push_noti_token_id = $noti_id->push_noti_token_id;
+		        			$noti_data = array(
+
+								"user_id" => $user_id
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+				        } else {
+				            $noti_data = array(
+
+								"user_id" => $user_id,
+								"device_token" => $this->post( 'device_token' )
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+				        }
+					}else{
+						$this->Noti->delete_by($noti_token);
+							$noti_data = array(
+
+								"user_id" => $user_id,
+								"device_token" => $this->post( 'device_token' )
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+
+					} 
+
+				}
+			} else {
+				$user_datas = $this->User->get_one_by($conds);
+				$user_id = $user_datas->user_id;
+
+				if ( $user_datas->is_banned == 1 ) {
+
+					$this->error_response( get_msg( 'err_user_banned' ));
+				} else {
+					if ( !$this->User->save($user_datas,$user_id)) {
+		        		$this->error_response( get_msg( 'err_user_register' ));
+		        	}
+
+		        	$noti_token = array(
+	    				"device_token" => $this->post( 'device_token' )
+	    			);
+
+		        	$noti_count = $this->Noti->count_all_by($noti_token);
+
+					if ($noti_count == 1) {
+						if ( $this->Noti->exists( $noti_token )) {
+		        			$noti_id = $this->Noti->get_one_by($noti_token);
+		        			$push_noti_token_id = $noti_id->push_noti_token_id;
+		        			$noti_data = array(
+
+								"user_id" => $user_id
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+				        } else {
+				            $noti_data = array(
+
+								"user_id" => $user_id,
+								"device_token" => $this->post( 'device_token' )
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+				        }
+					}else{
+						$this->Noti->delete_by($noti_token);
+							$noti_data = array(
+
+								"user_id" => $user_id,
+								"device_token" => $this->post( 'device_token' )
+								
+							);
+				        	$this->Noti->save( $noti_data, $push_noti_token_id );
+
+					} 
+
+				}
+			}	
 
         	$this->custom_response($this->User->get_one($user_datas->user_id));
 
@@ -2318,5 +2548,50 @@ class Users extends API_Controller
 
 	}
 	
+	/** user apply blue mark */
+
+	function apply_blue_mark_post()
+	{
+		// validation rules for user register
+		$rules = array(
+			
+	        array(
+	        	'field' => 'user_id',
+	        	'rules' => 'required|callback_id_check[User]'
+	        )
+        );
+
+        // exit if there is an error in validation,
+        if ( !$this->is_valid( $rules )) exit;
+
+        $user_id = $this->post('user_id');
+        $note = $this->post('note');
+
+        $is_verify_blue_mark = $this->User->get_one($user_id)->is_verify_blue_mark;
+
+        if ($is_verify_blue_mark == 0 || $is_verify_blue_mark == 3) {
+        	$user_data['user_id'] = $user_id;
+        	$conds['user_id'] = $user_id;
+        	$this->Blue_mark->delete_by($conds);
+
+	        if ($this->Blue_mark->save($user_data)) {
+	        	// update at user table
+	        	$usr_data['is_verify_blue_mark'] = 2 ;
+                $usr_data['blue_mark_note'] = $note;
+	        	$this->User->save($usr_data, $user_id);
+
+	        	$this->success_response( get_msg( 'apply_success' ));
+	        } else {
+	        	$this->error_response( get_msg( 'err_model' ));
+	        }
+        } else if($is_verify_blue_mark == 2) {
+        	$this->error_response( get_msg( 'blue_mark_pending' ));
+        } else {
+        	$this->error_response( get_msg( 'already_blue_mark' ));
+        }
+
+
+
+	}
 
 }

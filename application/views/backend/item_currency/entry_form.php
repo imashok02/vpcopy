@@ -72,7 +72,22 @@
 			              	</div>
 		            </div>
               		
-              		<?php } ?>
+              		<?php } else { ?>
+
+                        <label>
+
+                            <?php echo form_checkbox( array(
+                                'name' => 'is_default',
+                                'id' => 'is_default',
+                                'type' => 'hidden',
+                                'value' => 'accept',
+                                'checked' => set_checkbox('is_default', 1, ( @$currency->is_default == 1 )? true: false ),
+                                'class' => 'form-check-input'
+                            )); ?>
+
+                        </label>
+
+                    <?php } ?>
 
               		
 

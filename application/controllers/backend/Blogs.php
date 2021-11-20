@@ -55,8 +55,15 @@ class Blogs extends BE_Controller {
 		
 		// condition with search term
 		$conds = array( 'searchterm' => $this->searchterm_handler( $this->input->post( 'searchterm' )) );
+
+		// condition with locaiton
+		$conds['item_location_id'] = $this->input->post('item_location_id');
+
+
 		// no publish filter
 		$conds['no_publish_filter'] = 1;
+		//print_r($conds);die;
+
 
 		// pagination
 		$this->data['rows_count'] = $this->Feed->count_all_by( $conds );
@@ -102,16 +109,20 @@ class Blogs extends BE_Controller {
 		 */
 		$data = array();
 
-		 // Main Category id
-	    if ( $this->has_data( 'main_cat_id' )) {
-			$data['main_cat_id'] = $this->get_data( 'main_cat_id' );
-		}
-
 		// prepare blog title
 		if ( $this->has_data( 'name' )) {
 			$data['name'] = $this->get_data( 'name' );
 		}
 		
+		// prepare item_location_id
+		if ( $this->has_data( 'item_location_id' )) {
+			$data['item_location_id'] = $this->get_data( 'item_location_id' );
+		}
+
+		// Main Category id
+         if ( $this->has_data( 'main_cat_id' )) {
+             $data['main_cat_id'] = $this->get_data( 'main_cat_id' );
+         }
 
 		// prepare blog description
 		if ( $this->has_data( 'description' )) {
@@ -133,7 +144,6 @@ class Blogs extends BE_Controller {
 			$data['updated_date'] = date("Y-m-d H:i:s");
 			$data['updated_user_id'] = $logged_in_user->user_id;
 		}
-
 		//save category
 		if ( ! $this->Feed->save( $data, $id )) {
 		// if there is an error in inserting user data,	

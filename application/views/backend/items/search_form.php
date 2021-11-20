@@ -140,17 +140,8 @@
 
 		  	</div>
 
-		  	<div class="form-group" style="padding-top: 3px;padding-right: 2px;">
 
-				
 
-		  	</div>
-
-		  	<div class="form-group" style="padding-top: 3px;">
-
-				
-
-		  	</div>
 
 		  	<div class="form-group" style="padding-top: 3px;padding-right: 5px;">
 			  	<button type="submit" value="submit" name="submit" class="btn btn-sm btn-primary">

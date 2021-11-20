@@ -1,19 +1,19 @@
 <?php
-  $attributes = array( 'id' => 'item-form', 'enctype' => 'multipart/form-data');
-  echo form_open( '', $attributes);
+	$attributes = array( 'id' => 'item-form', 'enctype' => 'multipart/form-data');
+	echo form_open( '', $attributes);
 ?>
 
 <section class="content animated fadeInRight">
-        
+  			
   <div class="card card-info">
-    <div class="card-header">
-      <h3 class="card-title"><?php echo get_msg('prd_info')?></h3>
-    </div>
+  	<div class="card-header">
+    	<h3 class="card-title"><?php echo get_msg('prd_info')?></h3>
+  	</div>
 
     <form role="form">
       <div class="card-body">
-        <div class="row">
-          <div class="col-md-6">
+      	<div class="row">
+      		<div class="col-md-6">
             <div class="form-group">
               <label> <span style="font-size: 17px; color: red;">*</span>
                 <?php echo get_msg('itm_title_label')?>
@@ -30,28 +30,28 @@
 
             </div>
 
-            <div class="form-group">
-              <label> <span style="font-size: 17px; color: red;">*</span>
-                <?php echo get_msg('Prd_search_main_cat')?>
-              </label>
+             <div class="form-group">
+             <label> <span style="font-size: 17px; color: red;">*</span>
+               <?php echo get_msg('Prd_search_main_cat')?>
+             </label>
 
-              <?php
-                $options=array();
-                $conds['status'] = 1;
-                $options[0]=get_msg('Prd_search_main_cat');
-                $main_categories = $this->Maincategory->get_all_by($conds);
-                foreach($main_categories->result() as $main_cat) {
-                    $options[$main_cat->main_cat_id]=$main_cat->main_cat_name;
-                }
+             <?php
+               $options=array();
+               $conds['status'] = 1;
+               $options[0]=get_msg('Prd_search_main_cat');
+               $main_categories = $this->Maincategory->get_all_by($conds);
+               foreach($main_categories->result() as $main_cat) {
+                   $options[$main_cat->main_cat_id]=$main_cat->main_cat_name;
+               }
 
-                echo form_dropdown(
-                  'main_cat_id',
-                  $options,
-                  set_value( 'main_cat_id', show_data( @$item->main_cat_id), false ),
-                  'class="form-control form-control-sm mr-3" id="main_cat_id"'
-                );
-              ?>
-            </div>
+               echo form_dropdown(
+                 'main_cat_id',
+                 $options,
+                 set_value( 'main_cat_id', show_data( @$item->main_cat_id), false ),
+                 'class="form-control form-control-sm mr-3" id="main_cat_id"'
+               );
+             ?>
+           </div>
 
             <div class="form-group">
               <label> <span style="font-size: 17px; color: red;">*</span>
@@ -104,7 +104,7 @@
                   set_value( 'cat_id', show_data( @$item->cat_id), false ),
                   'class="form-control form-control-sm mr-3" id="cat_id"'
                 );
-              ?> -->
+              ?>
             </div>
            
             <div class="form-group">
@@ -395,9 +395,13 @@
                   </a>
                 </label>
 
+                  <p class="mb-0 d-inline-block">
+                      (<?php echo get_msg('recommended_size_img')?>)
+                  </p>
+
                 <br/>
 
-                <input class="btn btn-sm" type="file" name="images1">
+                <input class="btn btn-sm" type="file" name="cover" accept=".jpg,.jpeg,.png">
               </div>
 
               <?php else: ?>
@@ -411,16 +415,27 @@
               <div class="btn btn-sm btn-primary btn-upload pull-right" data-toggle="modal" data-target="#uploadImage">
                 <?php echo get_msg('btn_replace_photo')?>
               </div>
+
+                <br>
+
+                <p class="mb-0">
+                    <?php echo get_msg('recommended_size_img')?>
+                </p>
               
               <hr/>
             
               <?php
-                $conds = array( 'img_type' => 'item', 'img_parent_id' => $item->id );
+                $conds = array( 'img_type' => 'item', 'img_parent_id' => $item->id, 'ordering' => '1' );
                 $images = $this->Image->get_all_by( $conds )->result();
-                if (empty($images[0]->img_path)) {
-                  $img_path = 'no_image.png';
-                } else {
+                $conds1 = array( 'img_type' => 'item', 'img_parent_id' => $item->id );
+                $images1 = $this->Image->get_all_by( $conds1 )->result();
+                
+                if (!empty($images)) {
                   $img_path = $images[0]->img_path;
+                } else if (!empty($images1)) {
+                  $img_path = $images1[0]->img_path;
+                } else {
+                  $img_path = 'no_image.png';
                 }
               ?>
                 
@@ -446,6 +461,167 @@
 
             <?php endif; ?> 
             <!-- End Item default photo -->
+
+            <!-- Item video upload -->
+            <?php if ( !isset( $item )): ?>
+
+              <div class="form-group">
+                <span style="font-size: 17px; color: red;">*</span>
+                <label><?php echo get_msg('item_video_label')?>
+                  <a href="#" class="tooltip-ps" data-toggle="tooltip" title="<?php echo get_msg('item_video_label')?>">
+                    <span class='fa fa-info-sign menu-icon'>
+                  </a>
+                </label>
+
+                <br/>
+
+                <input class="btn btn-sm" type="file" name="video" accept=".flv,.f4v,.f4p,.mp4">
+              </div>
+
+              <?php else: ?>
+              <span style="font-size: 17px; color: red;">*</span>
+              <label><?php echo get_msg('item_video_label')?>
+                <a href="#" class="tooltip-ps" data-toggle="tooltip" title="<?php echo get_msg('cat_photo_tooltips')?>">
+                  <span class='fa fa-info-sign menu-icon'>
+                </a>
+              </label> 
+              
+              <div class="btn btn-sm btn-primary btn-upload pull-right" data-toggle="modal" data-target="#uploadvideo">
+                <?php echo get_msg('btn_replace_video_label')?>
+              </div>
+              
+              <hr/>
+
+              <?php
+                  $conds = array( 'img_type' => 'video', 'img_parent_id' => $item->id );
+                  $videos = $this->Image->get_all_by($conds)->result();
+                ?>
+            
+                <?php if ( count($videos) > 0 ): ?>
+              
+                    <div class="row">
+
+                      <?php $i = 0; foreach ( $videos as $video ) :?>
+
+                        <?php if ($i>0 && $i%3==0): ?>
+                            
+                        </div><div class='row'>
+                        
+                        <?php endif; ?>
+                        
+                        <div class="col-md-4">
+
+                          <video width="320" height="240" controls>
+                              <source src="<?php echo $this->ps_image->upload_url . $video->img_path; ?>" type="video/mp4" / >
+                              This text displays if the video tag isn't supported.
+                          </video>
+
+                          <br/>
+                            
+                            <p class="text-center">
+                              
+                              <a data-toggle="modal" data-target="#deleteVideo" class="delete-video" id="<?php echo $video->img_id; ?>"   
+                                image="<?php echo $video->img_path; ?>">
+                                Remove
+                              </a>
+                            </p>
+
+                        </div>
+
+                      <?php $i++; endforeach; ?>
+
+                    </div>
+            
+                  <?php endif; ?>
+                
+            <?php endif; ?> 
+            <!-- End Item video -->
+
+            <!-- End item cover photo -->
+       <?php if ( !isset( $item )): ?>
+
+          <div class="form-group">
+            <span style="font-size: 17px; color: red;">*</span>
+            <label>
+              <?php echo get_msg('item_video_icon_label')?> 
+            </label>
+
+              <p class="mb-0 d-inline-block">
+                  (<?php echo get_msg('recommended_size_icon')?>)
+              </p>
+
+            <br/>
+
+            <input class="btn btn-sm" type="file" name="icon" id="icon" accept=".jpg,.jpeg,.png">
+          </div>
+
+        <?php else: ?>
+          <span style="font-size: 17px; color: red;">*</span>
+          <label><?php echo get_msg('item_video_icon_label')?></label> 
+          
+          
+          <div class="btn btn-sm btn-primary btn-upload pull-right" data-toggle="modal" data-target="#uploadIcon">
+            <?php echo get_msg('btn_replace_icon')?>
+          </div>
+
+           <br>
+
+           <p class="mb-0">
+               <?php echo get_msg('recommended_size_img')?>
+           </p>
+          
+          <hr/>
+          
+          <?php
+
+            $conds = array( 'img_type' => 'video-icon', 'img_parent_id' => $item->id );
+            
+            //print_r($conds); die;
+            $images = $this->Image->get_all_by( $conds )->result();
+          ?>
+            
+          <?php if ( count($images) > 0 ): ?>
+            
+            <div class="row">
+
+            <?php $i = 0; foreach ( $images as $img ) :?>
+
+              <?php if ($i>0 && $i%3==0): ?>
+                  
+              </div><div class='row'>
+              
+              <?php endif; ?>
+                
+              <div class="col-md-4" style="height:100">
+
+                <div class="thumbnail">
+
+                  <img src="<?php echo $this->ps_image->upload_thumbnail_url . $img->img_path; ?>">
+
+                  <br/>
+                  
+                  <p class="text-center">
+                    
+                    <a data-toggle="modal" data-target="#deletePhoto" class="delete-img" id="<?php echo $img->img_id; ?>"   
+                      image="<?php echo $img->img_path; ?>">
+                      <?php echo get_msg('remove_label'); ?>
+                    </a>
+                  </p>
+
+                </div>
+
+              </div>
+
+            <?php endforeach; ?>
+
+            </div>
+          
+          <?php endif; ?>
+
+        <?php endif; ?> 
+
+                </div>
+                <!--  col-md-6  -->
 
             <div class="form-group" style="padding-top: 30px;">
               <div class="form-check">

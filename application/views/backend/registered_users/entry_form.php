@@ -81,7 +81,8 @@
 
 		                  <?php echo get_msg( 'is_show_phone' ); ?>
 		                </label>
-		              </div>
+		              </div><br>
+		            
 		            </div>
 					
 				</div>
@@ -117,6 +118,22 @@
 							'id' => 'user_about_me'
 						)); ?>
 					</div>
+					<div class="form-group">
+						<label><?php echo "Profile Image"; ?></label>
+						<div class="col-md-4" style="height:100">
+
+							<div class="thumbnail">
+
+								<img src="<?php echo $this->ps_image->upload_thumbnail_url . $user->user_profile_photo; ?>">
+
+								<br/>
+								
+								
+							</div>
+
+						</div>
+					</div>
+					
 				</div>
 			</div>
 		</div>

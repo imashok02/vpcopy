@@ -163,7 +163,7 @@ echo form_open( '', $attributes);
 						</div>
 					</div>
                     
-                     <div class="form-group" style="padding-top: 30px;">
+                    <div class="form-group" style="padding-top: 30px;">
 						<div class="form-check">
 
 							<label class="form-check-label">
@@ -179,6 +179,25 @@ echo form_open( '', $attributes);
 							</label>
 						</div>
 					</div>
+
+					<div class="form-group" style="padding-top: 30px;">
+						<div class="form-check">
+
+			                <label>
+			                
+			                  <?php echo form_checkbox( array(
+			                    'name' => 'user_social_info_override',
+			                    'id' => 'user_social_info_override',
+			                    'value' => 'accept',
+			                    'checked' => set_checkbox('user_social_info_override', 1, ( @$backend->user_social_info_override == 1 )? true: false ),
+			                    'class' => 'form-check-input'
+			                  )); ?>
+
+			                  <?php echo get_msg( 'user_social_info_override' ); ?>
+			                </label>
+			              </div>
+			            </div>
+			        </div>    
 
 	          	</div>
 

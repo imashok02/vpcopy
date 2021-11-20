@@ -136,3 +136,47 @@ EOL;
     return $CI->ps_mail->send_from_admin( $to, $subject, $msg );
   }
 }
+
+
+if ( !function_exists( 'send_user_blue_mark_email' )) {
+
+  function send_user_blue_mark_email( $user_id, $subject = "", $is_verify_blue_mark )
+  {
+     // get ci instance
+    $CI =& get_instance();
+    
+    $user_info_obj = $CI->User->get_one($user_id);
+
+    $user_name  = $user_info_obj->user_name;
+    $user_email = $user_info_obj->user_email;
+    
+    
+
+    $to = $user_email;
+
+    $sender_name = $CI->Backend_config->get_one('be1')->sender_name;
+    $hi = get_msg('hi_label');
+
+    if ($is_verify_blue_mark == 1) {
+        $admin_verify_blue_mark = get_msg('approve_blue_mark');
+    } else {
+        $admin_verify_blue_mark = get_msg('reject_blue_mark');
+    }
+    
+    $best_regards = get_msg( 'best_regards_label' );
+
+    $msg = <<<EOL
+<p>{$hi} {$user_name},</p>
+
+<p>{$admin_verify_blue_mark}</p>
+
+<p>
+{$best_regards},<br/>
+{$sender_name}
+</p>
+EOL;
+
+    // send email from admin
+    return $CI->ps_mail->send_from_admin( $to, $subject, $msg );
+  }
+}
