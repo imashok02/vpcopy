@@ -349,16 +349,15 @@ class PS_Model extends CI_Model {
                               $this->db->select('*,( 6371
                             * acos( cos( radians('. $conds['lat'] .') )
                                     * cos(  radians( lat )   )
-                                    * cos(  radians( lng ) radians('. $conds['lng'] .') )
+                                    * cos(  radians( lng ) - radians('. $conds['lng'] .') )
                                   + sin( radians('. $conds['lat'] .') )
                                     * sin( radians( lat ) )
                                   )
                           ) as distance');
 
                           if ($conds['miles'] == "") {
-                             // $conds['miles'] = 0;
-		    				// $this->db->having('distance < ' .  $conds['miles'] );
-		    	unset($conds['miles']);
+                             $conds['miles'] = 0;
+		    				$this->db->having('distance < ' .  $conds['miles'] );
                           } else {
                               $this->db->having('distance < ' .  $conds['miles'] );
 
@@ -410,7 +409,6 @@ class PS_Model extends CI_Model {
 		    if ($conds['miles'] == "") {
 		    	// $conds['miles'] = 0;
 		    	// $this->db->having('distance < ' .  $conds['miles'] );
-		    	unset($conds['miles']);
 		    } else {
 		    	$this->db->having('distance < ' .  $conds['miles'] );
 
@@ -1474,7 +1472,6 @@ class PS_Model extends CI_Model {
 		    if ($conds['miles'] == "") {
 		    	// $conds['miles'] = 0;
 		    	// $this->db->having('distance < ' .  $conds['miles'] );
-		    	unset($conds['miles']);
 		    } else {
 		    	$this->db->having('distance < ' .  $conds['miles'] );
 
@@ -1703,7 +1700,6 @@ class PS_Model extends CI_Model {
 		    if ($conds['miles'] == "") {
 		    	// $conds['miles'] = 0;
 		    	// $this->db->having('distance < ' .  $conds['miles'] );
-		    	unset($conds['miles']);
 		    } else {
 		    	$this->db->having('distance < ' .  $conds['miles'] );
 
