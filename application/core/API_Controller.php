@@ -804,13 +804,6 @@ class API_Controller extends REST_Controller
 		$conds = array_merge( $default_conds, $user_conds );
 		//print_r($conds);die;
 
-		if ($conds['custom_sql']=="closer_cities") {
-			$conds['miles'] = 25; // denoting kms here
-
-			$data = $this->model->get_all_by($conds, 30)->result();
-
-
-		} else {
 
 		// check empty condition
 			$final_conds = array();
@@ -999,7 +992,6 @@ class API_Controller extends REST_Controller
 
 				}
 			}
-		}
 
 		$this->custom_response( $data );
 	}

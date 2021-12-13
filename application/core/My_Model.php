@@ -356,8 +356,8 @@ class PS_Model extends CI_Model {
                           ) as distance');
 
                           if ($conds['miles'] == "") {
-                             $conds['miles'] = 0;
-		    				$this->db->having('distance < ' .  $conds['miles'] );
+                             //$conds['miles'] = 0;
+		    				// $this->db->having('distance < ' .  $conds['miles'] );
                           } else {
                               $this->db->having('distance < ' .  $conds['miles'] );
 
@@ -386,6 +386,7 @@ class PS_Model extends CI_Model {
 			
 			$this->db->offset($offset);
 		}
+		log_message("error", $this->db->last_query());
 //        print_r($this->db->last_query());die;
 
         return $this->db->get();

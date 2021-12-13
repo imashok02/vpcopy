@@ -80,7 +80,7 @@ class Itemlocations extends API_Controller
                 //     echo 'Message: ' .$e->getMessage();
                 // }
 
-                $conds['custom_sql']= "closer_cities";
+                // $conds['custom_sql']= "closer_cities";
                 $conds['lat'] = $json['coordinates']['latitude'];
                 $conds['lng'] = $json['coordinates']['longitude'];
 
