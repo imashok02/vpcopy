@@ -1347,9 +1347,14 @@ class API_Controller extends REST_Controller
 		$start = $this->post('start_date');
 		$end   = $this->post('end_date');
 		$user_id = $this->post('user_id');
-		  
-		$conds['start_date'] = $start;
-		$conds['end_date']   = $end;
+
+		if ($start != "" && $start != '0') {
+			$conds['start_date'] = $start;
+		}
+
+		if ($end != "" && $end != '0') {
+			$conds['end_date']   = $end;
+		}
 
 		$conds['order_by'] = 1;
 		$conds['order_by_field'] = "type_name";
